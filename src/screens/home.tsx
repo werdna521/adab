@@ -1,27 +1,34 @@
+import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 import { Text, View, StyleSheet, Button } from 'react-native'
 import { RootStackParamList } from '../components/navigator/root'
+import { useAuth } from '../lib/auth/auth-context'
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<
+type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'Login'
+  'Home'
 >
 
-const LoginScreen: FC = () => {
-  const handleCreate = () => alert('create')
+const HomeScreen: FC = () => {
+  const { user } = useAuth()
+  const navigation = useNavigation<HomeScreenNavigationProp>()
+
   const handleJoin = () => alert('join')
+  const handleCreate = () => {
+    navigation.navigate('CreateRoom')
+  }
 
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <Text>Hello, {user.displayName}</Text>
       <Button onPress={handleCreate} title="Create room" />
       <Button onPress={handleJoin} title="Join room" />
     </View>
   )
 }
 
-export default LoginScreen
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
@@ -29,12 +36,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  textInput: {
-    borderColor: '#000',
-    borderWidth: 1,
-    paddingHorizontal: 24,
-    paddingVertical: 8,
-    width: '80%',
   },
 })

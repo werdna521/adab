@@ -1,5 +1,12 @@
 import React, { FC, useState } from 'react'
-import { Button, Text, TextInput, View, StyleSheet } from 'react-native'
+import {
+  Button,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  ToastAndroid,
+} from 'react-native'
 import { signUpWithEmail } from '../lib/firebase/auth'
 
 const RegisterScreen: FC = () => {
@@ -9,7 +16,7 @@ const RegisterScreen: FC = () => {
 
   const handlePress = async () => {
     await signUpWithEmail({ email, password, displayName })
-    alert('Successfully signed up')
+    ToastAndroid.show('Successfully signed up', ToastAndroid.SHORT)
   }
 
   return (
