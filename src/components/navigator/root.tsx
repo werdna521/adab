@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { useAuth } from '../../lib/auth/auth-context'
 import CreateRoomScreen from '../../screens/create-room'
 import HomeScreen from '../../screens/home'
+import JoinRoomScreen from '../../screens/join-room'
 import LoginScreen from '../../screens/login'
 import RegisterScreen from '../../screens/register'
 import RoomScreen from '../../screens/room'
@@ -14,6 +15,7 @@ export type RootStackParamList = {
   Register: undefined
   Home: undefined
   CreateRoom: undefined
+  JoinRoom: undefined
   Room: {
     roomId: string
   }
@@ -39,6 +41,7 @@ const RootNavigator: FC = () => {
         <>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="CreateRoom" component={CreateRoomScreen} />
+          <Stack.Screen name="JoinRoom" component={JoinRoomScreen} />
           <Stack.Screen name="Room" component={RoomScreen} />
         </>
       )}

@@ -14,10 +14,8 @@ const HomeScreen: FC = () => {
   const { user } = useAuth()
   const navigation = useNavigation<HomeScreenNavigationProp>()
 
-  const handleJoin = () => alert('join')
-  const handleCreate = () => {
-    navigation.navigate('CreateRoom')
-  }
+  const handleJoin = () => navigation.navigate('JoinRoom')
+  const handleCreate = () => navigation.navigate('CreateRoom')
 
   return (
     <View style={styles.container}>

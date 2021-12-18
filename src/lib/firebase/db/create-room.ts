@@ -15,7 +15,7 @@ type Returns = {
 
 export const createRoom = async (params: Params): Promise<Returns> => {
   const { user, name } = params
-  const { uid, displayName, email } = user
+  const { uid = '', displayName, email } = user
   const currentTimestamp = serverTimestamp()
 
   try {
@@ -23,7 +23,13 @@ export const createRoom = async (params: Params): Promise<Returns> => {
       name,
       host: uid,
       content: '',
-      participants: [{ uid, email, name: displayName }],
+      participants: {
+        [uid]: {
+          uid,
+          email,
+          name: displayName,
+        },
+      },
       createdAt: currentTimestamp,
       updatedAt: currentTimestamp,
     })
