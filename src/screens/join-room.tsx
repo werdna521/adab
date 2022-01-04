@@ -3,12 +3,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC, useState } from 'react'
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native'
 import { RootStackParamList } from '../components/navigator/root'
+import { Screen } from '../constants/enums'
 import { useAuth } from '../lib/auth/auth-context'
 import { joinRoom } from '../lib/firebase/db/join-room'
 
 type JoinRoomScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'JoinRoom'
+  Screen.JOIN_ROOM
 >
 
 const JoinRoomScreen: FC = () => {
@@ -25,7 +26,7 @@ const JoinRoomScreen: FC = () => {
     const { error } = await joinRoom({ roomId, user })
     if (error) return alert('Cannot join room for some reason')
 
-    navigation.navigate('Room', { roomId })
+    navigation.navigate(Screen.ROOM, { roomId })
   }
 
   return (

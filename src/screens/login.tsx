@@ -3,11 +3,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC, useState } from 'react'
 import { Button, Text, TextInput, View, StyleSheet } from 'react-native'
 import { RootStackParamList } from '../components/navigator/root'
+import { Screen } from '../constants/enums'
 import { signInWithEmail } from '../lib/firebase/auth'
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'Login'
+  Screen.LOGIN
 >
 
 const LoginScreen: FC = () => {
@@ -20,7 +21,7 @@ const LoginScreen: FC = () => {
     alert('Successfully signed in')
   }
 
-  const handleToRegister = () => navigation.navigate('Register')
+  const handleToRegister = () => navigation.navigate(Screen.REGISTER)
 
   return (
     <View style={styles.container}>

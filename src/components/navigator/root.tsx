@@ -1,22 +1,23 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
+import { Screen } from '../../constants/enums'
 import { useAuth } from '../../lib/auth/auth-context'
 import CreateRoomScreen from '../../screens/create-room'
-import HomeScreen from '../../screens/home'
 import JoinRoomScreen from '../../screens/join-room'
 import LoginScreen from '../../screens/login'
 import RegisterScreen from '../../screens/register'
 import RoomScreen from '../../screens/room'
+import BottomTabs from './bottom-tabs'
 
 const Stack = createNativeStackNavigator()
 
 export type RootStackParamList = {
-  Login: undefined
-  Register: undefined
-  Home: undefined
-  CreateRoom: undefined
-  JoinRoom: undefined
-  Room: {
+  [Screen.LOGIN]: undefined
+  [Screen.REGISTER]: undefined
+  [Screen.BOTTOM_TABS]: undefined
+  [Screen.CREATE_ROOM]: undefined
+  [Screen.JOIN_ROOM]: undefined
+  [Screen.ROOM]: {
     roomId: string
   }
 }
@@ -29,20 +30,23 @@ const RootNavigator: FC = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="Login"
+      initialRouteName={Screen.LOGIN}
     >
       {isLoggedOut && (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name={Screen.LOGIN} component={LoginScreen} />
+          <Stack.Screen name={Screen.REGISTER} component={RegisterScreen} />
         </>
       )}
       {isLoggedIn && (
         <>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="CreateRoom" component={CreateRoomScreen} />
-          <Stack.Screen name="JoinRoom" component={JoinRoomScreen} />
-          <Stack.Screen name="Room" component={RoomScreen} />
+          <Stack.Screen name={Screen.BOTTOM_TABS} component={BottomTabs} />
+          <Stack.Screen
+            name={Screen.CREATE_ROOM}
+            component={CreateRoomScreen}
+          />
+          <Stack.Screen name={Screen.JOIN_ROOM} component={JoinRoomScreen} />
+          <Stack.Screen name={Screen.ROOM} component={RoomScreen} />
         </>
       )}
     </Stack.Navigator>

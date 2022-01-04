@@ -1,5 +1,5 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
-import { COLLECTIONS } from '../../../constants/collections'
+import { COLLECTIONS } from '../../../constants'
 import { db } from '../init'
 
 type Params = {

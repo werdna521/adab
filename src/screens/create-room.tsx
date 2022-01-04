@@ -3,12 +3,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC, useState } from 'react'
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native'
 import { RootStackParamList } from '../components/navigator/root'
+import { Screen } from '../constants/enums'
 import { useAuth } from '../lib/auth/auth-context'
 import { createRoom } from '../lib/firebase/db/create-room'
 
 type CreateRoomScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'CreateRoom'
+  Screen.CREATE_ROOM
 >
 
 const CreateRoomScreen: FC = () => {
@@ -24,7 +25,7 @@ const CreateRoomScreen: FC = () => {
     const { id, error } = await createRoom({ name: roomName, user })
     if (error) return alert('Failed to create room')
 
-    navigation.navigate('Room', { roomId: id })
+    navigation.navigate(Screen.ROOM, { roomId: id })
   }
 
   return (

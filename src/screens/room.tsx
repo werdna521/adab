@@ -4,9 +4,10 @@ import { RouteProp, useRoute } from '@react-navigation/native'
 import React, { FC, useEffect, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { RootStackParamList } from '../components/navigator/root'
+import { Screen } from '../constants/enums'
 import { streamContent, updateContent } from '../lib/firebase/db'
 
-type CreateRoomScreenRouteProp = RouteProp<RootStackParamList, 'Room'>
+type CreateRoomScreenRouteProp = RouteProp<RootStackParamList, Screen.ROOM>
 
 const RoomScreen: FC = () => {
   const [content, setContent] = useState('')

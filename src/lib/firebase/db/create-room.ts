@@ -1,5 +1,5 @@
 import { serverTimestamp, addDoc, collection } from 'firebase/firestore'
-import { COLLECTIONS } from '../../../constants/collections'
+import { COLLECTIONS } from '../../../constants'
 import { User } from '../../auth/auth-context'
 import { db } from '../init'
 

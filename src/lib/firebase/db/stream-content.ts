@@ -1,5 +1,5 @@
 import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore'
-import { COLLECTIONS } from '../../../constants/collections'
+import { COLLECTIONS } from '../../../constants'
 import { db } from '../init'
 
 type Params = {
