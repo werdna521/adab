@@ -1,45 +1,57 @@
 {
   "name": "adab",
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@react-native-voice/voice": "^3.2.2",
-    "@react-navigation/native": "^6.0.6",
-    "@react-navigation/native-stack": "^6.2.5",
-    "expo": "~43.0.2",
-    "expo-dev-client": "~0.6.3",
-    "expo-status-bar": "~1.1.0",
-    "firebase": "^9.6.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-native": "0.64.3",
-    "react-native-safe-area-context": "3.3.2",
-    "react-native-screens": "~3.8.0",
-    "react-native-web": "0.17.1",
-    "expo-splash-screen": "~0.13.5",
-    "expo-updates": "~0.10.13",
-    "react-native-gesture-handler": "~1.10.2",
-    "react-native-reanimated": "~2.2.0"
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.2",
+    "react": "17.0.2",
+    "react-native": "0.68.1",
+    "react-native-safe-area-context": "^4.2.5",
+    "react-native-screens": "^3.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
-    "@types/react": "~17.0.21",
-    "@types/react-native": "~0.64.12",
-    "@typescript-eslint/eslint-plugin": "^5.7.0",
-    "@typescript-eslint/parser": "^5.7.0",
-    "eslint": "^8.5.0",
-    "eslint-config-prettier": "^8.3.0",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/cli-platform-android": "^7.0.1",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^26.0.23",
+    "@types/react-native": "^0.67.3",
+    "@types/react-test-renderer": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.27.1",
-    "prettier": "^2.5.1",
-    "typescript": "~4.3.5"
+    "jest": "^26.6.3",
+    "jsc-android": "^250230.2.1",
+    "metro-react-native-babel-preset": "^0.67.0",
+    "prettier": "^2.6.2",
+    "react-native-gradle-plugin": "^0.0.7",
+    "react-test-renderer": "17.0.2",
+    "typescript": "^4.4.4"
   },
-  "private": true
+  "resolutions": {
+    "@types/react": "^17"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
 }
