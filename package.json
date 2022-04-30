@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write '**/*.{ts,tsx,js}'"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.10",
@@ -24,6 +25,7 @@
     "@babel/runtime": "^7.12.5",
     "@react-native-community/cli-platform-android": "^7.0.1",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.67.3",
     "@types/react-test-renderer": "^17.0.1",

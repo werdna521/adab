@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
 import { NavigationContainer, Theme } from '@react-navigation/native'
+import React, { FC } from 'react'
 
 type Props = {
   theme?: Theme

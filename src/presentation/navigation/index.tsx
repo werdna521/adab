@@ -1,13 +1,14 @@
+import { ParamListBase, RouteProp } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 
+import { RegisterUseCase } from '~/interactor/auth'
 import { RegisterScreen } from '~/presentation/ui/register'
+
+import { COLORS } from '../colors'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
 import { createTheme } from './theme'
-import { COLORS } from '../colors'
-import { RegisterUseCase } from '~/interactor/auth'
-import { ParamListBase, RouteProp } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export enum Screens {
   REGISTER = 'Register',

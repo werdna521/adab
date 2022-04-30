@@ -8,6 +8,7 @@ import { doc, setDoc, Timestamp } from 'firebase/firestore'
 import { User } from '~/domain/model'
 import type { RegisterDTO } from '~/domain/repository/auth-repository'
 import Firebase from '~/infrastructure/firebase'
+
 import AuthService from './auth-service'
 
 export default class FirebaseAuthService implements AuthService {

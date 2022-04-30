@@ -1,6 +1,7 @@
 import { AuthDataSource } from '~/data/auth'
 import { User } from '~/domain/model'
 import { RegisterDTO } from '~/domain/repository/auth-repository'
+
 import AuthService from './service/auth-service'
 
 export default class RemoteAuthDataSource implements AuthDataSource {

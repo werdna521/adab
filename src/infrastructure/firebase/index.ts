@@ -1,6 +1,7 @@
 import { FirebaseApp, FirebaseOptions, initializeApp } from 'firebase/app'
 import { Auth, getAuth } from 'firebase/auth'
 import { Firestore, initializeFirestore } from 'firebase/firestore'
+
 import { firebaseConfig } from './config'
 
 export default class Firebase {
