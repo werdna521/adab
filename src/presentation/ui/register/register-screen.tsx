@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import { RegisterUseCase } from '../../../interactor/auth'
-import { Screen, Screens } from '../../navigation'
+import { RegisterUseCase } from '~/interactor/auth'
+import { Screen, Screens } from '~/presentation/navigation'
 
-import { getNotchSize } from '../../notch'
-import { Button, InputGroup } from '../common/components'
+import { getNotchSize } from '~/presentation/notch'
+import { Button, InputGroup } from '~/presentation/ui/common/components'
 import { useRegisterViewModel } from './register-view-model'
 
 type Props = {

@@ -1,6 +1,6 @@
-import { User } from '../../domain/model'
-import { AuthRepository } from '../../domain/repository'
-import type { RegisterDTO } from '../../domain/repository/auth-repository'
+import { User } from '~/domain/model'
+import { AuthRepository } from '~/domain/repository'
+import type { RegisterDTO } from '~/domain/repository/auth-repository'
 import AuthDataSource from './auth-datasource'
 
 export default class CoreAuthRepository implements AuthRepository {

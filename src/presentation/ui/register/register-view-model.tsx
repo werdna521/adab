@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { RegisterDTO } from '../../../domain/repository/auth-repository'
-import { RegisterUseCase } from '../../../interactor/auth'
+import { RegisterDTO } from '~/domain/repository/auth-repository'
+import { RegisterUseCase } from '~/interactor/auth'
 
 export enum Status {
   INITIAL = 'INITIAL',

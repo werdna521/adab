@@ -1,4 +1,4 @@
-import { User } from '../model'
+import { User } from '~/domain/model'
 
 export type RegisterDTO = {
   displayName: string

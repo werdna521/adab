@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 
-import { RegisterScreen } from '../ui/register'
+import { RegisterScreen } from '~/presentation/ui/register'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
 import { createTheme } from './theme'
 import { COLORS } from '../colors'
-import { RegisterUseCase } from '../../interactor/auth'
+import { RegisterUseCase } from '~/interactor/auth'
 import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
@@ -51,8 +51,12 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
         }}
       >
         <Stack.Screen name={Screens.REGISTER}>
-          {(...props) => (
-            <RegisterScreen registerUseCase={useCases.register} {...props} />
+          {(props: any) => (
+            <RegisterScreen
+              registerUseCase={useCases.register}
+              route={props.route}
+              navigation={props.navigation}
+            />
           )}
         </Stack.Screen>
       </Stack.Navigator>

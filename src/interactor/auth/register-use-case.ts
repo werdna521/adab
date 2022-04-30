@@ -1,7 +1,7 @@
-import { User } from '../../domain/model'
-import { AuthRepository } from '../../domain/repository'
-import { RegisterDTO } from '../../domain/repository/auth-repository'
-import UseCase from '../use-case'
+import { User } from '~/domain/model'
+import { AuthRepository } from '~/domain/repository'
+import { RegisterDTO } from '~/domain/repository/auth-repository'
+import UseCase from '~/interactor/use-case'
 
 export default class RegisterUseCase implements UseCase<RegisterDTO, User> {
   private authRepository: AuthRepository
