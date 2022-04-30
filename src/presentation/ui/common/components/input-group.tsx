@@ -12,17 +12,23 @@ type Props = {
   label?: string
   style?: StyleProp<ViewStyle>
   secureTextEntry?: boolean
+  onChangeText?: (text: string) => void
 }
 
 const InputGroup: FC<Props> = ({
   label = '',
   style = {},
   secureTextEntry = false,
+  onChangeText = () => {},
 }) => {
   return (
     <View style={style}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <TextInput style={styles.input} secureTextEntry={secureTextEntry} />
+      <TextInput
+        style={styles.input}
+        secureTextEntry={secureTextEntry}
+        onChangeText={onChangeText}
+      />
     </View>
   )
 }
