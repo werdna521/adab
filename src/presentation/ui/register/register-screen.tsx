@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 
 import { RegisterUseCase } from '~/interactor/auth'
+import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
 import { Button, InputGroup } from '~/presentation/ui/common/components'
@@ -10,16 +11,26 @@ import { useRegisterViewModel } from './register-view-model'
 
 type Props = {
   registerUseCase: RegisterUseCase
+  validateRegisterDTOUseCase: ValidateRegisterDTOUseCase
 }
 
 const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
   registerUseCase,
+  validateRegisterDTOUseCase,
   // navigation,
 }) => {
-  const { isSuccess, isProcessing, register, handleInputTextChange } =
-    useRegisterViewModel({
-      registerUseCase,
-    })
+  const {
+    isSuccess,
+    isProcessing,
+    fieldError,
+    handleRegister,
+    handleInputTextChange,
+  } = useRegisterViewModel({
+    registerUseCase,
+    validateRegisterDTOUseCase,
+  })
+
+  console.log(fieldError)
 
   useEffect(() => {
     if (isSuccess) Alert.alert('yay')
@@ -32,20 +43,23 @@ const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
         <InputGroup
           label="Full Name"
           onChangeText={handleInputTextChange('displayName')}
+          error={fieldError.displayName}
         />
         <InputGroup
           label="Email"
           style={styles.inputGroup}
           onChangeText={handleInputTextChange('email')}
+          error={fieldError.email}
         />
         <InputGroup
           label="Password"
           style={styles.inputGroup}
           onChangeText={handleInputTextChange('password')}
+          error={fieldError.password}
           secureTextEntry
         />
       </View>
-      <Button onPress={register} disabled={isProcessing}>
+      <Button onPress={handleRegister} disabled={isProcessing}>
         Sign Up
       </Button>
     </View>

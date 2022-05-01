@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
+import { ValidationError } from '~/domain/error'
 import { RegisterDTO } from '~/domain/repository/auth-repository'
 import { RegisterUseCase } from '~/interactor/auth'
+import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 
 export enum Status {
   INITIAL = 'INITIAL',
@@ -12,9 +14,10 @@ export enum Status {
 
 type Params = {
   registerUseCase: RegisterUseCase
+  validateRegisterDTOUseCase: ValidateRegisterDTOUseCase
 }
 export const useRegisterViewModel = (params: Params) => {
-  const { registerUseCase } = params
+  const { registerUseCase, validateRegisterDTOUseCase } = params
 
   const [registerDTO, setRegisterDTO] = useState<RegisterDTO>({
     displayName: '',
@@ -22,20 +25,33 @@ export const useRegisterViewModel = (params: Params) => {
     password: '',
   })
   const [status, setStatus] = useState(Status.INITIAL)
+  const [fieldError, setFieldError] = useState<Record<string, string>>({})
   const isInitial = status === Status.INITIAL
   const isProcessing = status === Status.PROCESSING
   const isSuccess = status === Status.SUCCESS
   const isError = status === Status.ERROR
 
+  const validateInput = async () => {
+    const { error } = await validateRegisterDTOUseCase.invoke(registerDTO)
+    if (error instanceof ValidationError) {
+      setFieldError(error.fields)
+      return false
+    }
+
+    setFieldError({})
+    return true
+  }
+
   const register = async () => {
     setStatus(Status.PROCESSING)
-    try {
-      await registerUseCase.invoke(registerDTO)
-      setStatus(Status.SUCCESS)
-    } catch (error) {
-      console.log(error)
+
+    const { error } = await registerUseCase.invoke(registerDTO)
+    if (error) {
       setStatus(Status.ERROR)
+      return
     }
+
+    setStatus(Status.SUCCESS)
   }
 
   const handleInputTextChange = (key: keyof RegisterDTO) => (text: string) => {
@@ -45,12 +61,17 @@ export const useRegisterViewModel = (params: Params) => {
     })
   }
 
+  const handleRegister = async () => {
+    if (await validateInput()) register()
+  }
+
   return {
     isInitial,
     isProcessing,
     isSuccess,
     isError,
-    register,
+    fieldError,
+    handleRegister,
     handleInputTextChange,
   }
 }

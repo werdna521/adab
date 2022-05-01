@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 
 import { RegisterUseCase } from '~/interactor/auth'
+import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
@@ -16,6 +17,7 @@ export enum Screens {
 
 export type UseCases = {
   register: RegisterUseCase
+  validateRegisterDTO: ValidateRegisterDTOUseCase
 }
 
 type RootStackParamList = {
@@ -55,6 +57,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
           {(props: any) => (
             <RegisterScreen
               registerUseCase={useCases.register}
+              validateRegisterDTOUseCase={useCases.validateRegisterDTO}
               route={props.route}
               navigation={props.navigation}
             />
