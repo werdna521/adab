@@ -51,7 +51,7 @@ const theme = createTheme((defaultTheme) => ({
   ...defaultTheme,
   colors: {
     ...defaultTheme.colors,
-    primary: COLORS.BACKGROUND,
+    background: COLORS.BACKGROUND,
   },
 }))
 

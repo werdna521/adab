@@ -9,6 +9,7 @@ import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
+import { COLORS } from '~/presentation/colors'
 import AppNavigation, { UseCases } from '~/presentation/navigation'
 
 const firebase = new Firebase()
@@ -35,9 +36,10 @@ const App: FC = () => {
   return (
     <>
       <StatusBar
-        backgroundColor="transparent"
+        backgroundColor={COLORS.BACKGROUND}
         barStyle="dark-content"
         translucent
+        animated
       />
       <AppNavigation useCases={useCases} />
     </>
