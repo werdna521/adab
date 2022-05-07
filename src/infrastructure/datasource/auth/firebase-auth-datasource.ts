@@ -1,6 +1,7 @@
 import { FirebaseError } from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
   UserCredential,
@@ -16,7 +17,12 @@ import {
   WrongCredentialError,
 } from '~/domain/error'
 import { User } from '~/domain/model'
-import { LoginDTO, RegisterDTO } from '~/domain/repository/auth-repository'
+import {
+  AuthStateCallback,
+  LoginDTO,
+  RegisterDTO,
+  Unsubscribe,
+} from '~/domain/repository/auth-repository'
 import Firebase from '~/infrastructure/firebase'
 import { FirebaseAuthErrorCode } from '~/infrastructure/firebase/error-codes'
 
@@ -52,6 +58,25 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
   public async signUp(registerDTO: RegisterDTO): Promise<User> {
     const userCredential = await this.createUser(registerDTO)
     return await this.storeUser(userCredential)
+  }
+
+  public subscribeToAuthState(callback: AuthStateCallback): Unsubscribe {
+    const unsubscribe = onAuthStateChanged(this.firebase.auth, (user) => {
+      if (user) {
+        callback({
+          user: {
+            uid: user.uid,
+            displayName: user.displayName!,
+            email: user.email!,
+          },
+          isLoggedIn: true,
+        })
+        return
+      }
+
+      callback({ isLoggedIn: false })
+    })
+    return unsubscribe
   }
 
   private async createUser(registerDTO: RegisterDTO): Promise<UserCredential> {

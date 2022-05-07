@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
 import { RegisterUseCase } from '~/interactor/auth'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
@@ -17,22 +17,12 @@ type Props = {
 const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
   registerUseCase,
   validateRegisterDTOUseCase,
-  // navigation,
 }) => {
-  const {
-    isSuccess,
-    isProcessing,
-    fieldError,
-    handleRegister,
-    handleInputTextChange,
-  } = useRegisterViewModel({
-    registerUseCase,
-    validateRegisterDTOUseCase,
-  })
-
-  useEffect(() => {
-    if (isSuccess) Alert.alert('yay')
-  }, [isSuccess])
+  const { isProcessing, fieldError, handleRegister, handleInputTextChange } =
+    useRegisterViewModel({
+      registerUseCase,
+      validateRegisterDTOUseCase,
+    })
 
   return (
     <View style={styles.container}>

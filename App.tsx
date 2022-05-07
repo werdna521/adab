@@ -6,6 +6,7 @@ import { FirebaseAuthDataSource } from '~/infrastructure/datasource/auth'
 import Firebase from '~/infrastructure/firebase'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
+import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import AppNavigation, { UseCases } from '~/presentation/navigation'
@@ -20,12 +21,14 @@ const registerUseCase = new RegisterUseCase(authRepository)
 const validateRegisterDTOUseCase = new ValidateRegisterDTOUseCase()
 const loginUseCase = new LoginUseCase(authRepository)
 const validateLoginDTOUseCase = new ValidateLoginDTOUseCase()
+const subscribeAuthStateUseCase = new SubscribeAuthStateUseCase(authRepository)
 
 const useCases: UseCases = {
   register: registerUseCase,
   validateRegisterDTO: validateRegisterDTOUseCase,
   login: loginUseCase,
   validateLoginDTO: validateLoginDTOUseCase,
+  subscribeAuthStatus: subscribeAuthStateUseCase,
 }
 
 const App: FC = () => {

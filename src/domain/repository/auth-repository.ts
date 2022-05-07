@@ -11,7 +11,20 @@ export type LoginDTO = {
   password: string
 }
 
+export type AuthState =
+  | {
+      user: User
+      isLoggedIn: true
+    }
+  | {
+      user?: User
+      isLoggedIn: false
+    }
+export type AuthStateCallback = (authState: AuthState) => void
+export type Unsubscribe = () => void
+
 export default interface AuthRepository {
   login: (loginDTO: LoginDTO) => Promise<User>
   signUp: (registerDTO: RegisterDTO) => Promise<User>
+  subscribeToAuthState: (callback: AuthStateCallback) => Unsubscribe
 }
