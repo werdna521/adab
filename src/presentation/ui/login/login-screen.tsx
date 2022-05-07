@@ -5,7 +5,11 @@ import LoginUseCase from '~/interactor/auth/login-use-case'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
-import { Button, InputGroup } from '~/presentation/ui/common/components'
+import {
+  Button,
+  InputGroup,
+  TextButton,
+} from '~/presentation/ui/common/components'
 
 import { useLoginViewModel } from './login-view-model'
 
@@ -17,6 +21,7 @@ type Props = {
 const LoginScreen: Screen<Props, Screens.LOGIN> = ({
   loginUseCase,
   validateLoginDTOUseCase,
+  navigation,
 }) => {
   const {
     handleInputTextChange,
@@ -28,6 +33,8 @@ const LoginScreen: Screen<Props, Screens.LOGIN> = ({
     loginUseCase,
     validateLoginDTOUseCase,
   })
+
+  const navigateToSignUp = () => navigation.navigate(Screens.REGISTER)
 
   return (
     <View style={styles.container}>
@@ -51,6 +58,9 @@ const LoginScreen: Screen<Props, Screens.LOGIN> = ({
       <Button onPress={handleLogin} disabled={isProcessing}>
         Login
       </Button>
+      <TextButton style={styles.signUpButton} onPress={navigateToSignUp}>
+        Sign Up
+      </TextButton>
     </View>
   )
 }
@@ -71,6 +81,12 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     marginTop: 12,
+  },
+  signUpButton: {
+    position: 'absolute',
+    top: 52,
+    right: 20,
+    marginTop: 16,
   },
   error: {
     color: '#fe6b4d',

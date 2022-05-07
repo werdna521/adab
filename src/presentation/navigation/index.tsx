@@ -55,25 +55,27 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
   return (
     <NavigationProvider theme={theme}>
       <Stack.Navigator
-        initialRouteName={Screens.REGISTER}
+        initialRouteName={Screens.LOGIN}
         screenOptions={{
           headerShown: false,
         }}
       >
+        <Stack.Screen name={Screens.LOGIN}>
+          {(props: any) => (
+            <LoginScreen
+              loginUseCase={useCases.login}
+              validateLoginDTOUseCase={useCases.validateLoginDTO}
+              {...props}
+            />
+          )}
+        </Stack.Screen>
         <Stack.Screen name={Screens.REGISTER}>
           {(props: any) => (
-            <>
-              <LoginScreen
-                loginUseCase={useCases.login}
-                validateLoginDTOUseCase={useCases.validateLoginDTO}
-                {...props}
-              />
-              <RegisterScreen
-                registerUseCase={useCases.register}
-                validateRegisterDTOUseCase={useCases.validateRegisterDTO}
-                {...props}
-              />
-            </>
+            <RegisterScreen
+              registerUseCase={useCases.register}
+              validateRegisterDTOUseCase={useCases.validateRegisterDTO}
+              {...props}
+            />
           )}
         </Stack.Screen>
       </Stack.Navigator>
