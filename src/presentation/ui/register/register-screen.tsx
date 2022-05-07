@@ -30,8 +30,6 @@ const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
     validateRegisterDTOUseCase,
   })
 
-  console.log(fieldError)
-
   useEffect(() => {
     if (isSuccess) Alert.alert('yay')
   }, [isSuccess])

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ValidationError } from '~/domain/error'
+import { UserAlreadyRegisteredError, ValidationError } from '~/domain/error'
 import { RegisterDTO } from '~/domain/repository/auth-repository'
 import { RegisterUseCase } from '~/interactor/auth'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
@@ -34,6 +34,7 @@ export const useRegisterViewModel = (params: Params) => {
   const validateInput = async () => {
     const { error } = await validateRegisterDTOUseCase.invoke(registerDTO)
     if (error instanceof ValidationError) {
+      setStatus(Status.ERROR)
       setFieldError(error.fields)
       return false
     }
@@ -43,11 +44,20 @@ export const useRegisterViewModel = (params: Params) => {
   }
 
   const register = async () => {
+    setFieldError({})
     setStatus(Status.PROCESSING)
 
     const { error } = await registerUseCase.invoke(registerDTO)
-    if (error) {
+    if (error instanceof ValidationError) {
       setStatus(Status.ERROR)
+      setFieldError(error.fields)
+      return
+    }
+    if (error instanceof UserAlreadyRegisteredError) {
+      setStatus(Status.ERROR)
+      setFieldError({
+        email: 'Email is already being used. Consider logging in instead.',
+      })
       return
     }
 
@@ -62,7 +72,7 @@ export const useRegisterViewModel = (params: Params) => {
   }
 
   const handleRegister = async () => {
-    if (await validateInput()) register()
+    if (await validateInput()) await register()
   }
 
   return {

@@ -1,4 +1,3 @@
-import { UnknownError } from '~/common/error'
 import { User } from '~/domain/model'
 import { AuthRepository } from '~/domain/repository'
 import { RegisterDTO } from '~/domain/repository/auth-repository'
@@ -23,7 +22,7 @@ export default class RegisterUseCase implements UseCase<RegisterDTO, User> {
     } catch (error) {
       return {
         data: null,
-        error: new UnknownError(error),
+        error: error as Error,
       }
     }
   }

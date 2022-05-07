@@ -6,7 +6,7 @@ import { RegisterDTO } from '~/domain/repository/auth-repository'
 import UseCase from '~/interactor/use-case'
 
 import Result from '../result'
-import { parseValidationError } from '../utils'
+import { parseValidationError } from './utils'
 
 export default class ValidateRegisterDTOUseCase
   implements UseCase<RegisterDTO, null>
