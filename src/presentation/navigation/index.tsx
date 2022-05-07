@@ -5,6 +5,7 @@ import React, { FC } from 'react'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
+import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
@@ -21,8 +22,8 @@ export enum Screens {
 export type UseCases = {
   register: RegisterUseCase
   validateRegisterDTO: ValidateRegisterDTOUseCase
-
   login: LoginUseCase
+  validateLoginDTO: ValidateLoginDTOUseCase
 }
 
 type RootStackParamList = {
@@ -62,7 +63,11 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
         <Stack.Screen name={Screens.REGISTER}>
           {(props: any) => (
             <>
-              <LoginScreen loginUseCase={useCases.login} {...props} />
+              <LoginScreen
+                loginUseCase={useCases.login}
+                validateLoginDTOUseCase={useCases.validateLoginDTO}
+                {...props}
+              />
               <RegisterScreen
                 registerUseCase={useCases.register}
                 validateRegisterDTOUseCase={useCases.validateRegisterDTO}

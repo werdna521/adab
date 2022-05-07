@@ -1,12 +1,8 @@
 import { useState } from 'react'
 
-type Params<Schema> = Schema
-
 export const useInput = <Schema extends Record<string, any>>(
-  params: Params<Schema>,
+  defaultValue: Schema,
 ) => {
-  const { defaultValue } = params
-
   const [inputData, setInputData] = useState<Schema>(defaultValue)
 
   const handleInputTextChange = (key: keyof Schema) => (text: string) => {

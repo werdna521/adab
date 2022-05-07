@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import LoginUseCase from '~/interactor/auth/login-use-case'
+import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
 import { Button, InputGroup } from '~/presentation/ui/common/components'
@@ -10,9 +11,13 @@ import { useLoginViewModel } from './login-view-model'
 
 type Props = {
   loginUseCase: LoginUseCase
+  validateLoginDTOUseCase: ValidateLoginDTOUseCase
 }
 
-const LoginScreen: Screen<Props, Screens.LOGIN> = ({ loginUseCase }) => {
+const LoginScreen: Screen<Props, Screens.LOGIN> = ({
+  loginUseCase,
+  validateLoginDTOUseCase,
+}) => {
   const {
     handleInputTextChange,
     handleLogin,
@@ -21,6 +26,7 @@ const LoginScreen: Screen<Props, Screens.LOGIN> = ({ loginUseCase }) => {
     isProcessing,
   } = useLoginViewModel({
     loginUseCase,
+    validateLoginDTOUseCase,
   })
 
   return (

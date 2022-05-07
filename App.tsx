@@ -7,6 +7,7 @@ import Firebase from '~/infrastructure/firebase'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
+import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import AppNavigation, { UseCases } from '~/presentation/navigation'
 
 const firebase = new Firebase()
@@ -18,11 +19,13 @@ const authRepository = new CoreAuthRepository(remoteAuthDataStore)
 const registerUseCase = new RegisterUseCase(authRepository)
 const validateRegisterDTOUseCase = new ValidateRegisterDTOUseCase()
 const loginUseCase = new LoginUseCase(authRepository)
+const validateLoginDTOUseCase = new ValidateLoginDTOUseCase()
 
 const useCases: UseCases = {
   register: registerUseCase,
   validateRegisterDTO: validateRegisterDTOUseCase,
   login: loginUseCase,
+  validateLoginDTO: validateLoginDTOUseCase,
 }
 
 const App: FC = () => {
