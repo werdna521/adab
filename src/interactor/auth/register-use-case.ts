@@ -6,11 +6,7 @@ import UseCase from '~/interactor/use-case'
 import Result from '../result'
 
 export default class RegisterUseCase implements UseCase<RegisterDTO, User> {
-  private authRepository: AuthRepository
-
-  public constructor(authRepository: AuthRepository) {
-    this.authRepository = authRepository
-  }
+  public constructor(private authRepository: AuthRepository) {}
 
   async invoke(registerDTO: RegisterDTO): Promise<Result<User>> {
     try {

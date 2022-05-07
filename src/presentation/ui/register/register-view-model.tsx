@@ -5,12 +5,7 @@ import { RegisterDTO } from '~/domain/repository/auth-repository'
 import { RegisterUseCase } from '~/interactor/auth'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 
-export enum Status {
-  INITIAL = 'INITIAL',
-  PROCESSING = 'processing',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
+import { Status, useInput, useStatus } from '../common/hooks'
 
 type Params = {
   registerUseCase: RegisterUseCase
@@ -19,17 +14,10 @@ type Params = {
 export const useRegisterViewModel = (params: Params) => {
   const { registerUseCase, validateRegisterDTOUseCase } = params
 
-  const [registerDTO, setRegisterDTO] = useState<RegisterDTO>({
-    displayName: '',
-    email: '',
-    password: '',
-  })
-  const [status, setStatus] = useState(Status.INITIAL)
   const [fieldError, setFieldError] = useState<Record<string, string>>({})
-  const isInitial = status === Status.INITIAL
-  const isProcessing = status === Status.PROCESSING
-  const isSuccess = status === Status.SUCCESS
-  const isError = status === Status.ERROR
+  const { setStatus, isError, isInitial, isProcessing, isSuccess } = useStatus()
+  const { inputData: registerDTO, handleInputTextChange } =
+    useInput<RegisterDTO>({ displayName: '', email: '', password: '' })
 
   const validateInput = async () => {
     const { error } = await validateRegisterDTOUseCase.invoke(registerDTO)
@@ -62,13 +50,6 @@ export const useRegisterViewModel = (params: Params) => {
     }
 
     setStatus(Status.SUCCESS)
-  }
-
-  const handleInputTextChange = (key: keyof RegisterDTO) => (text: string) => {
-    setRegisterDTO({
-      ...registerDTO,
-      [key]: text,
-    })
   }
 
   const handleRegister = async () => {

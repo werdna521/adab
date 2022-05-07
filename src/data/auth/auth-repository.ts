@@ -1,17 +1,17 @@
 import { User } from '~/domain/model'
 import { AuthRepository } from '~/domain/repository'
-import type { RegisterDTO } from '~/domain/repository/auth-repository'
+import type { LoginDTO, RegisterDTO } from '~/domain/repository/auth-repository'
 
 import AuthDataSource from './auth-datasource'
 
 export default class CoreAuthRepository implements AuthRepository {
-  private remoteAuthDataStore: AuthDataSource
+  public constructor(private remoteDataSource: AuthDataSource) {}
 
-  public constructor(remoteAuthDataStore: AuthDataSource) {
-    this.remoteAuthDataStore = remoteAuthDataStore
+  async login(loginDTO: LoginDTO): Promise<User> {
+    return await this.remoteDataSource.login(loginDTO)
   }
 
   async signUp(registerDTO: RegisterDTO): Promise<User> {
-    return await this.remoteAuthDataStore.signUp(registerDTO)
+    return await this.remoteDataSource.signUp(registerDTO)
   }
 }

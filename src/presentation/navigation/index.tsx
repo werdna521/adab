@@ -3,24 +3,30 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 
 import { RegisterUseCase } from '~/interactor/auth'
+import LoginUseCase from '~/interactor/auth/login-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
+import { LoginScreen } from '../ui/login'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
 import { createTheme } from './theme'
 
 export enum Screens {
+  LOGIN = 'Login',
   REGISTER = 'Register',
 }
 
 export type UseCases = {
   register: RegisterUseCase
   validateRegisterDTO: ValidateRegisterDTOUseCase
+
+  login: LoginUseCase
 }
 
 type RootStackParamList = {
+  [Screens.LOGIN]: undefined
   [Screens.REGISTER]: undefined
 }
 
@@ -55,12 +61,14 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
       >
         <Stack.Screen name={Screens.REGISTER}>
           {(props: any) => (
-            <RegisterScreen
-              registerUseCase={useCases.register}
-              validateRegisterDTOUseCase={useCases.validateRegisterDTO}
-              route={props.route}
-              navigation={props.navigation}
-            />
+            <>
+              <LoginScreen loginUseCase={useCases.login} {...props} />
+              <RegisterScreen
+                registerUseCase={useCases.register}
+                validateRegisterDTOUseCase={useCases.validateRegisterDTO}
+                {...props}
+              />
+            </>
           )}
         </Stack.Screen>
       </Stack.Navigator>

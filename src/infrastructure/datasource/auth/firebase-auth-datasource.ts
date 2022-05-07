@@ -1,6 +1,7 @@
 import { FirebaseError } from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   updateProfile,
   UserCredential,
 } from 'firebase/auth'
@@ -8,17 +9,44 @@ import { doc, setDoc, Timestamp } from 'firebase/firestore'
 
 import { UnknownError } from '~/common/error'
 import { AuthDataSource } from '~/data/auth'
-import { UserAlreadyRegisteredError, ValidationError } from '~/domain/error'
+import {
+  UserAlreadyRegisteredError,
+  UserNotRegistered,
+  ValidationError,
+  WrongCredentialError,
+} from '~/domain/error'
 import { User } from '~/domain/model'
-import { RegisterDTO } from '~/domain/repository/auth-repository'
+import { LoginDTO, RegisterDTO } from '~/domain/repository/auth-repository'
 import Firebase from '~/infrastructure/firebase'
 import { FirebaseAuthErrorCode } from '~/infrastructure/firebase/error-codes'
 
 export default class FirebaseAuthDataSource implements AuthDataSource {
-  private firebase: Firebase
+  public constructor(private firebase: Firebase) {}
 
-  public constructor(firebase: Firebase) {
-    this.firebase = firebase
+  public async login(loginDTO: LoginDTO): Promise<User> {
+    try {
+      const { user } = await signInWithEmailAndPassword(
+        this.firebase.auth,
+        loginDTO.email,
+        loginDTO.password,
+      )
+      return {
+        uid: user.uid,
+        displayName: user.displayName!,
+        email: user.email!,
+      }
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case FirebaseAuthErrorCode.WRONG_PASSWORD:
+            throw new WrongCredentialError()
+          case FirebaseAuthErrorCode.USER_NOT_FOUND:
+            throw new UserNotRegistered()
+        }
+      }
+
+      throw new UnknownError(error)
+    }
   }
 
   public async signUp(registerDTO: RegisterDTO): Promise<User> {
@@ -58,7 +86,7 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
   private async storeUser(userCredential: UserCredential): Promise<User> {
     const currentUser = userCredential.user
     const currentTimestamp = Timestamp.now()
-    const user: User = {
+    const user = {
       uid: currentUser.uid,
       displayName: currentUser.displayName!,
       email: currentUser.email!,
