@@ -2,9 +2,17 @@ import React, { FC } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-const CreateGroupFAB: FC = () => {
+type Props = {
+  navigateToCreateGroup: () => void
+}
+
+const CreateGroupFAB: FC<Props> = ({ navigateToCreateGroup }) => {
   return (
-    <TouchableOpacity activeOpacity={0.9} style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={styles.container}
+      onPress={navigateToCreateGroup}
+    >
       <Icon name="add" size={40} color="white" />
     </TouchableOpacity>
   )

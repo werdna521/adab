@@ -11,6 +11,7 @@ import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
+import { CreateGroupScreen } from '../create-group'
 import { HomeScreen } from '../ui/home'
 import { LoginScreen } from '../ui/login'
 import { useAuthSessionViewModel } from './auth-session-view-model'
@@ -22,6 +23,7 @@ export enum Screens {
   LOGIN = 'Login',
   REGISTER = 'Register',
   HOME = 'Home',
+  CREATE_GROUP = 'Create Group',
 }
 
 export type UseCases = {
@@ -36,6 +38,7 @@ type RootStackParamList = {
   [Screens.LOGIN]: undefined
   [Screens.REGISTER]: undefined
   [Screens.HOME]: undefined
+  [Screens.CREATE_GROUP]: undefined
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -80,6 +83,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
           <>
             <Stack.Screen name={Screens.HOME}>
               {(props: any) => <HomeScreen user={user} {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.CREATE_GROUP}>
+              {(props: any) => <CreateGroupScreen user={user} {...props} />}
             </Stack.Screen>
           </>
         )}

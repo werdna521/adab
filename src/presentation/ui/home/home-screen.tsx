@@ -7,11 +7,13 @@ import { CreateGroupFAB, GroupList } from './components'
 
 type Props = {}
 
-const HomeScreen: Screen<Props, Screens.HOME> = ({ user }) => {
+const HomeScreen: Screen<Props, Screens.HOME> = ({ user, navigation }) => {
+  const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
+
   return (
     <View style={styles.container}>
       <GroupList displayName={user?.displayName || ''} />
-      <CreateGroupFAB />
+      <CreateGroupFAB navigateToCreateGroup={navigateToCreateGroup} />
     </View>
   )
 }
