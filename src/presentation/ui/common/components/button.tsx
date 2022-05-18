@@ -1,9 +1,16 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native'
 
 type Props = {
   onPress?: () => void
   disabled?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 const Button: FC<Props> = (props) => {
@@ -12,7 +19,7 @@ const Button: FC<Props> = (props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      style={styles(props).container}
+      style={[props.style, styles(props).container]}
       onPress={onPress}
       disabled={disabled}
     >

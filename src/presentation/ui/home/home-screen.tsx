@@ -12,7 +12,7 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({ user, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <GroupList displayName={user?.displayName || ''} />
+      <GroupList displayName={user?.displayName || 'User'} />
       <CreateGroupFAB navigateToCreateGroup={navigateToCreateGroup} />
     </View>
   )

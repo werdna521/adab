@@ -6,12 +6,13 @@ import { User } from '~/domain/model'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
+import { CreateGroupUseCase } from '~/interactor/group'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
-import { CreateGroupScreen } from '../create-group'
+import { CreateGroupScreen } from '../ui/create-group'
 import { HomeScreen } from '../ui/home'
 import { LoginScreen } from '../ui/login'
 import { useAuthSessionViewModel } from './auth-session-view-model'
@@ -32,6 +33,7 @@ export type UseCases = {
   login: LoginUseCase
   validateLoginDTO: ValidateLoginDTOUseCase
   subscribeAuthStatus: SubscribeAuthStateUseCase
+  createGroup: CreateGroupUseCase
 }
 
 type RootStackParamList = {
@@ -85,7 +87,13 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => <HomeScreen user={user} {...props} />}
             </Stack.Screen>
             <Stack.Screen name={Screens.CREATE_GROUP}>
-              {(props: any) => <CreateGroupScreen user={user} {...props} />}
+              {(props: any) => (
+                <CreateGroupScreen
+                  createGroupUseCase={useCases.createGroup}
+                  user={user}
+                  {...props}
+                />
+              )}
             </Stack.Screen>
           </>
         )}
