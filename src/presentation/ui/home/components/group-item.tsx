@@ -1,15 +1,23 @@
 import React, { FC } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
+import { Group } from '~/domain/model'
+
 type Props = {
+  group: Group
   style?: StyleProp<ViewStyle>
 }
 
-const GroupItem: FC<Props> = ({ style }) => {
+const GroupItem: FC<Props> = ({ group, style }) => {
+  const memberCount = Object.keys(group.members).length
+  const unit = memberCount > 1 ? 'people' : 'person'
+
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.title}>Mobile Application</Text>
-      <Text style={styles.member}>8 people</Text>
+      <Text style={styles.title}>{group.name}</Text>
+      <Text style={styles.member}>
+        {memberCount} {unit}
+      </Text>
     </View>
   )
 }

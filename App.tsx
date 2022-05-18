@@ -10,6 +10,7 @@ import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
+import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { COLORS } from '~/presentation/colors'
@@ -29,6 +30,7 @@ const loginUseCase = new LoginUseCase(authRepository)
 const validateLoginDTOUseCase = new ValidateLoginDTOUseCase()
 const subscribeAuthStateUseCase = new SubscribeAuthStateUseCase(authRepository)
 const createGroupUseCase = new CreateGroupUseCase(groupRepository)
+const getGroupListUseCase = new GetGroupListUseCase(groupRepository)
 
 const useCases: UseCases = {
   register: registerUseCase,
@@ -37,6 +39,7 @@ const useCases: UseCases = {
   validateLoginDTO: validateLoginDTOUseCase,
   subscribeAuthStatus: subscribeAuthStateUseCase,
   createGroup: createGroupUseCase,
+  getGroupList: getGroupListUseCase,
 }
 
 const App: FC = () => {

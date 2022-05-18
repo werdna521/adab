@@ -1,4 +1,4 @@
-import { User } from '../model'
+import { Group, User } from '../model'
 
 export type CreateGroupDTO = {
   groupName: string
@@ -6,5 +6,6 @@ export type CreateGroupDTO = {
 }
 
 export default interface GroupRepository {
+  getGroupList: (user: User) => Promise<Group[]>
   createGroup: (dto: CreateGroupDTO) => Promise<void>
 }

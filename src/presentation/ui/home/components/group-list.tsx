@@ -1,17 +1,21 @@
 import React, { FC } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 
+import { Group } from '~/domain/model'
 import { getNotchSize } from '~/presentation/notch'
 
 import Greeting from './greeting'
 import GroupItem from './group-item'
 
 type Props = {
+  groupList: Group[]
   displayName: string
 }
 
-const GroupList: FC<Props> = ({ displayName }) => {
-  const renderGroupItem: ListRenderItem<number> = ({}) => <GroupItem />
+const GroupList: FC<Props> = ({ groupList, displayName }) => {
+  const renderGroupItem: ListRenderItem<Group> = ({ item: group }) => (
+    <GroupItem group={group} />
+  )
   const renderHeader = () => <Greeting displayName={displayName} />
   const renderSeparator = () => <View style={styles.separator} />
 
@@ -19,9 +23,9 @@ const GroupList: FC<Props> = ({ displayName }) => {
     <FlatList
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
-      data={[1, 2, 3, 4, 5, 6, 7]}
+      data={groupList}
       renderItem={renderGroupItem}
-      keyExtractor={(item) => `group-item-${item}`}
+      keyExtractor={(group) => `group-item-${group.uid}`}
       ItemSeparatorComponent={renderSeparator}
       ListHeaderComponent={renderHeader}
       ListFooterComponent={View}
