@@ -10,12 +10,13 @@ import { CreateGroupUseCase } from '~/interactor/group'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
+import { CreateGroupScreen } from '~/presentation/ui/create-group'
+import { GroupScreen } from '~/presentation/ui/group'
+import { HomeScreen } from '~/presentation/ui/home'
+import { LoginScreen } from '~/presentation/ui/login'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
-import { CreateGroupScreen } from '../ui/create-group'
-import { HomeScreen } from '../ui/home'
-import { LoginScreen } from '../ui/login'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
@@ -26,6 +27,7 @@ export enum Screens {
   REGISTER = 'Register',
   HOME = 'Home',
   CREATE_GROUP = 'Create Group',
+  GROUP = 'Group',
 }
 
 export type UseCases = {
@@ -43,6 +45,7 @@ type RootStackParamList = {
   [Screens.REGISTER]: undefined
   [Screens.HOME]: undefined
   [Screens.CREATE_GROUP]: undefined
+  [Screens.GROUP]: undefined
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -102,6 +105,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   {...props}
                 />
               )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.GROUP}>
+              {(props: any) => <GroupScreen {...props} />}
             </Stack.Screen>
           </>
         )}

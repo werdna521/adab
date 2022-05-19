@@ -16,23 +16,26 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({
   navigation,
   getGroupListUseCase,
 }) => {
-  const { loadGroupList, groupList, globalError, isProcessing } =
-    useHomeViewModel({
-      getGroupListUseCase,
-      user: user!,
-    })
+  const { loadGroupList, groupList, isProcessing } = useHomeViewModel({
+    getGroupListUseCase,
+    user: user!,
+  })
 
   useEffect(() => {
     loadGroupList()
   }, [loadGroupList])
 
   const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
+  const navigateToGroup = () => navigation.navigate(Screens.GROUP)
 
   return (
     <View style={styles.container}>
       <GroupList
         groupList={groupList}
         displayName={user?.displayName || 'User'}
+        onRefresh={loadGroupList}
+        navigateToGroup={navigateToGroup}
+        isRefreshing={isProcessing}
       />
       <CreateGroupFAB navigateToCreateGroup={navigateToCreateGroup} />
     </View>
