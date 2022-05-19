@@ -3,14 +3,17 @@ import { StatusBar } from 'react-native'
 
 import CoreAuthRepository from '~/data/auth/auth-repository'
 import { CoreGroupRepository } from '~/data/group'
+import { CoreRoomRepository } from '~/data/room'
 import { FirebaseAuthDataSource } from '~/infrastructure/datasource/auth'
 import { FirebaseGroupDataSource } from '~/infrastructure/datasource/group'
+import FirebaseRoomDataSource from '~/infrastructure/datasource/room/firebase-room-datasource'
 import Firebase from '~/infrastructure/firebase'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { COLORS } from '~/presentation/colors'
@@ -20,9 +23,11 @@ const firebase = new Firebase()
 
 const firebaseAuthDataStore = new FirebaseAuthDataSource(firebase)
 const firebaseGroupDataStore = new FirebaseGroupDataSource(firebase)
+const firebaseRoomDataStore = new FirebaseRoomDataSource(firebase)
 
 const authRepository = new CoreAuthRepository(firebaseAuthDataStore)
 const groupRepository = new CoreGroupRepository(firebaseGroupDataStore)
+const roomRepository = new CoreRoomRepository(firebaseRoomDataStore)
 
 const registerUseCase = new RegisterUseCase(authRepository)
 const validateRegisterDTOUseCase = new ValidateRegisterDTOUseCase()
@@ -31,6 +36,9 @@ const validateLoginDTOUseCase = new ValidateLoginDTOUseCase()
 const subscribeAuthStateUseCase = new SubscribeAuthStateUseCase(authRepository)
 const createGroupUseCase = new CreateGroupUseCase(groupRepository)
 const getGroupListUseCase = new GetGroupListUseCase(groupRepository)
+const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
+  roomRepository,
+)
 
 const useCases: UseCases = {
   register: registerUseCase,
@@ -40,6 +48,7 @@ const useCases: UseCases = {
   subscribeAuthStatus: subscribeAuthStateUseCase,
   createGroup: createGroupUseCase,
   getGroupList: getGroupListUseCase,
+  subscribeToRoomState: subscribeToRoomStateUseCase,
 }
 
 const App: FC = () => {

@@ -8,6 +8,7 @@ import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { CreateGroupScreen } from '~/presentation/ui/create-group'
@@ -40,6 +41,7 @@ export type UseCases = {
   subscribeAuthStatus: SubscribeAuthStateUseCase
   createGroup: CreateGroupUseCase
   getGroupList: GetGroupListUseCase
+  subscribeToRoomState: SubscribeToRoomStateUseCase
 }
 
 type RootStackParamList = {
@@ -113,7 +115,12 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => <GroupScreen {...props} />}
             </Stack.Screen>
             <Stack.Screen name={Screens.ROOM}>
-              {(props: any) => <RoomScreen {...props} />}
+              {(props: any) => (
+                <RoomScreen
+                  subscribeToRoomStateUseCase={useCases.subscribeToRoomState}
+                  {...props}
+                />
+              )}
             </Stack.Screen>
           </>
         )}
