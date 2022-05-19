@@ -17,6 +17,7 @@ import { LoginScreen } from '~/presentation/ui/login'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
+import { RoomScreen } from '../ui/room'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
@@ -28,6 +29,7 @@ export enum Screens {
   HOME = 'Home',
   CREATE_GROUP = 'Create Group',
   GROUP = 'Group',
+  ROOM = 'Room',
 }
 
 export type UseCases = {
@@ -46,6 +48,7 @@ type RootStackParamList = {
   [Screens.HOME]: undefined
   [Screens.CREATE_GROUP]: undefined
   [Screens.GROUP]: undefined
+  [Screens.ROOM]: undefined
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -108,6 +111,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.GROUP}>
               {(props: any) => <GroupScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.ROOM}>
+              {(props: any) => <RoomScreen {...props} />}
             </Stack.Screen>
           </>
         )}

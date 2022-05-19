@@ -7,10 +7,12 @@ import { RoomList } from './components'
 
 type Props = {}
 
-const GroupScreen: Screen<Props, Screens.GROUP> = () => {
+const GroupScreen: Screen<Props, Screens.GROUP> = ({ navigation }) => {
+  const navigateToRoom = (_: string) => navigation.navigate(Screens.ROOM)
+
   return (
     <View style={styles.container}>
-      <RoomList />
+      <RoomList navigateToRoom={navigateToRoom} />
     </View>
   )
 }

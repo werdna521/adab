@@ -6,10 +6,14 @@ import { TextButton } from '~/presentation/ui/common/components'
 
 import RoomItem from './room-item'
 
-type Props = {}
+type Props = {
+  navigateToRoom: (roomUID: string) => void
+}
 
-const RoomList: FC<Props> = ({}) => {
-  const renderGroupItem: ListRenderItem<number> = ({}) => <RoomItem />
+const RoomList: FC<Props> = ({ navigateToRoom }) => {
+  const renderGroupItem: ListRenderItem<number> = ({}) => (
+    <RoomItem navigateToRoom={() => navigateToRoom('id')} />
+  )
   const renderHeader = () => (
     <>
       <Text style={styles.header}>Object Oriented Programming</Text>

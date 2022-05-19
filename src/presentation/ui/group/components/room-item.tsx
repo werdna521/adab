@@ -10,11 +10,16 @@ import {
 
 type Props = {
   style?: StyleProp<ViewStyle>
+  navigateToRoom: () => void
 }
 
-const RoomItem: FC<Props> = ({ style }) => {
+const RoomItem: FC<Props> = ({ style, navigateToRoom }) => {
   return (
-    <TouchableOpacity style={[styles.container, style]} activeOpacity={0.5}>
+    <TouchableOpacity
+      style={[styles.container, style]}
+      activeOpacity={0.5}
+      onPress={navigateToRoom}
+    >
       <View style={styles.topContainer}>
         <Text style={styles.title}>Writing Contract Using Interfaces</Text>
         <View style={styles.spacer} />
