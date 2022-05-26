@@ -19,6 +19,8 @@ target 'adab' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'react-native-voice', :path => '../node_modules/@react-native-voice/voice'
+
   target 'adabTests' do
     inherit! :complete
     # Pods for testing

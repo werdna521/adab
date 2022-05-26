@@ -21,7 +21,7 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
       const snapshot = await getDocs(
         query(
           collection(this.firebase.db, 'group'),
-          where(`members.${user.uid}`, '==', true),
+          where(`members.${user.uid}`, '!=', null),
         ),
       )
       return snapshot.docs.map((document) => ({
@@ -41,7 +41,7 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
       await addDoc(collection(this.firebase.db, 'group'), {
         name: groupName,
         members: {
-          [user.uid]: true,
+          [user.uid]: user.displayName,
         },
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,

@@ -11,6 +11,7 @@ type Props = {
   onPress?: () => void
   disabled?: boolean
   style?: StyleProp<ViewStyle>
+  primary?: boolean
 }
 
 const Button: FC<Props> = (props) => {
@@ -28,13 +29,13 @@ const Button: FC<Props> = (props) => {
   )
 }
 
-const styles = ({ disabled }: Props) =>
+const styles = ({ disabled = false, primary = false }: Props) =>
   StyleSheet.create({
     container: {
       paddingVertical: 20,
       paddingHorizontal: 32,
       minWidth: 200,
-      backgroundColor: '#2d2d2d',
+      backgroundColor: primary ? '#b3ddc6' : '#2d2d2d',
       opacity: disabled ? 0.5 : 1,
       alignItems: 'center',
       alignSelf: 'center',
@@ -43,7 +44,7 @@ const styles = ({ disabled }: Props) =>
     text: {
       fontSize: 18,
       fontWeight: '600',
-      color: 'white',
+      color: primary ? '#2c2c2c' : 'white',
     },
   })
 

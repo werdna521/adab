@@ -11,7 +11,7 @@ type Props = {
   groupList: Group[]
   displayName: string
   onRefresh: () => void
-  navigateToGroup: () => void
+  navigateToGroup: (group: Group) => void
   isRefreshing: boolean
 }
 
@@ -22,9 +22,10 @@ const GroupList: FC<Props> = ({
   navigateToGroup,
   isRefreshing,
 }) => {
-  const renderGroupItem: ListRenderItem<Group> = ({ item: group }) => (
-    <GroupItem navigateToGroup={navigateToGroup} group={group} />
-  )
+  const renderGroupItem: ListRenderItem<Group> = ({ item: group }) => {
+    const handleNavigateToGroup = () => navigateToGroup(group)
+    return <GroupItem navigateToGroup={handleNavigateToGroup} group={group} />
+  }
   const renderHeader = () => <Greeting displayName={displayName} />
   const renderSeparator = () => <View style={styles.separator} />
   const renderEmpty = () => <Text style={styles.empty}>No group yet.</Text>

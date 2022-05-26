@@ -2,13 +2,15 @@ import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 
-import { User } from '~/domain/model'
+import { Group, User } from '~/domain/model'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
+import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
+import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { CreateGroupScreen } from '~/presentation/ui/create-group'
@@ -18,6 +20,7 @@ import { LoginScreen } from '~/presentation/ui/login'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
+import { MemberScreen } from '../ui/member'
 import { RoomScreen } from '../ui/room'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
@@ -31,6 +34,7 @@ export enum Screens {
   CREATE_GROUP = 'Create Group',
   GROUP = 'Group',
   ROOM = 'Room',
+  MEMBER = 'Member',
 }
 
 export type UseCases = {
@@ -42,6 +46,8 @@ export type UseCases = {
   createGroup: CreateGroupUseCase
   getGroupList: GetGroupListUseCase
   subscribeToRoomState: SubscribeToRoomStateUseCase
+  publishNewContent: PublishNewContentUseCase
+  getRoomList: GetRoomListUseCase
 }
 
 type RootStackParamList = {
@@ -49,13 +55,21 @@ type RootStackParamList = {
   [Screens.REGISTER]: undefined
   [Screens.HOME]: undefined
   [Screens.CREATE_GROUP]: undefined
-  [Screens.GROUP]: undefined
-  [Screens.ROOM]: undefined
+  [Screens.GROUP]: {
+    group: Group
+  }
+  [Screens.ROOM]: {
+    roomID: string
+    groupID: string
+  }
+  [Screens.MEMBER]: {
+    members: Record<string, string>
+  }
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
   Props & {
-    route: RouteProp<RootStackParamList>
+    route: RouteProp<RootStackParamList, RouteName>
     navigation: NativeStackNavigationProp<ParamListBase, RouteName>
     user?: User
   }
@@ -112,15 +126,24 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               )}
             </Stack.Screen>
             <Stack.Screen name={Screens.GROUP}>
-              {(props: any) => <GroupScreen {...props} />}
+              {(props: any) => (
+                <GroupScreen
+                  getRoomListUseCase={useCases.getRoomList}
+                  {...props}
+                />
+              )}
             </Stack.Screen>
             <Stack.Screen name={Screens.ROOM}>
               {(props: any) => (
                 <RoomScreen
                   subscribeToRoomStateUseCase={useCases.subscribeToRoomState}
+                  publishNewContentUseCase={useCases.publishNewContent}
                   {...props}
                 />
               )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.MEMBER}>
+              {(props: any) => <MemberScreen {...props} />}
             </Stack.Screen>
           </>
         )}

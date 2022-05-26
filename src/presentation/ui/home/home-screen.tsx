@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import { Group } from '~/domain/model'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
 
@@ -26,7 +27,10 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({
   }, [loadGroupList])
 
   const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
-  const navigateToGroup = () => navigation.navigate(Screens.GROUP)
+  const navigateToGroup = (group: Group) =>
+    navigation.navigate(Screens.GROUP, {
+      group,
+    })
 
   return (
     <View style={styles.container}>

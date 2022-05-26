@@ -1,5 +1,8 @@
+import { Room } from '~/domain/model'
 import { RoomRepository } from '~/domain/repository'
 import {
+  GetRoomListDTO,
+  PublishNewContentDTO,
   RoomStateCallback,
   Unsubscribe,
 } from '~/domain/repository/room-repository'
@@ -15,5 +18,13 @@ export default class CoreGroupRepository implements RoomRepository {
     callback: RoomStateCallback,
   ): Unsubscribe {
     return this.remoteDataSource.subscribeToRoomState(groupID, roomID, callback)
+  }
+
+  async publishNewContent(dto: PublishNewContentDTO): Promise<void> {
+    return this.remoteDataSource.publishNewContent(dto)
+  }
+
+  async getRoomList(dto: GetRoomListDTO): Promise<Room[]> {
+    return this.remoteDataSource.getRoomList(dto)
   }
 }

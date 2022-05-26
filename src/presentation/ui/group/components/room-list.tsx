@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 
+import { Room } from '~/domain/model'
 import { getNotchSize } from '~/presentation/notch'
 import { TextButton } from '~/presentation/ui/common/components'
 
@@ -8,16 +9,28 @@ import RoomItem from './room-item'
 
 type Props = {
   navigateToRoom: (roomUID: string) => void
+  navigateToMember: () => void
+  roomList: Room[]
+  onRefresh: () => void
+  isProcessing: boolean
 }
 
-const RoomList: FC<Props> = ({ navigateToRoom }) => {
-  const renderGroupItem: ListRenderItem<number> = ({}) => (
-    <RoomItem navigateToRoom={() => navigateToRoom('id')} />
+const RoomList: FC<Props> = ({
+  navigateToRoom,
+  navigateToMember,
+  roomList,
+  onRefresh,
+  isProcessing,
+}) => {
+  const renderGroupItem: ListRenderItem<Room> = ({}) => (
+    <RoomItem navigateToRoom={() => navigateToRoom('z1u7t52Lrdn3furIvaBW')} />
   )
   const renderHeader = () => (
     <>
       <Text style={styles.header}>Object Oriented Programming</Text>
-      <TextButton style={styles.seeMembers}>See members{'  '}&gt;</TextButton>
+      <TextButton style={styles.seeMembers} onPress={navigateToMember}>
+        See members{'  '}&gt;
+      </TextButton>
     </>
   )
   const renderSeparator = () => <View style={styles.separator} />
@@ -27,7 +40,7 @@ const RoomList: FC<Props> = ({ navigateToRoom }) => {
     <FlatList
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
-      data={[1]}
+      data={roomList}
       renderItem={renderGroupItem}
       keyExtractor={(room) => `room-item-${room}`}
       ItemSeparatorComponent={renderSeparator}
@@ -35,6 +48,8 @@ const RoomList: FC<Props> = ({ navigateToRoom }) => {
       ListFooterComponent={View}
       ListFooterComponentStyle={styles.footer}
       ListEmptyComponent={renderEmpty}
+      onRefresh={onRefresh}
+      refreshing={isProcessing}
     />
   )
 }

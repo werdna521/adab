@@ -11,8 +11,10 @@
     "format": "prettier --write '**/*.{ts,tsx,js}'"
   },
   "dependencies": {
+    "@react-native-voice/voice": "^3.2.4",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
+    "@sayem314/react-native-keep-awake": "^1.1.0",
     "firebase": "^9.7.0",
     "react": "17.0.2",
     "react-native": "0.68.1",

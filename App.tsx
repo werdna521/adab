@@ -14,6 +14,8 @@ import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-us
 import { CreateGroupUseCase } from '~/interactor/group'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
+import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
+import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { COLORS } from '~/presentation/colors'
@@ -39,6 +41,8 @@ const getGroupListUseCase = new GetGroupListUseCase(groupRepository)
 const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
   roomRepository,
 )
+const publishNewContentUseCase = new PublishNewContentUseCase(roomRepository)
+const getRoomListUseCase = new GetRoomListUseCase(roomRepository)
 
 const useCases: UseCases = {
   register: registerUseCase,
@@ -49,6 +53,8 @@ const useCases: UseCases = {
   createGroup: createGroupUseCase,
   getGroupList: getGroupListUseCase,
   subscribeToRoomState: subscribeToRoomStateUseCase,
+  publishNewContent: publishNewContentUseCase,
+  getRoomList: getRoomListUseCase,
 }
 
 const App: FC = () => {
