@@ -1,19 +1,22 @@
 import React, { FC } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 
+import { Member } from '~/domain/model/group'
 import { getNotchSize } from '~/presentation/notch'
 
 import MemberItem from './member-item'
 
 type Props = {
-  members: Record<string, string>
+  members: Record<string, Member>
   onRefresh: () => void
   isRefreshing: boolean
 }
 
 const MemberList: FC<Props> = ({ members, onRefresh, isRefreshing }) => {
-  const renderGroupItem: ListRenderItem<string> = ({ item: displayName }) => {
-    return <MemberItem name={displayName} />
+  const renderGroupItem: ListRenderItem<[string, Member]> = ({
+    item: [_, member],
+  }) => {
+    return <MemberItem name={member.name} role={member.role} />
   }
   const renderHeader = () => <Text style={styles.title}>Members</Text>
 
@@ -21,8 +24,8 @@ const MemberList: FC<Props> = ({ members, onRefresh, isRefreshing }) => {
     <FlatList
       contentContainerStyle={styles.container}
       renderItem={renderGroupItem}
-      data={Object.values(members)}
-      keyExtractor={(member) => `member-item-${member}`}
+      data={Object.entries(members)}
+      keyExtractor={([id]) => `member-item-${id}`}
       onRefresh={onRefresh}
       refreshing={isRefreshing}
       ListHeaderComponent={renderHeader}

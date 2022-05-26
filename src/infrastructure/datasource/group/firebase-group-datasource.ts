@@ -41,7 +41,10 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
       await addDoc(collection(this.firebase.db, 'group'), {
         name: groupName,
         members: {
-          [user.uid]: user.displayName,
+          [user.uid]: {
+            name: user.displayName,
+            role: 'admin',
+          },
         },
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,

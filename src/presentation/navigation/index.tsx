@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 
 import { Group, User } from '~/domain/model'
+import { Member } from '~/domain/model/group'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
@@ -63,7 +64,7 @@ type RootStackParamList = {
     groupID: string
   }
   [Screens.MEMBER]: {
-    members: Record<string, string>
+    members: Record<string, Member>
   }
 }
 
