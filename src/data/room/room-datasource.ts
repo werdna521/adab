@@ -1,5 +1,6 @@
 import { Room } from '~/domain/model'
 import {
+  CreateRoomDTO,
   GetRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
@@ -14,4 +15,5 @@ export default interface RoomDataSource {
   ) => Unsubscribe
   publishNewContent: (dto: PublishNewContentDTO) => Promise<void>
   getRoomList: (dto: GetRoomListDTO) => Promise<Room[]>
+  createRoom: (dto: CreateRoomDTO) => Promise<void>
 }

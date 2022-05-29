@@ -10,6 +10,7 @@ import {
 import { UnknownError } from '~/common/error'
 import GroupDataSource from '~/data/group/group-datasource'
 import { Group, User } from '~/domain/model'
+import { Role } from '~/domain/model/group'
 import { CreateGroupDTO } from '~/domain/repository/group-repository'
 import Firebase from '~/infrastructure/firebase'
 
@@ -43,7 +44,7 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
         members: {
           [user.uid]: {
             name: user.displayName,
-            role: 'admin',
+            role: Role.OWNER,
           },
         },
         createdAt: currentTimestamp,

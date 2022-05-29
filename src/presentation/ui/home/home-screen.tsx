@@ -5,7 +5,8 @@ import { Group } from '~/domain/model'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
 
-import { CreateGroupFAB, GroupList } from './components'
+import { CreateFAB } from '../common/components'
+import { GroupList } from './components'
 import { useHomeViewModel } from './home-view-model'
 
 type Props = {
@@ -41,7 +42,7 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({
         navigateToGroup={navigateToGroup}
         isRefreshing={isProcessing}
       />
-      <CreateGroupFAB navigateToCreateGroup={navigateToCreateGroup} />
+      <CreateFAB navigateToCreate={navigateToCreateGroup} />
     </View>
   )
 }

@@ -12,6 +12,7 @@ import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
+import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
@@ -43,6 +44,8 @@ const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
 )
 const publishNewContentUseCase = new PublishNewContentUseCase(roomRepository)
 const getRoomListUseCase = new GetRoomListUseCase(roomRepository)
+const formatMemberWithAccessPropertiesUseCase =
+  new FormatMemberWithAccessPropertiesUseCase()
 
 const useCases: UseCases = {
   register: registerUseCase,
@@ -55,6 +58,7 @@ const useCases: UseCases = {
   subscribeToRoomState: subscribeToRoomStateUseCase,
   publishNewContent: publishNewContentUseCase,
   getRoomList: getRoomListUseCase,
+  formatMemberWithAccessProperties: formatMemberWithAccessPropertiesUseCase,
 }
 
 const App: FC = () => {

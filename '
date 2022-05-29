@@ -22,7 +22,6 @@ import { LoginScreen } from '~/presentation/ui/login'
 import { RegisterScreen } from '~/presentation/ui/register'
 
 import { COLORS } from '../colors'
-import { CreateRoomScreen } from '../ui/create-room'
 import { MemberScreen } from '../ui/member'
 import { RoomScreen } from '../ui/room'
 import { useAuthSessionViewModel } from './auth-session-view-model'
@@ -38,7 +37,7 @@ export enum Screens {
   GROUP = 'Group',
   ROOM = 'Room',
   MEMBER = 'Member',
-  CREATE_ROOM = 'Create Room',
+  CREATE_ROOM = 'Create Room'
 }
 
 export type UseCases = {
@@ -69,9 +68,6 @@ type RootStackParamList = {
   }
   [Screens.MEMBER]: {
     members: Record<string, Member>
-  }
-  [Screens.CREATE_ROOM]: {
-    groupID: string
   }
 }
 
@@ -162,9 +158,6 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   {...props}
                 />
               )}
-            </Stack.Screen>
-            <Stack.Screen name={Screens.CREATE_ROOM}>
-              {(props: any) => <CreateRoomScreen user={user} {...props} />}
             </Stack.Screen>
           </>
         )}

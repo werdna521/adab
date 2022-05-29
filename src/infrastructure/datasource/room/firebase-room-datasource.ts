@@ -5,12 +5,14 @@ import {
   updateDoc,
   getDocs,
   collection,
+  addDoc,
 } from 'firebase/firestore'
 
 import { UnknownError } from '~/common/error'
 import { RoomDataSource } from '~/data/room'
 import { Room } from '~/domain/model'
 import {
+  CreateRoomDTO,
   GetRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
@@ -62,6 +64,22 @@ export default class FirebaseRoomDataSource implements RoomDataSource {
         uid: document.id,
         ...document.data(),
       })) as Room[]
+    } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  async createRoom(dto: CreateRoomDTO): Promise<void> {
+    const { groupID, roomTitle } = dto
+    const currentTimestamp = Timestamp.now()
+
+    try {
+      await addDoc(collection(this.firebase.db, 'group', groupID, 'room'), {
+        content: '',
+        title: roomTitle,
+        createdAt: currentTimestamp,
+        updatedAt: currentTimestamp,
+      })
     } catch (error) {
       throw new UnknownError(error)
     }

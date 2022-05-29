@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
 
+import { CreateFAB } from '../common/components'
 import { RoomList } from './components'
 import { useGroupViewModel } from './group-view-model'
 
@@ -30,6 +31,7 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
     navigation.navigate(Screens.MEMBER, { members })
   const navigateToRoom = (roomID: string) =>
     navigation.navigate(Screens.ROOM, { groupID, roomID })
+  const navigateToCreateRoom = () => navigation.navigate(Screens.CREATE_ROOM)
 
   return (
     <View style={styles.container}>
@@ -40,6 +42,7 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
         navigateToMember={navigateToMember}
         isProcessing={isProcessing}
       />
+      <CreateFAB navigateToCreate={navigateToCreateRoom} />
     </View>
   )
 }

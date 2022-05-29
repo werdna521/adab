@@ -22,8 +22,8 @@ const RoomList: FC<Props> = ({
   onRefresh,
   isProcessing,
 }) => {
-  const renderGroupItem: ListRenderItem<Room> = ({}) => (
-    <RoomItem navigateToRoom={() => navigateToRoom('z1u7t52Lrdn3furIvaBW')} />
+  const renderGroupItem: ListRenderItem<Room> = ({ item: { uid } }) => (
+    <RoomItem navigateToRoom={() => navigateToRoom(uid)} />
   )
   const renderHeader = () => (
     <>

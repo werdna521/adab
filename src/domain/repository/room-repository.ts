@@ -9,6 +9,11 @@ export type PublishNewContentDTO = {
   newContent: string
 }
 
+export type CreateRoomDTO = {
+  groupID: string
+  roomTitle: string
+}
+
 export type GetRoomListDTO = {
   groupID: string
 }
@@ -21,4 +26,5 @@ export default interface RoomRepository {
   ) => Unsubscribe
   publishNewContent: (dto: PublishNewContentDTO) => Promise<void>
   getRoomList: (dto: GetRoomListDTO) => Promise<Room[]>
+  createRoom: (dto: CreateRoomDTO) => Promise<void>
 }

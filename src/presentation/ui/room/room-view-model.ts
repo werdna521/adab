@@ -2,7 +2,6 @@ import Voice, { SpeechResultsEvent } from '@react-native-voice/voice'
 import { useKeepAwake } from '@sayem314/react-native-keep-awake'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { UnknownError } from '~/common/error'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 
@@ -26,20 +25,28 @@ export const useRoomViewModel = (params: Params) => {
   const isRecordingRef = useRef(isRecording)
   useKeepAwake()
 
-  const onSpeechResults = useCallback((e: SpeechResultsEvent) => {
-    const newValue = e.value?.[0]
-    if (newValue) setContent((prevState) => `${prevState} ${newValue}`)
+  const onSpeechResults = useCallback(
+    async (e: SpeechResultsEvent) => {
+      const newValue = e.value?.[0]
+      if (newValue) {
+        await publishNewContentUseCase.invoke({
+          roomID,
+          groupID,
+          newContent: `${content} ${newValue}`,
+        })
+      }
 
-    if (isRecordingRef.current) _startRecognizing()
-  }, [])
+      if (isRecordingRef.current) _startRecognizing()
+    },
+    [publishNewContentUseCase, content, groupID, roomID],
+  )
   const onSpeechError = () => {}
 
   const _startRecognizing = async () => {
     try {
       await Voice.start('id')
-    } catch (error) {
       // fail silently
-    }
+    } catch (error) {}
   }
 
   const handleMicToggle = () => {
@@ -64,32 +71,17 @@ export const useRoomViewModel = (params: Params) => {
     }
   }, [onSpeechResults])
 
-  // publish to server anytime local content state changes
   useEffect(() => {
-    publishNewContentUseCase
-      .invoke({
-        roomID,
-        groupID,
-        newContent: content,
-      })
-      .then(({ error }) => {
-        if (error instanceof UnknownError) {
-          // fail silently
-        }
-      })
-  }, [content, roomID, groupID, publishNewContentUseCase])
+    const unsubscribe = subscribeToRoomStateUseCase.invoke({
+      roomID,
+      groupID,
+      callback: (room) => {
+        setContent(room.content)
+      },
+    })
 
-  // useEffect(() => {
-  //   const unsubscribe = subscribeToRoomStateUseCase.invoke({
-  //     roomID: 'z1u7t52Lrdn3furIvaBW',
-  //     groupID: 'F3PNu4NMrPD7pfPDpZL8',
-  //     callback: (room) => {
-  //       setContent([room.content])
-  //     },
-  //   })
-
-  //   return () => unsubscribe()
-  // }, [subscribeToRoomStateUseCase])
+    return () => unsubscribe()
+  }, [subscribeToRoomStateUseCase, roomID, groupID])
 
   return {
     content,

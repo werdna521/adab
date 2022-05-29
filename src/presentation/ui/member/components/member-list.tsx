@@ -1,37 +1,44 @@
 import React, { FC } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
+import { MenuProvider } from 'react-native-popup-menu'
 
-import { Member } from '~/domain/model/group'
+import { Member, MemberWithAccessProperties } from '~/domain/model/group'
 import { getNotchSize } from '~/presentation/notch'
 
 import MemberItem from './member-item'
 
 type Props = {
-  members: Record<string, Member>
-  onRefresh: () => void
-  isRefreshing: boolean
+  membersWithAccessProperties: Record<string, MemberWithAccessProperties>
 }
 
-const MemberList: FC<Props> = ({ members, onRefresh, isRefreshing }) => {
-  const renderGroupItem: ListRenderItem<[string, Member]> = ({
-    item: [_, member],
-  }) => {
-    return <MemberItem name={member.name} role={member.role} />
+const MemberList: FC<Props> = ({ membersWithAccessProperties }) => {
+  const renderGroupItem: ListRenderItem<
+    [string, MemberWithAccessProperties]
+  > = ({ item: [_, member] }) => {
+    return (
+      <MemberItem
+        name={member.name}
+        role={member.role}
+        isSelf={member.isSelf}
+        canEditRole={member.canEditRole}
+        canRemoveMember={member.canRemoveMember}
+      />
+    )
   }
   const renderHeader = () => <Text style={styles.title}>Members</Text>
 
   return (
-    <FlatList
-      contentContainerStyle={styles.container}
-      renderItem={renderGroupItem}
-      data={Object.entries(members)}
-      keyExtractor={([id]) => `member-item-${id}`}
-      onRefresh={onRefresh}
-      refreshing={isRefreshing}
-      ListHeaderComponent={renderHeader}
-      ListFooterComponent={View}
-      ListFooterComponentStyle={styles.footer}
-    />
+    <MenuProvider>
+      <FlatList
+        contentContainerStyle={styles.container}
+        renderItem={renderGroupItem}
+        data={Object.entries(membersWithAccessProperties)}
+        keyExtractor={([id]) => `member-item-${id}`}
+        ListHeaderComponent={renderHeader}
+        ListFooterComponent={View}
+        ListFooterComponentStyle={styles.footer}
+      />
+    </MenuProvider>
   )
 }
 
