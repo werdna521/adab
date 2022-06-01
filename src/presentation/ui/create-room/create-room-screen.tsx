@@ -19,11 +19,11 @@ const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
   navigation,
   createRoomUseCase,
 }) => {
-  const { groupID } = route.params
+  const { group } = route.params
   const { globalError, isProcessing, handleCreateRoom, handleInputTextChange } =
-    useCreateRoomViewModel({ createRoomUseCase, groupID })
+    useCreateRoomViewModel({ createRoomUseCase, groupID: group.uid })
 
-  const navigateToRoom = () => navigation.navigate(Screens.GROUP, { groupID })
+  const navigateToRoom = () => navigation.pop()
   const handleClick = async () => {
     await handleCreateRoom()
     navigateToRoom()
@@ -38,9 +38,7 @@ const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
         style={styles.illustration}
         source={require('~/assets/illustration/balloon.png')}
       />
-      <Text style={styles.prompt}>
-        Name your room. (one nice example is the name of your session)
-      </Text>
+      <Text style={styles.prompt}>What's your room name?</Text>
       <InputGroup
         style={styles.input}
         onChangeText={handleInputTextChange('title')}

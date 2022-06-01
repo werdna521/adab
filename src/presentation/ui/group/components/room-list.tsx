@@ -1,13 +1,14 @@
 import React, { FC } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 
-import { Room } from '~/domain/model'
+import { Group, Room } from '~/domain/model'
 import { getNotchSize } from '~/presentation/notch'
 import { TextButton } from '~/presentation/ui/common/components'
 
 import RoomItem from './room-item'
 
 type Props = {
+  group: Group
   navigateToRoom: (roomUID: string) => void
   navigateToMember: () => void
   roomList: Room[]
@@ -16,18 +17,19 @@ type Props = {
 }
 
 const RoomList: FC<Props> = ({
+  group,
   navigateToRoom,
   navigateToMember,
   roomList,
   onRefresh,
   isProcessing,
 }) => {
-  const renderGroupItem: ListRenderItem<Room> = ({ item: { uid } }) => (
-    <RoomItem navigateToRoom={() => navigateToRoom(uid)} />
+  const renderGroupItem: ListRenderItem<Room> = ({ item: room }) => (
+    <RoomItem room={room} navigateToRoom={() => navigateToRoom(room.uid)} />
   )
   const renderHeader = () => (
     <>
-      <Text style={styles.header}>Object Oriented Programming</Text>
+      <Text style={styles.header}>{group.name}</Text>
       <TextButton style={styles.seeMembers} onPress={navigateToMember}>
         See members{'  '}&gt;
       </TextButton>
@@ -42,7 +44,7 @@ const RoomList: FC<Props> = ({
       showsVerticalScrollIndicator={false}
       data={roomList}
       renderItem={renderGroupItem}
-      keyExtractor={(room) => `room-item-${room}`}
+      keyExtractor={(room) => `room-item-${room.uid}`}
       ItemSeparatorComponent={renderSeparator}
       ListHeaderComponent={renderHeader}
       ListFooterComponent={View}

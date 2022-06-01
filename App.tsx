@@ -17,6 +17,7 @@ import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
+import CreateRoomUseCase from '~/interactor/room/create-room-use-case'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
@@ -48,6 +49,7 @@ const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
 )
 const publishNewContentUseCase = new PublishNewContentUseCase(roomRepository)
 const getRoomListUseCase = new GetRoomListUseCase(roomRepository)
+const createRoomUseCase = new CreateRoomUseCase(roomRepository)
 const formatMemberWithAccessPropertiesUseCase =
   new FormatMemberWithAccessPropertiesUseCase()
 
@@ -65,6 +67,7 @@ const useCases: UseCases = {
   formatMemberWithAccessProperties: formatMemberWithAccessPropertiesUseCase,
   updateMemberRole: updateMemberRoleUseCase,
   removeMember: removeMemberUseCase,
+  createRoom: createRoomUseCase,
 }
 
 const App: FC = () => {

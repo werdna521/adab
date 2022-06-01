@@ -13,6 +13,7 @@ import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
+import CreateRoomUseCase from '~/interactor/room/create-room-use-case'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
@@ -57,6 +58,7 @@ export type UseCases = {
   formatMemberWithAccessProperties: FormatMemberWithAccessPropertiesUseCase
   updateMemberRole: UpdateMemberRoleUseCase
   removeMember: RemoveMemberUseCase
+  createRoom: CreateRoomUseCase
 }
 
 type RootStackParamList = {
@@ -76,7 +78,7 @@ type RootStackParamList = {
     groupID: string
   }
   [Screens.CREATE_ROOM]: {
-    groupID: string
+    group: Group
   }
 }
 
@@ -171,7 +173,13 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               )}
             </Stack.Screen>
             <Stack.Screen name={Screens.CREATE_ROOM}>
-              {(props: any) => <CreateRoomScreen user={user} {...props} />}
+              {(props: any) => (
+                <CreateRoomScreen
+                  createRoomUseCase={useCases.createRoom}
+                  user={user}
+                  {...props}
+                />
+              )}
             </Stack.Screen>
           </>
         )}

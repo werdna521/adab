@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
@@ -23,19 +24,23 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
     getRoomListUseCase,
   })
 
-  useEffect(() => {
-    loadRoomList(groupID)
-  }, [loadRoomList, groupID])
+  useFocusEffect(
+    useCallback(() => {
+      loadRoomList(groupID)
+    }, [loadRoomList, groupID]),
+  )
 
   const navigateToMember = () =>
     navigation.navigate(Screens.MEMBER, { members, groupID })
   const navigateToRoom = (roomID: string) =>
     navigation.navigate(Screens.ROOM, { groupID, roomID })
-  const navigateToCreateRoom = () => navigation.navigate(Screens.CREATE_ROOM)
+  const navigateToCreateRoom = () =>
+    navigation.navigate(Screens.CREATE_ROOM, { group })
 
   return (
     <View style={styles.container}>
       <RoomList
+        group={group}
         roomList={roomList}
         onRefresh={() => loadRoomList(groupID)}
         navigateToRoom={navigateToRoom}

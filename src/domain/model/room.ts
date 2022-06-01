@@ -5,6 +5,7 @@ type Room = {
   title: string
   date: Timestamp
   content: string
+  createdAt: Timestamp
 }
 
 export default Room

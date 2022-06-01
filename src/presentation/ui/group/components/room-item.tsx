@@ -8,12 +8,32 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { Room } from '~/domain/model'
+
 type Props = {
   style?: StyleProp<ViewStyle>
   navigateToRoom: () => void
+  room: Room
 }
 
-const RoomItem: FC<Props> = ({ style, navigateToRoom }) => {
+const MONTHS = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEP',
+  'OCT',
+  'NOV',
+  'DEC',
+]
+
+const RoomItem: FC<Props> = ({ style, navigateToRoom, room }) => {
+  const createdTimestamp = room.createdAt.toDate()
+
   return (
     <TouchableOpacity
       style={[styles.container, style]}
@@ -21,10 +41,12 @@ const RoomItem: FC<Props> = ({ style, navigateToRoom }) => {
       onPress={navigateToRoom}
     >
       <View style={styles.topContainer}>
-        <Text style={styles.title}>Writing Contract Using Interfaces</Text>
+        <Text style={styles.title}>{room.title}</Text>
         <View style={styles.spacer} />
         <View>
-          <Text style={styles.date}>4 APR 2022</Text>
+          <Text style={styles.date}>
+            {createdTimestamp.getDate()} {MONTHS[createdTimestamp.getMonth()]}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
