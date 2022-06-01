@@ -12,6 +12,7 @@ type Props = {
   disabled?: boolean
   style?: StyleProp<ViewStyle>
   primary?: boolean
+  minWidth?: number
 }
 
 const Button: FC<Props> = (props) => {
@@ -29,12 +30,12 @@ const Button: FC<Props> = (props) => {
   )
 }
 
-const styles = ({ disabled = false, primary = false }: Props) =>
+const styles = ({ disabled = false, primary = false, minWidth }: Props) =>
   StyleSheet.create({
     container: {
       paddingVertical: 20,
       paddingHorizontal: 32,
-      minWidth: 200,
+      minWidth: minWidth !== undefined ? minWidth : 200,
       backgroundColor: primary ? '#b3ddc6' : '#2d2d2d',
       opacity: disabled ? 0.5 : 1,
       alignItems: 'center',

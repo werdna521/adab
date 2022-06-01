@@ -3,8 +3,8 @@ import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 
 import { Group, Room } from '~/domain/model'
 import { getNotchSize } from '~/presentation/notch'
-import { TextButton } from '~/presentation/ui/common/components'
 
+import GroupHeader from './header'
 import RoomItem from './room-item'
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
   roomList: Room[]
   onRefresh: () => void
   isProcessing: boolean
+  handleCopyInviteLink: () => void
 }
 
 const RoomList: FC<Props> = ({
@@ -23,17 +24,17 @@ const RoomList: FC<Props> = ({
   roomList,
   onRefresh,
   isProcessing,
+  handleCopyInviteLink,
 }) => {
   const renderGroupItem: ListRenderItem<Room> = ({ item: room }) => (
     <RoomItem room={room} navigateToRoom={() => navigateToRoom(room.uid)} />
   )
   const renderHeader = () => (
-    <>
-      <Text style={styles.header}>{group.name}</Text>
-      <TextButton style={styles.seeMembers} onPress={navigateToMember}>
-        See members{'  '}&gt;
-      </TextButton>
-    </>
+    <GroupHeader
+      navigateToMember={navigateToMember}
+      group={group}
+      handleCopyInviteLink={handleCopyInviteLink}
+    />
   )
   const renderSeparator = () => <View style={styles.separator} />
   const renderEmpty = () => <Text style={styles.empty}>No group yet.</Text>
@@ -60,16 +61,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: getNotchSize() + 20,
     paddingHorizontal: 20,
-  },
-  header: {
-    fontSize: 24,
-    color: '#1d2d48',
-    fontWeight: '600',
-  },
-  seeMembers: {
-    paddingRight: 0,
-    alignSelf: 'flex-end',
-    marginBottom: 24,
   },
   separator: {
     marginTop: 12,

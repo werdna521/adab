@@ -33,9 +33,12 @@ export const useGroupViewModel = (params: Params) => {
     [setStatus, getRoomListUseCase],
   )
 
+  const handleCopyInviteLink = () => {}
+
   return {
     isProcessing,
     loadRoomList,
     roomList,
+    handleCopyInviteLink,
   }
 }

@@ -20,9 +20,10 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
 }) => {
   const { group } = route.params
   const { uid: groupID, members } = group
-  const { roomList, isProcessing, loadRoomList } = useGroupViewModel({
-    getRoomListUseCase,
-  })
+  const { roomList, isProcessing, loadRoomList, handleCopyInviteLink } =
+    useGroupViewModel({
+      getRoomListUseCase,
+    })
 
   useFocusEffect(
     useCallback(() => {
@@ -46,6 +47,7 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
         navigateToRoom={navigateToRoom}
         navigateToMember={navigateToMember}
         isProcessing={isProcessing}
+        handleCopyInviteLink={handleCopyInviteLink}
       />
       <CreateFAB navigateToCreate={navigateToCreateRoom} />
     </View>

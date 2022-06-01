@@ -23,6 +23,7 @@ import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { COLORS } from '~/presentation/colors'
+import { useDeepLink } from '~/presentation/linking/use-deep-link'
 import AppNavigation, { UseCases } from '~/presentation/navigation'
 
 const firebase = new Firebase()
@@ -71,6 +72,8 @@ const useCases: UseCases = {
 }
 
 const App: FC = () => {
+  useDeepLink()
+
   return (
     <>
       <StatusBar

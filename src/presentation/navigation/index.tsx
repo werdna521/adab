@@ -19,15 +19,16 @@ import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { CreateGroupScreen } from '~/presentation/ui/create-group'
+import { CreateRoomScreen } from '~/presentation/ui/create-room'
 import { GroupScreen } from '~/presentation/ui/group'
 import { HomeScreen } from '~/presentation/ui/home'
 import { LoginScreen } from '~/presentation/ui/login'
+import { MemberScreen } from '~/presentation/ui/member'
 import { RegisterScreen } from '~/presentation/ui/register'
+import { RoomScreen } from '~/presentation/ui/room'
 
 import { COLORS } from '../colors'
-import { CreateRoomScreen } from '../ui/create-room'
-import { MemberScreen } from '../ui/member'
-import { RoomScreen } from '../ui/room'
+import { JoinScreen } from '../ui/join'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
@@ -42,6 +43,7 @@ export enum Screens {
   ROOM = 'Room',
   MEMBER = 'Member',
   CREATE_ROOM = 'Create Room',
+  JOIN = 'Join',
 }
 
 export type UseCases = {
@@ -80,6 +82,7 @@ type RootStackParamList = {
   [Screens.CREATE_ROOM]: {
     group: Group
   }
+  [Screens.JOIN]: undefined
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -180,6 +183,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   {...props}
                 />
               )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.JOIN}>
+              {(props: any) => <JoinScreen user={user} {...props} />}
             </Stack.Screen>
           </>
         )}
