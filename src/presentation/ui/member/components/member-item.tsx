@@ -13,6 +13,7 @@ type Props = {
   canRemoveMember: boolean
   canEditRole: boolean
   handleMemberRoleUpdate: () => Promise<void>
+  handleRemoveMember: () => Promise<void>
 }
 
 const MemberItem: FC<Props> = ({
@@ -22,6 +23,7 @@ const MemberItem: FC<Props> = ({
   canRemoveMember,
   canEditRole,
   handleMemberRoleUpdate,
+  handleRemoveMember,
 }) => {
   return (
     <View style={styles.container}>
@@ -40,6 +42,7 @@ const MemberItem: FC<Props> = ({
         canRemoveMember={canRemoveMember}
         canEditRole={canEditRole}
         handleMemberRoleUpdate={handleMemberRoleUpdate}
+        handleRemoveMember={handleRemoveMember}
       />
     </View>
   )

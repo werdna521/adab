@@ -6,6 +6,7 @@ import { ForbiddenError } from '~/domain/error'
 import { User } from '~/domain/model'
 import { Member, MemberWithAccessProperties, Role } from '~/domain/model/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
+import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 
 type Params = {
@@ -14,6 +15,7 @@ type Params = {
   initialMembers: Record<string, Member>
   formatMemberWithAccessPropertiesUseCase: FormatMemberWithAccessPropertiesUseCase
   updateMemberRoleUseCase: UpdateMemberRoleUseCase
+  removeMemberUseCase: RemoveMemberUseCase
 }
 
 const ROLE_UPDATE_MAP = {
@@ -29,6 +31,7 @@ export const useMemberViewModel = (params: Params) => {
     initialMembers,
     formatMemberWithAccessPropertiesUseCase,
     updateMemberRoleUseCase,
+    removeMemberUseCase,
   } = params
   const [membersWithAccessProperties, setMembersWithAccessProperties] =
     useState<Record<string, MemberWithAccessProperties>>({})
@@ -73,8 +76,32 @@ export const useMemberViewModel = (params: Params) => {
     }))
   }
 
+  const handleRemoveMember = async (memberID: string) => {
+    const { error } = await removeMemberUseCase.invoke({
+      groupID,
+      memberID,
+      user,
+      members,
+    })
+    if (error instanceof ForbiddenError) {
+      Alert.alert('You have no permission to remove member')
+      return
+    }
+    if (error instanceof UnknownError) {
+      Alert.alert('Something went wrong. Please try again.')
+      return
+    }
+
+    setMembers((prevState) => {
+      const newState = { ...prevState }
+      delete newState[memberID]
+      return newState
+    })
+  }
+
   return {
     membersWithAccessProperties,
     handleMemberRoleUpdate,
+    handleRemoveMember,
   }
 }

@@ -15,6 +15,7 @@ type Props = {
   canEditRole: boolean
   canRemoveMember: boolean
   handleMemberRoleUpdate: () => Promise<void>
+  handleRemoveMember: () => Promise<void>
 }
 
 const MemberContextMenu: FC<Props> = ({
@@ -22,6 +23,7 @@ const MemberContextMenu: FC<Props> = ({
   canEditRole,
   canRemoveMember,
   handleMemberRoleUpdate,
+  handleRemoveMember,
 }) => {
   if (isSelf) return null
   if (!canEditRole && !canRemoveMember) return null
@@ -47,7 +49,7 @@ const MemberContextMenu: FC<Props> = ({
           </MenuOption>
         )}
         {canRemoveMember && (
-          <MenuOption style={styles.menuOption}>
+          <MenuOption onSelect={handleRemoveMember} style={styles.menuOption}>
             <ContextAction>Remove Member</ContextAction>
           </MenuOption>
         )}

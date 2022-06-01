@@ -10,6 +10,7 @@ import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-us
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
@@ -55,6 +56,7 @@ export type UseCases = {
   getRoomList: GetRoomListUseCase
   formatMemberWithAccessProperties: FormatMemberWithAccessPropertiesUseCase
   updateMemberRole: UpdateMemberRoleUseCase
+  removeMember: RemoveMemberUseCase
 }
 
 type RootStackParamList = {
@@ -162,6 +164,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     useCases.formatMemberWithAccessProperties
                   }
                   updateMemberRoleUseCase={useCases.updateMemberRole}
+                  removeMemberUseCase={useCases.removeMember}
                   user={user}
                   {...props}
                 />

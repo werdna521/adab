@@ -2,6 +2,7 @@ import { Group, User } from '~/domain/model'
 import { GroupRepository } from '~/domain/repository'
 import {
   CreateGroupDTO,
+  RemoveMemberDTO,
   UpdateMemberRoleDTO,
 } from '~/domain/repository/group-repository'
 
@@ -20,5 +21,9 @@ export default class CoreGroupRepository implements GroupRepository {
 
   async updateMemberRole(dto: UpdateMemberRoleDTO): Promise<void> {
     return await this.remoteDataSource.updateMemberRole(dto)
+  }
+
+  async removeMember(dto: RemoveMemberDTO): Promise<void> {
+    return await this.remoteDataSource.removeMember(dto)
   }
 }

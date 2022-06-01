@@ -10,11 +10,13 @@ import MemberItem from './member-item'
 type Props = {
   membersWithAccessProperties: Record<string, MemberWithAccessProperties>
   handleMemberRoleUpdate: (memberID: string) => Promise<void>
+  handleRemoveMember: (memberID: string) => Promise<void>
 }
 
 const MemberList: FC<Props> = ({
   membersWithAccessProperties,
   handleMemberRoleUpdate,
+  handleRemoveMember,
 }) => {
   const renderGroupItem: ListRenderItem<
     [string, MemberWithAccessProperties]
@@ -27,6 +29,7 @@ const MemberList: FC<Props> = ({
         canEditRole={member.canEditRole}
         canRemoveMember={member.canRemoveMember}
         handleMemberRoleUpdate={() => handleMemberRoleUpdate(id)}
+        handleRemoveMember={() => handleRemoveMember(id)}
       />
     )
   }

@@ -14,6 +14,7 @@ import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-us
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
@@ -41,6 +42,7 @@ const subscribeAuthStateUseCase = new SubscribeAuthStateUseCase(authRepository)
 const createGroupUseCase = new CreateGroupUseCase(groupRepository)
 const getGroupListUseCase = new GetGroupListUseCase(groupRepository)
 const updateMemberRoleUseCase = new UpdateMemberRoleUseCase(groupRepository)
+const removeMemberUseCase = new RemoveMemberUseCase(groupRepository)
 const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
   roomRepository,
 )
@@ -62,6 +64,7 @@ const useCases: UseCases = {
   getRoomList: getRoomListUseCase,
   formatMemberWithAccessProperties: formatMemberWithAccessPropertiesUseCase,
   updateMemberRole: updateMemberRoleUseCase,
+  removeMember: removeMemberUseCase,
 }
 
 const App: FC = () => {
