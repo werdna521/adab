@@ -17,9 +17,16 @@ export type RemoveMemberDTO = {
   memberID: string
 }
 
+export type JoinGroupDTO = {
+  user: User
+  groupID: string
+}
+
 export default interface GroupRepository {
   getGroupList: (user: User) => Promise<Group[]>
   createGroup: (dto: CreateGroupDTO) => Promise<void>
   updateMemberRole: (dto: UpdateMemberRoleDTO) => Promise<void>
   removeMember: (dto: RemoveMemberDTO) => Promise<void>
+  joinGroup: (dto: JoinGroupDTO) => Promise<void>
+  getGroupDetails: (groupID: string) => Promise<Group>
 }

@@ -11,6 +11,7 @@
     "format": "prettier --write '**/*.{ts,tsx,js}'"
   },
   "dependencies": {
+    "@react-native-clipboard/clipboard": "^1.10.0",
     "@react-native-voice/voice": "^3.2.4",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",

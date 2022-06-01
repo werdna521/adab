@@ -13,7 +13,10 @@ import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
+import GetGroupDetailsUseCase from '~/interactor/group/get-group-details-use-case'
+import GetGroupInviteLinkUseCase from '~/interactor/group/get-group-invite-link-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import JoinGroupUseCase from '~/interactor/group/join-group-use-case'
 import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
@@ -23,7 +26,6 @@ import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
 import { COLORS } from '~/presentation/colors'
-import { useDeepLink } from '~/presentation/linking/use-deep-link'
 import AppNavigation, { UseCases } from '~/presentation/navigation'
 
 const firebase = new Firebase()
@@ -45,6 +47,9 @@ const createGroupUseCase = new CreateGroupUseCase(groupRepository)
 const getGroupListUseCase = new GetGroupListUseCase(groupRepository)
 const updateMemberRoleUseCase = new UpdateMemberRoleUseCase(groupRepository)
 const removeMemberUseCase = new RemoveMemberUseCase(groupRepository)
+const getGroupDetailsUseCase = new GetGroupDetailsUseCase(groupRepository)
+const joinGroupUseCase = new JoinGroupUseCase(groupRepository)
+const getGroupInviteLinkUseCase = new GetGroupInviteLinkUseCase()
 const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
   roomRepository,
 )
@@ -69,11 +74,12 @@ const useCases: UseCases = {
   updateMemberRole: updateMemberRoleUseCase,
   removeMember: removeMemberUseCase,
   createRoom: createRoomUseCase,
+  getGroupDetails: getGroupDetailsUseCase,
+  joinGroup: joinGroupUseCase,
+  getGroupInviteLink: getGroupInviteLinkUseCase,
 }
 
 const App: FC = () => {
-  useDeepLink()
-
   return (
     <>
       <StatusBar

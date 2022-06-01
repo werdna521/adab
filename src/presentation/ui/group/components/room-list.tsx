@@ -14,7 +14,7 @@ type Props = {
   roomList: Room[]
   onRefresh: () => void
   isProcessing: boolean
-  handleCopyInviteLink: () => void
+  handleCopyInviteLink: () => Promise<string>
 }
 
 const RoomList: FC<Props> = ({
@@ -37,7 +37,7 @@ const RoomList: FC<Props> = ({
     />
   )
   const renderSeparator = () => <View style={styles.separator} />
-  const renderEmpty = () => <Text style={styles.empty}>No group yet.</Text>
+  const renderEmpty = () => <Text style={styles.empty}>No room yet.</Text>
 
   return (
     <FlatList

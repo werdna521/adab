@@ -26,7 +26,7 @@ export default class GetGroupInviteLinkUseCase implements UseCase<DTO, string> {
       const hasPermission = this.permissionMap[userRole]
       if (!hasPermission) throw new ForbiddenError('No permission to copy link')
 
-      const invitationLink = `adab://join?groupID=${groupID}`
+      const invitationLink = `https://adab.bearcats.dev/join?groupID=${groupID}`
       return {
         data: invitationLink,
         error: null,

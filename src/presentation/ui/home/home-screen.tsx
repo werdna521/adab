@@ -30,7 +30,7 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({
   const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
   const navigateToGroup = (group: Group) =>
     navigation.navigate(Screens.GROUP, {
-      group,
+      groupID: group.uid,
     })
 
   return (

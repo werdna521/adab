@@ -1,5 +1,12 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import React, { FC } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { Group } from '~/domain/model'
@@ -9,7 +16,7 @@ import { TextButton } from '../../common/components'
 type Props = {
   group: Group
   navigateToMember: () => void
-  handleCopyInviteLink: () => void
+  handleCopyInviteLink: () => Promise<string>
 }
 
 const GroupHeader: FC<Props> = ({
@@ -17,6 +24,11 @@ const GroupHeader: FC<Props> = ({
   navigateToMember,
   handleCopyInviteLink,
 }) => {
+  const handleCopy = async () => {
+    const inviteLink = await handleCopyInviteLink()
+    ToastAndroid.show(`Link copied to clipboard!`, ToastAndroid.SHORT)
+    Clipboard.setString(inviteLink)
+  }
   return (
     <>
       <View style={styles.topContainer}>
@@ -24,7 +36,7 @@ const GroupHeader: FC<Props> = ({
         <TouchableOpacity
           style={styles.copyButton}
           activeOpacity={0.7}
-          onPress={handleCopyInviteLink}
+          onPress={handleCopy}
         >
           <Icon name="content-copy" size={20} color="#1d2d48" />
         </TouchableOpacity>

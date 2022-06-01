@@ -3,6 +3,7 @@ import {
   collection,
   deleteField,
   doc,
+  getDoc,
   getDocs,
   query,
   Timestamp,
@@ -16,6 +17,7 @@ import { Group, User } from '~/domain/model'
 import { Role } from '~/domain/model/group'
 import {
   CreateGroupDTO,
+  JoinGroupDTO,
   RemoveMemberDTO,
   UpdateMemberRoleDTO,
 } from '~/domain/repository/group-repository'
@@ -85,6 +87,35 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
         [`members.${memberID}`]: deleteField(),
         updatedAt: currentTimestamp,
       })
+    } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  async joinGroup(dto: JoinGroupDTO): Promise<void> {
+    const { groupID, user } = dto
+    const currentTimestamp = Timestamp.now()
+
+    try {
+      await updateDoc(doc(this.firebase.db, 'group', groupID), {
+        [`members.${user.uid}`]: {
+          name: user.displayName,
+          role: Role.MEMBER,
+        },
+        updatedAt: currentTimestamp,
+      })
+    } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  async getGroupDetails(groupID: string): Promise<Group> {
+    try {
+      const snapshot = await getDoc(doc(this.firebase.db, 'group', groupID))
+      return {
+        uid: snapshot.id,
+        ...snapshot.data(),
+      } as Group
     } catch (error) {
       throw new UnknownError(error)
     }

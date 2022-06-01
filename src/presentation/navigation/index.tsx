@@ -9,7 +9,10 @@ import LoginUseCase from '~/interactor/auth/login-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
+import GetGroupDetailsUseCase from '~/interactor/group/get-group-details-use-case'
+import GetGroupInviteLinkUseCase from '~/interactor/group/get-group-invite-link-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import JoinGroupUseCase from '~/interactor/group/join-group-use-case'
 import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
@@ -61,6 +64,9 @@ export type UseCases = {
   updateMemberRole: UpdateMemberRoleUseCase
   removeMember: RemoveMemberUseCase
   createRoom: CreateRoomUseCase
+  getGroupDetails: GetGroupDetailsUseCase
+  joinGroup: JoinGroupUseCase
+  getGroupInviteLink: GetGroupInviteLinkUseCase
 }
 
 type RootStackParamList = {
@@ -69,7 +75,7 @@ type RootStackParamList = {
   [Screens.HOME]: undefined
   [Screens.CREATE_GROUP]: undefined
   [Screens.GROUP]: {
-    group: Group
+    groupID: string
   }
   [Screens.ROOM]: {
     roomID: string
@@ -82,7 +88,9 @@ type RootStackParamList = {
   [Screens.CREATE_ROOM]: {
     group: Group
   }
-  [Screens.JOIN]: undefined
+  [Screens.JOIN]: {
+    groupID: string
+  }
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -147,6 +155,8 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <GroupScreen
                   getRoomListUseCase={useCases.getRoomList}
+                  getGroupInviteLinkUseCase={useCases.getGroupInviteLink}
+                  getGroupDetailsUseCase={useCases.getGroupDetails}
                   user={user}
                   {...props}
                 />
@@ -185,7 +195,13 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               )}
             </Stack.Screen>
             <Stack.Screen name={Screens.JOIN}>
-              {(props: any) => <JoinScreen user={user} {...props} />}
+              {(props: any) => (
+                <JoinScreen
+                  joinGroupUseCase={useCases.joinGroup}
+                  user={user}
+                  {...props}
+                />
+              )}
             </Stack.Screen>
           </>
         )}
