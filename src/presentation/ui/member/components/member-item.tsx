@@ -12,6 +12,7 @@ type Props = {
   isSelf: boolean
   canRemoveMember: boolean
   canEditRole: boolean
+  handleMemberRoleUpdate: () => Promise<void>
 }
 
 const MemberItem: FC<Props> = ({
@@ -20,6 +21,7 @@ const MemberItem: FC<Props> = ({
   isSelf,
   canRemoveMember,
   canEditRole,
+  handleMemberRoleUpdate,
 }) => {
   return (
     <View style={styles.container}>
@@ -37,6 +39,7 @@ const MemberItem: FC<Props> = ({
         isSelf={isSelf}
         canRemoveMember={canRemoveMember}
         canEditRole={canEditRole}
+        handleMemberRoleUpdate={handleMemberRoleUpdate}
       />
     </View>
   )

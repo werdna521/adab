@@ -2,19 +2,23 @@ import React, { FC } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 import { MenuProvider } from 'react-native-popup-menu'
 
-import { Member, MemberWithAccessProperties } from '~/domain/model/group'
+import { MemberWithAccessProperties } from '~/domain/model/group'
 import { getNotchSize } from '~/presentation/notch'
 
 import MemberItem from './member-item'
 
 type Props = {
   membersWithAccessProperties: Record<string, MemberWithAccessProperties>
+  handleMemberRoleUpdate: (memberID: string) => Promise<void>
 }
 
-const MemberList: FC<Props> = ({ membersWithAccessProperties }) => {
+const MemberList: FC<Props> = ({
+  membersWithAccessProperties,
+  handleMemberRoleUpdate,
+}) => {
   const renderGroupItem: ListRenderItem<
     [string, MemberWithAccessProperties]
-  > = ({ item: [_, member] }) => {
+  > = ({ item: [id, member] }) => {
     return (
       <MemberItem
         name={member.name}
@@ -22,6 +26,7 @@ const MemberList: FC<Props> = ({ membersWithAccessProperties }) => {
         isSelf={member.isSelf}
         canEditRole={member.canEditRole}
         canRemoveMember={member.canRemoveMember}
+        handleMemberRoleUpdate={() => handleMemberRoleUpdate(id)}
       />
     )
   }

@@ -1,6 +1,9 @@
 import { Group, User } from '~/domain/model'
 import { GroupRepository } from '~/domain/repository'
-import { CreateGroupDTO } from '~/domain/repository/group-repository'
+import {
+  CreateGroupDTO,
+  UpdateMemberRoleDTO,
+} from '~/domain/repository/group-repository'
 
 import GroupDataSource from './group-datasource'
 
@@ -13,5 +16,9 @@ export default class CoreGroupRepository implements GroupRepository {
 
   async createGroup(dto: CreateGroupDTO): Promise<void> {
     return await this.remoteDataSource.createGroup(dto)
+  }
+
+  async updateMemberRole(dto: UpdateMemberRoleDTO): Promise<void> {
+    return await this.remoteDataSource.updateMemberRole(dto)
   }
 }

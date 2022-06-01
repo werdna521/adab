@@ -1,9 +1,11 @@
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   query,
   Timestamp,
+  updateDoc,
   where,
 } from 'firebase/firestore'
 
@@ -11,7 +13,10 @@ import { UnknownError } from '~/common/error'
 import GroupDataSource from '~/data/group/group-datasource'
 import { Group, User } from '~/domain/model'
 import { Role } from '~/domain/model/group'
-import { CreateGroupDTO } from '~/domain/repository/group-repository'
+import {
+  CreateGroupDTO,
+  UpdateMemberRoleDTO,
+} from '~/domain/repository/group-repository'
 import Firebase from '~/infrastructure/firebase'
 
 export default class FirebaseGroupDataSource implements GroupDataSource {
@@ -48,6 +53,20 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
           },
         },
         createdAt: currentTimestamp,
+        updatedAt: currentTimestamp,
+      })
+    } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  async updateMemberRole(dto: UpdateMemberRoleDTO): Promise<void> {
+    const { role, memberID, groupID } = dto
+    const currentTimestamp = Timestamp.now()
+
+    try {
+      await updateDoc(doc(this.firebase.db, 'group', groupID), {
+        [`members.${memberID}.role`]: role,
         updatedAt: currentTimestamp,
       })
     } catch (error) {

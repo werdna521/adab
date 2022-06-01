@@ -10,6 +10,7 @@ import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-us
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
+import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
@@ -53,6 +54,7 @@ export type UseCases = {
   publishNewContent: PublishNewContentUseCase
   getRoomList: GetRoomListUseCase
   formatMemberWithAccessProperties: FormatMemberWithAccessPropertiesUseCase
+  updateMemberRole: UpdateMemberRoleUseCase
 }
 
 type RootStackParamList = {
@@ -69,6 +71,7 @@ type RootStackParamList = {
   }
   [Screens.MEMBER]: {
     members: Record<string, Member>
+    groupID: string
   }
   [Screens.CREATE_ROOM]: {
     groupID: string
@@ -158,6 +161,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   formatMemberWithAccessPropertiesUseCase={
                     useCases.formatMemberWithAccessProperties
                   }
+                  updateMemberRoleUseCase={useCases.updateMemberRole}
                   user={user}
                   {...props}
                 />

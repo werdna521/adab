@@ -40,7 +40,9 @@ export const useRoomViewModel = (params: Params) => {
     },
     [publishNewContentUseCase, content, groupID, roomID],
   )
-  const onSpeechError = () => {}
+  const onSpeechError = useCallback(() => {
+    if (isRecordingRef.current) _startRecognizing()
+  }, [])
 
   const _startRecognizing = async () => {
     try {
@@ -69,7 +71,7 @@ export const useRoomViewModel = (params: Params) => {
     return () => {
       Voice.destroy().then(Voice.removeAllListeners)
     }
-  }, [onSpeechResults])
+  }, [onSpeechResults, onSpeechError])
 
   useEffect(() => {
     const unsubscribe = subscribeToRoomStateUseCase.invoke({

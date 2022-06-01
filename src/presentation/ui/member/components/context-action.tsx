@@ -1,12 +1,8 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 const ContextAction: FC = ({ children }) => {
-  return (
-    <TouchableOpacity activeOpacity={0.8}>
-      <Text style={styles.text}>{children}</Text>
-    </TouchableOpacity>
-  )
+  return <Text style={styles.text}>{children}</Text>
 }
 
 const styles = StyleSheet.create({
