@@ -1,15 +1,31 @@
+import { AlreadyInGroupError } from '~/domain/error'
+import { Group, User } from '~/domain/model'
 import { GroupRepository } from '~/domain/repository'
-import { JoinGroupDTO } from '~/domain/repository/group-repository'
 
 import Result from '../result'
 import UseCase from '../use-case'
 
-export default class JoinGroupUseCase implements UseCase<JoinGroupDTO, null> {
+type DTO = {
+  group: Group
+  user: User
+}
+
+export default class JoinGroupUseCase implements UseCase<DTO, null> {
   constructor(private groupRepository: GroupRepository) {}
 
-  async invoke(dto: JoinGroupDTO): Promise<Result<null>> {
+  async invoke(dto: DTO): Promise<Result<null>> {
+    const { user, group } = dto
+
     try {
-      await this.groupRepository.joinGroup(dto)
+      const isUserInGroup = !!group.members[user.uid]
+      if (isUserInGroup) {
+        throw new AlreadyInGroupError()
+      }
+
+      await this.groupRepository.joinGroup({
+        user,
+        groupID: group.uid,
+      })
       return {
         data: null,
         error: null,

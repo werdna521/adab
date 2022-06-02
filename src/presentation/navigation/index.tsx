@@ -198,6 +198,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <JoinScreen
                   joinGroupUseCase={useCases.joinGroup}
+                  getGroupDetailsUseCase={useCases.getGroupDetails}
                   user={user}
                   {...props}
                 />
