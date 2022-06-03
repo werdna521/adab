@@ -1,6 +1,7 @@
 import Voice, { SpeechResultsEvent } from '@react-native-voice/voice'
 import { useKeepAwake } from '@sayem314/react-native-keep-awake'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import { ScrollView } from 'react-native'
 
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
@@ -8,6 +9,7 @@ import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 type Params = {
   subscribeToRoomStateUseCase: SubscribeToRoomStateUseCase
   publishNewContentUseCase: PublishNewContentUseCase
+  scrollViewRef: RefObject<ScrollView>
   roomID: string
   groupID: string
 }
@@ -18,12 +20,19 @@ export const useRoomViewModel = (params: Params) => {
     publishNewContentUseCase,
     roomID,
     groupID,
+    scrollViewRef,
   } = params
 
   const [isRecording, setIsRecording] = useState(false)
   const [content, setContent] = useState('')
   const isRecordingRef = useRef(isRecording)
   useKeepAwake()
+
+  useEffect(() => {
+    scrollViewRef.current!.scrollToEnd({
+      animated: true,
+    })
+  }, [scrollViewRef, content])
 
   const onSpeechResults = useCallback(
     async (e: SpeechResultsEvent) => {

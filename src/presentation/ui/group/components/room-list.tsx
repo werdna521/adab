@@ -9,7 +9,7 @@ import RoomItem from './room-item'
 
 type Props = {
   group: Group
-  navigateToRoom: (roomUID: string) => void
+  navigateToRoom: (roomUID: string, roomTitle: string) => void
   navigateToMember: () => void
   roomList: Room[]
   onRefresh: () => void
@@ -27,7 +27,10 @@ const RoomList: FC<Props> = ({
   handleCopyInviteLink,
 }) => {
   const renderGroupItem: ListRenderItem<Room> = ({ item: room }) => (
-    <RoomItem room={room} navigateToRoom={() => navigateToRoom(room.uid)} />
+    <RoomItem
+      room={room}
+      navigateToRoom={() => navigateToRoom(room.uid, room.title)}
+    />
   )
   const renderHeader = () => (
     <GroupHeader

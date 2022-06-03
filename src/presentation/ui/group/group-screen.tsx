@@ -55,8 +55,8 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
 
   const navigateToMember = () =>
     navigation.navigate(Screens.MEMBER, { members, groupID })
-  const navigateToRoom = (roomID: string) =>
-    navigation.navigate(Screens.ROOM, { groupID, roomID })
+  const navigateToRoom = (roomID: string, roomTitle: string) =>
+    navigation.navigate(Screens.ROOM, { groupID, roomID, roomTitle })
   const navigateToCreateRoom = () =>
     navigation.navigate(Screens.CREATE_ROOM, { group })
 

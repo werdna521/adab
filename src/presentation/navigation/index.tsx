@@ -79,6 +79,7 @@ type RootStackParamList = {
   }
   [Screens.ROOM]: {
     roomID: string
+    roomTitle: string
     groupID: string
   }
   [Screens.MEMBER]: {
