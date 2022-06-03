@@ -1,3 +1,4 @@
+import { CurrentRenderContext } from '@react-navigation/native'
 import {
   doc,
   onSnapshot,
@@ -13,6 +14,8 @@ import { RoomDataSource } from '~/data/room'
 import { Room } from '~/domain/model'
 import {
   CreateRoomDTO,
+  EditTranscriptDTO,
+  EndMeetingDTO,
   GetRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
@@ -77,7 +80,37 @@ export default class FirebaseRoomDataSource implements RoomDataSource {
       await addDoc(collection(this.firebase.db, 'group', groupID, 'room'), {
         content: '',
         title: roomTitle,
+        isEnded: false,
         createdAt: currentTimestamp,
+        updatedAt: currentTimestamp,
+      })
+    } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  async endMeeting(dto: EndMeetingDTO): Promise<void> {
+    const { roomID, groupID } = dto
+    const currentTimestamp = Timestamp.now()
+
+    try {
+      await updateDoc(doc(this.firebase.db, 'group', groupID, 'room', roomID), {
+        isEnded: true,
+        updatedAt: currentTimestamp,
+        endedAt: currentTimestamp,
+      })
+    } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  async editTranscript(dto: EditTranscriptDTO): Promise<void> {
+    const { roomID, groupID, content } = dto
+    const currentTimestamp = Timestamp.now()
+
+    try {
+      await updateDoc(doc(this.firebase.db, 'group', groupID, 'room', roomID), {
+        content,
         updatedAt: currentTimestamp,
       })
     } catch (error) {

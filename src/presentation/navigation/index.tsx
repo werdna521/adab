@@ -2,7 +2,7 @@ import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 
-import { Group, User } from '~/domain/model'
+import { Group, Room, User } from '~/domain/model'
 import { Member } from '~/domain/model/group'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
@@ -17,6 +17,9 @@ import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import CreateRoomUseCase from '~/interactor/room/create-room-use-case'
+import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
+import EndMeetingUseCase from '~/interactor/room/end-meeting-use-case'
+import GetEndMeetingPermissionUseCase from '~/interactor/room/get-end-meeting-permission-use-case'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
@@ -31,6 +34,7 @@ import { RegisterScreen } from '~/presentation/ui/register'
 import { RoomScreen } from '~/presentation/ui/room'
 
 import { COLORS } from '../colors'
+import { EditTranscriptScreen } from '../ui/edit-transcript'
 import { JoinScreen } from '../ui/join'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
@@ -47,6 +51,7 @@ export enum Screens {
   MEMBER = 'Member',
   CREATE_ROOM = 'Create Room',
   JOIN = 'Join',
+  EDIT_TRANSCRIPT = 'Edit Transcript',
 }
 
 export type UseCases = {
@@ -67,6 +72,9 @@ export type UseCases = {
   getGroupDetails: GetGroupDetailsUseCase
   joinGroup: JoinGroupUseCase
   getGroupInviteLink: GetGroupInviteLinkUseCase
+  endMeeting: EndMeetingUseCase
+  getEndMeetingPermission: GetEndMeetingPermissionUseCase
+  editTranscript: EditTranscriptUseCase
 }
 
 type RootStackParamList = {
@@ -78,9 +86,8 @@ type RootStackParamList = {
     groupID: string
   }
   [Screens.ROOM]: {
-    roomID: string
-    roomTitle: string
-    groupID: string
+    room: Room
+    group: Group
   }
   [Screens.MEMBER]: {
     members: Record<string, Member>
@@ -91,6 +98,10 @@ type RootStackParamList = {
   }
   [Screens.JOIN]: {
     groupID: string
+  }
+  [Screens.EDIT_TRANSCRIPT]: {
+    group: Group
+    room: Room
   }
 }
 
@@ -168,6 +179,10 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                 <RoomScreen
                   subscribeToRoomStateUseCase={useCases.subscribeToRoomState}
                   publishNewContentUseCase={useCases.publishNewContent}
+                  endMeetingUseCase={useCases.endMeeting}
+                  getEndMeetingPermissionUseCase={
+                    useCases.getEndMeetingPermission
+                  }
                   user={user}
                   {...props}
                 />
@@ -200,6 +215,15 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                 <JoinScreen
                   joinGroupUseCase={useCases.joinGroup}
                   getGroupDetailsUseCase={useCases.getGroupDetails}
+                  user={user}
+                  {...props}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.EDIT_TRANSCRIPT}>
+              {(props: any) => (
+                <EditTranscriptScreen
+                  editTranscriptUseCase={useCases.editTranscript}
                   user={user}
                   {...props}
                 />

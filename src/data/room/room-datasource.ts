@@ -1,6 +1,8 @@
 import { Room } from '~/domain/model'
 import {
   CreateRoomDTO,
+  EditTranscriptDTO,
+  EndMeetingDTO,
   GetRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
@@ -16,4 +18,6 @@ export default interface RoomDataSource {
   publishNewContent: (dto: PublishNewContentDTO) => Promise<void>
   getRoomList: (dto: GetRoomListDTO) => Promise<Room[]>
   createRoom: (dto: CreateRoomDTO) => Promise<void>
+  endMeeting: (dto: EndMeetingDTO) => Promise<void>
+  editTranscript: (dto: EditTranscriptDTO) => Promise<void>
 }

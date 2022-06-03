@@ -18,6 +18,17 @@ export type GetRoomListDTO = {
   groupID: string
 }
 
+export type EndMeetingDTO = {
+  groupID: string
+  roomID: string
+}
+
+export type EditTranscriptDTO = {
+  content: string
+  groupID: string
+  roomID: string
+}
+
 export default interface RoomRepository {
   subscribeToRoom: (
     groupID: string,
@@ -27,4 +38,6 @@ export default interface RoomRepository {
   publishNewContent: (dto: PublishNewContentDTO) => Promise<void>
   getRoomList: (dto: GetRoomListDTO) => Promise<Room[]>
   createRoom: (dto: CreateRoomDTO) => Promise<void>
+  endMeeting: (dto: EndMeetingDTO) => Promise<void>
+  editTranscript: (dto: EditTranscriptDTO) => Promise<void>
 }

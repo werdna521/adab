@@ -2,6 +2,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import { Room } from '~/domain/model'
 import GetGroupDetailsUseCase from '~/interactor/group/get-group-details-use-case'
 import GetGroupInviteLinkUseCase from '~/interactor/group/get-group-invite-link-use-case'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
@@ -55,8 +56,8 @@ const GroupScreen: Screen<Props, Screens.GROUP> = ({
 
   const navigateToMember = () =>
     navigation.navigate(Screens.MEMBER, { members, groupID })
-  const navigateToRoom = (roomID: string, roomTitle: string) =>
-    navigation.navigate(Screens.ROOM, { groupID, roomID, roomTitle })
+  const navigateToRoom = (room: Room) =>
+    navigation.navigate(Screens.ROOM, { room, group })
   const navigateToCreateRoom = () =>
     navigation.navigate(Screens.CREATE_ROOM, { group })
 
