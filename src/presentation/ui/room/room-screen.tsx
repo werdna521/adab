@@ -6,7 +6,7 @@ import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
 
-import { Button } from '../common/components'
+import { Button, TextButton } from '../common/components'
 import { MicOff, MicOn } from './components'
 import { useRoomViewModel } from './room-view-model'
 
@@ -36,14 +36,19 @@ const RoomScreen: Screen<Props, Screens.ROOM> = ({
       <ScrollView ref={scrollViewRef} style={styles.scrollView}>
         <Text style={styles.content}>{content}</Text>
       </ScrollView>
-      <Button
-        style={styles.button}
-        onPress={handleMicToggle}
-        minWidth={50}
-        primary
-      >
-        {isRecording ? <MicOn /> : <MicOff />}
-      </Button>
+      <View style={styles.buttonContainer}>
+        <TextButton
+          color="#F32013"
+          style={styles.endButton}
+          textStyle={styles.endButtonText}
+          onPress={() => alert('hey')}
+        >
+          End Meeting
+        </TextButton>
+        <Button onPress={handleMicToggle} minWidth={50} primary>
+          {isRecording ? <MicOn /> : <MicOff />}
+        </Button>
+      </View>
     </View>
   )
 }
@@ -72,9 +77,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
   },
-  button: {
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 24,
     paddingHorizontal: 20,
+  },
+  endButton: {
+    marginRight: 32,
+  },
+  endButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 })
 
