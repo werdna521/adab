@@ -1,7 +1,7 @@
 import Voice, { SpeechResultsEvent } from '@react-native-voice/voice'
 import { useKeepAwake } from '@sayem314/react-native-keep-awake'
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, ToastAndroid } from 'react-native'
 
 import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
@@ -64,11 +64,13 @@ export const useRoomViewModel = (params: Params) => {
     if (isRecording) {
       setIsRecording(false)
       isRecordingRef.current = false
+      ToastAndroid.show('You are now muted', ToastAndroid.SHORT)
       return
     }
 
     setIsRecording(true)
     isRecordingRef.current = true
+    ToastAndroid.show("You're unmuted. Start talking", ToastAndroid.SHORT)
     _startRecognizing()
   }
 

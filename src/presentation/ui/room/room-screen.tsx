@@ -36,7 +36,12 @@ const RoomScreen: Screen<Props, Screens.ROOM> = ({
       <ScrollView ref={scrollViewRef} style={styles.scrollView}>
         <Text style={styles.content}>{content}</Text>
       </ScrollView>
-      <Button style={styles.button} onPress={handleMicToggle} primary>
+      <Button
+        style={styles.button}
+        onPress={handleMicToggle}
+        minWidth={50}
+        primary
+      >
         {isRecording ? <MicOn /> : <MicOff />}
       </Button>
     </View>
