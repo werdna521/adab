@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
   updateProfile,
   UserCredential,
 } from 'firebase/auth'
@@ -58,6 +59,14 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
   public async signUp(registerDTO: RegisterDTO): Promise<User> {
     const userCredential = await this.createUser(registerDTO)
     return await this.storeUser(userCredential)
+  }
+
+  public async logout(): Promise<void> {
+    try {
+      await signOut(this.firebase.auth)
+    } catch (error) {
+      throw new UnknownError(error)
+    }
   }
 
   public subscribeToAuthState(callback: AuthStateCallback): Unsubscribe {

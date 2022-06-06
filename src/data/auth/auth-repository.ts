@@ -20,6 +20,10 @@ export default class CoreAuthRepository implements AuthRepository {
     return await this.remoteDataSource.signUp(registerDTO)
   }
 
+  async logout(): Promise<void> {
+    return await this.remoteDataSource.logout()
+  }
+
   subscribeToAuthState(callback: AuthStateCallback): Unsubscribe {
     return this.remoteDataSource.subscribeToAuthState(callback)
   }

@@ -9,5 +9,6 @@ import type {
 export default interface AuthDataSource {
   login: (loginDTO: LoginDTO) => Promise<User>
   signUp: (registerDTO: RegisterDTO) => Promise<User>
+  logout: () => Promise<void>
   subscribeToAuthState: (callback: AuthStateCallback) => Unsubscribe
 }

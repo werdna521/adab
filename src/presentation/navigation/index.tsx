@@ -6,6 +6,7 @@ import { Group, Room, User } from '~/domain/model'
 import { Member } from '~/domain/model/group'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
+import LogOutUseCase from '~/interactor/auth/logout-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
@@ -75,6 +76,7 @@ export type UseCases = {
   endMeeting: EndMeetingUseCase
   getEndMeetingPermission: GetEndMeetingPermissionUseCase
   editTranscript: EditTranscriptUseCase
+  logOut: LogOutUseCase
 }
 
 type RootStackParamList = {
@@ -149,6 +151,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <HomeScreen
                   getGroupListUseCase={useCases.getGroupList}
+                  logOutUseCase={useCases.logOut}
                   user={user}
                   {...props}
                 />

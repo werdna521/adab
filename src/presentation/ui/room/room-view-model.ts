@@ -77,7 +77,7 @@ export const useRoomViewModel = (params: Params) => {
         await publishNewContentUseCase.invoke({
           roomID,
           groupID,
-          newContent: `${content} ${newValue}`,
+          newContent: content + '\n' + newValue,
         })
       }
 

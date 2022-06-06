@@ -26,5 +26,6 @@ export type Unsubscribe = () => void
 export default interface AuthRepository {
   login: (loginDTO: LoginDTO) => Promise<User>
   signUp: (registerDTO: RegisterDTO) => Promise<User>
+  logout: () => Promise<void>
   subscribeToAuthState: (callback: AuthStateCallback) => Unsubscribe
 }

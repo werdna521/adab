@@ -10,6 +10,7 @@ import FirebaseRoomDataSource from '~/infrastructure/datasource/room/firebase-ro
 import Firebase from '~/infrastructure/firebase'
 import { RegisterUseCase } from '~/interactor/auth'
 import LoginUseCase from '~/interactor/auth/login-use-case'
+import LogOutUseCase from '~/interactor/auth/logout-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
 import { CreateGroupUseCase } from '~/interactor/group'
 import FormatMemberWithAccessPropertiesUseCase from '~/interactor/group/format-member-with-access-properties-use-case'
@@ -44,6 +45,7 @@ const roomRepository = new CoreRoomRepository(firebaseRoomDataStore)
 const registerUseCase = new RegisterUseCase(authRepository)
 const validateRegisterDTOUseCase = new ValidateRegisterDTOUseCase()
 const loginUseCase = new LoginUseCase(authRepository)
+const logOutUseCase = new LogOutUseCase(authRepository)
 const validateLoginDTOUseCase = new ValidateLoginDTOUseCase()
 const subscribeAuthStateUseCase = new SubscribeAuthStateUseCase(authRepository)
 const createGroupUseCase = new CreateGroupUseCase(groupRepository)
@@ -86,6 +88,7 @@ const useCases: UseCases = {
   endMeeting: endMeetingUseCase,
   getEndMeetingPermission: getEndMeetingPermissionUseCase,
   editTranscript: editTranscriptUseCase,
+  logOut: logOutUseCase,
 }
 
 const App: FC = () => {

@@ -7,7 +7,7 @@ type Props = {
 
 const Avatar: FC<Props> = ({ name }) => {
   const initials = name
-    .split(' ')
+    ?.split(' ')
     .map((char) => char.charAt(0)?.toUpperCase())
     .slice(0, 2)
     .join('')
