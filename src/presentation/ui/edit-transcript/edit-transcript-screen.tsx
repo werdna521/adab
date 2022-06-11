@@ -89,7 +89,7 @@ const EditTranscriptScreen: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    paddingTop: getNotchSize() + 20,
+    paddingTop: getNotchSize() + 16,
     backgroundColor: '#2c2c2c',
   },
   title: {

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   contentContainer: {
-    paddingTop: getNotchSize() + 20,
+    paddingTop: getNotchSize() + 16,
     paddingHorizontal: 20,
   },
   prompt: {

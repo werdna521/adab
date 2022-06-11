@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 
 import { UnknownError } from '~/common/error'
 import { Group, User } from '~/domain/model'
-import LogOutUseCase from '~/interactor/auth/logout-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 
 import { Status, useStatus } from '../common/hooks'
@@ -10,11 +9,10 @@ import { Status, useStatus } from '../common/hooks'
 type Params = {
   user: User
   getGroupListUseCase: GetGroupListUseCase
-  logOutUseCase: LogOutUseCase
 }
 
 export const useHomeViewModel = (params: Params) => {
-  const { user, getGroupListUseCase, logOutUseCase } = params
+  const { user, getGroupListUseCase } = params
 
   const [globalError, setGlobalError] = useState('')
   const [groupList, setGroupList] = useState<Group[]>([])
@@ -34,18 +32,5 @@ export const useHomeViewModel = (params: Params) => {
     setGroupList(data || [])
   }, [getGroupListUseCase, setStatus, user])
 
-  const handleLogOut = async () => {
-    setStatus(Status.PROCESSING)
-
-    const { error } = await logOutUseCase.invoke()
-    if (error instanceof UnknownError) {
-      setStatus(Status.ERROR)
-      setGlobalError('Cannot logout')
-      return
-    }
-
-    setStatus(Status.SUCCESS)
-  }
-
-  return { loadGroupList, isProcessing, globalError, groupList, handleLogOut }
+  return { loadGroupList, isProcessing, globalError, groupList }
 }

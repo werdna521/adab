@@ -37,6 +37,7 @@ import { RoomScreen } from '~/presentation/ui/room'
 import { COLORS } from '../colors'
 import { EditTranscriptScreen } from '../ui/edit-transcript'
 import { JoinScreen } from '../ui/join'
+import { SettingsScreen } from '../ui/settings'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
@@ -53,6 +54,7 @@ export enum Screens {
   CREATE_ROOM = 'Create Room',
   JOIN = 'Join',
   EDIT_TRANSCRIPT = 'Edit Transcript',
+  SETTINGS = 'Settings',
 }
 
 export type UseCases = {
@@ -105,6 +107,7 @@ type RootStackParamList = {
     group: Group
     room: Room
   }
+  [Screens.SETTINGS]: undefined
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -151,7 +154,6 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <HomeScreen
                   getGroupListUseCase={useCases.getGroupList}
-                  logOutUseCase={useCases.logOut}
                   user={user}
                   {...props}
                 />
@@ -227,6 +229,15 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <EditTranscriptScreen
                   editTranscriptUseCase={useCases.editTranscript}
+                  user={user}
+                  {...props}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.SETTINGS}>
+              {(props: any) => (
+                <SettingsScreen
+                  logOutUseCase={useCases.logOut}
                   user={user}
                   {...props}
                 />

@@ -52,7 +52,7 @@ const MemberList: FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: getNotchSize() + 20,
+    paddingTop: getNotchSize() + 16,
     paddingHorizontal: 20,
   },
   footer: {

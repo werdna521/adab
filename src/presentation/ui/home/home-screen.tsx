@@ -2,31 +2,26 @@ import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { Group } from '~/domain/model'
-import LogOutUseCase from '~/interactor/auth/logout-use-case'
 import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
 
-import { Button, CreateFAB } from '../common/components'
+import { CreateFAB } from '../common/components'
 import { GroupList } from './components'
 import { useHomeViewModel } from './home-view-model'
 
 type Props = {
   getGroupListUseCase: GetGroupListUseCase
-  logOutUseCase: LogOutUseCase
 }
 
 const HomeScreen: Screen<Props, Screens.HOME> = ({
   user,
   navigation,
   getGroupListUseCase,
-  logOutUseCase,
 }) => {
-  const { loadGroupList, handleLogOut, groupList, isProcessing } =
-    useHomeViewModel({
-      getGroupListUseCase,
-      logOutUseCase,
-      user: user!,
-    })
+  const { loadGroupList, groupList, isProcessing } = useHomeViewModel({
+    getGroupListUseCase,
+    user: user!,
+  })
 
   useEffect(() => {
     loadGroupList()
@@ -37,6 +32,7 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({
     navigation.navigate(Screens.GROUP, {
       groupID: group.uid,
     })
+  const navigateToSettings = () => navigation.navigate(Screens.SETTINGS)
 
   return (
     <View style={styles.container}>
@@ -45,9 +41,9 @@ const HomeScreen: Screen<Props, Screens.HOME> = ({
         displayName={user?.displayName || 'User'}
         onRefresh={loadGroupList}
         navigateToGroup={navigateToGroup}
+        navigateToSettings={navigateToSettings}
         isRefreshing={isProcessing}
       />
-      <Button onPress={handleLogOut}>Log out</Button>
       <CreateFAB navigateToCreate={navigateToCreateGroup} />
     </View>
   )
