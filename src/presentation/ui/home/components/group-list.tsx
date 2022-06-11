@@ -1,5 +1,13 @@
 import React, { FC } from 'react'
-import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
+import {
+  DefaultSectionT,
+  SectionList,
+  SectionListData,
+  SectionListRenderItem,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 
 import { Group } from '~/domain/model'
 import { getNotchSize } from '~/presentation/notch'
@@ -8,7 +16,7 @@ import Greeting from './greeting'
 import GroupItem from './group-item'
 
 type Props = {
-  groupList: Group[]
+  groupList: SectionListData<Group, DefaultSectionT>[]
   displayName: string
   onRefresh: () => void
   navigateToGroup: (group: Group) => void
@@ -24,9 +32,12 @@ const GroupList: FC<Props> = ({
   navigateToSettings,
   isRefreshing,
 }) => {
-  const renderGroupItem: ListRenderItem<Group> = ({ item: group }) => {
+  const renderGroupItem: SectionListRenderItem<Group> = ({ item: group }) => {
     const handleNavigateToGroup = () => navigateToGroup(group)
     return <GroupItem navigateToGroup={handleNavigateToGroup} group={group} />
+  }
+  const renderGroupLabel = ({ section: { title } }: any) => {
+    return <Text style={styles.label}>{title}</Text>
   }
   const renderHeader = () => (
     <Greeting
@@ -35,14 +46,17 @@ const GroupList: FC<Props> = ({
     />
   )
   const renderSeparator = () => <View style={styles.separator} />
+  const renderSectionSeparator = () => <View style={styles.sectionSeparator} />
   const renderEmpty = () => <Text style={styles.empty}>No group yet.</Text>
 
   return (
-    <FlatList
+    <SectionList
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
-      data={groupList}
+      sections={groupList}
       renderItem={renderGroupItem}
+      renderSectionHeader={renderGroupLabel}
+      renderSectionFooter={renderSectionSeparator}
       keyExtractor={(group) => `group-item-${group.uid}`}
       onRefresh={onRefresh}
       refreshing={isRefreshing}
@@ -63,12 +77,22 @@ const styles = StyleSheet.create({
   separator: {
     marginTop: 12,
   },
+  sectionSeparator: {
+    marginTop: 24,
+  },
   footer: {
     height: 120,
   },
   empty: {
     fontSize: 16,
     color: '#1d2d48',
+  },
+  label: {
+    color: '#a4a4a4',
+    fontWeight: '600',
+    fontSize: 14,
+    marginBottom: 8,
+    marginLeft: 8,
   },
 })
 

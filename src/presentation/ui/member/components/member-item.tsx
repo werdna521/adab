@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   role: {
     fontSize: 14,
-    color: '#979053',
+    color: '#a4a4a4',
     fontWeight: '600',
   },
 })

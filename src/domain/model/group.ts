@@ -18,6 +18,7 @@ export type MemberWithAccessProperties = Member & AccessProperties
 type Group = {
   uid: string
   name: string
+  label?: string
   members: Record<UserUID, Member>
 }
 

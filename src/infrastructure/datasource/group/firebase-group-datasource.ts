@@ -44,11 +44,12 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
   }
 
   async createGroup(dto: CreateGroupDTO): Promise<void> {
-    const { user, groupName } = dto
+    const { user, groupName, label } = dto
     const currentTimestamp = Timestamp.now()
 
     try {
       await addDoc(collection(this.firebase.db, 'group'), {
+        label,
         name: groupName,
         members: {
           [user.uid]: {

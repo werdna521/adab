@@ -15,7 +15,9 @@ export const useHomeViewModel = (params: Params) => {
   const { user, getGroupListUseCase } = params
 
   const [globalError, setGlobalError] = useState('')
-  const [groupList, setGroupList] = useState<Group[]>([])
+  const [groupList, setGroupList] = useState<
+    { title: string; data: Group[] }[]
+  >([])
   const { setStatus, isProcessing } = useStatus()
 
   const loadGroupList = useCallback(async () => {
@@ -29,7 +31,24 @@ export const useHomeViewModel = (params: Params) => {
     }
 
     setStatus(Status.SUCCESS)
-    setGroupList(data || [])
+
+    const groupListSectionMap = data!.reduce(
+      (acc: Record<string, Group[]>, curr: Group) => {
+        const label = curr.label || 'No Label'
+        const previousSection = acc[label] || []
+        return {
+          ...acc,
+          [label]: [...previousSection, curr],
+        }
+      },
+      {},
+    )
+    setGroupList(
+      Object.entries(groupListSectionMap).map(([label, group]) => ({
+        title: label,
+        data: group,
+      })),
+    )
   }, [getGroupListUseCase, setStatus, user])
 
   return { loadGroupList, isProcessing, globalError, groupList }

@@ -17,10 +17,11 @@ export const useCreateGroupViewModel = (params: Params) => {
   const [globalError, setGlobalError] = useState('')
   const { setStatus, isProcessing } = useStatus()
   const {
-    inputData: { groupName },
+    inputData: { groupName, label },
     handleInputTextChange,
   } = useInput({
     groupName: '',
+    label: '',
   })
 
   const handleCreateGroup = async () => {
@@ -28,6 +29,7 @@ export const useCreateGroupViewModel = (params: Params) => {
 
     const { error } = await createGroupUseCase.invoke({
       groupName,
+      label,
       user,
     })
     if (error instanceof UnknownError) {

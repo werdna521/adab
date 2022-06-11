@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { CreateGroupUseCase } from '~/interactor/group'
 import { Screen, Screens } from '~/presentation/navigation'
@@ -38,19 +38,35 @@ const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      <Image
-        style={styles.illustration}
-        source={require('~/assets/illustration/balloon.png')}
-      />
-      <Text style={styles.prompt}>What do you want to name your group?</Text>
-      <InputGroup
-        style={styles.input}
-        onChangeText={handleInputTextChange('groupName')}
-        error={globalError}
-      />
-      <Button style={styles.cta} onPress={handleClick} disabled={isProcessing}>
-        Continue
-      </Button>
+      <Text style={styles.title}>Create Group</Text>
+      <Text style={styles.description}>
+        A Group is like a folder where your rooms/sessions live. Only invited
+        members will have access to the Group. You can also add an optional
+        label to group multiple Groups together for easy access.
+      </Text>
+      <View style={styles.form}>
+        <InputGroup
+          style={styles.input}
+          label="Group Name"
+          onChangeText={handleInputTextChange('groupName')}
+          error={globalError}
+        />
+        <InputGroup
+          style={styles.input}
+          label="Label (optional)"
+          onChangeText={handleInputTextChange('label')}
+          error={globalError}
+        />
+      </View>
+      <View style={styles.ctaContainer}>
+        <Button
+          style={styles.cta}
+          onPress={handleClick}
+          disabled={isProcessing}
+        >
+          Continue
+        </Button>
+      </View>
     </ScrollView>
   )
 }
@@ -62,26 +78,30 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: getNotchSize() + 16,
     paddingHorizontal: 20,
+    minHeight: '100%',
   },
-  prompt: {
-    marginTop: 56,
+  title: {
     fontSize: 24,
     color: '#1d2d48',
     fontWeight: '600',
-    textAlign: 'center',
+  },
+  description: {
+    fontSize: 14,
+    color: '#a4a4a4',
+    marginTop: 4,
+  },
+  form: {
+    marginTop: 24,
   },
   input: {
-    marginTop: 8,
+    marginTop: 12,
   },
-  illustration: {
-    marginTop: 32,
-    width: 100,
-    height: undefined,
-    aspectRatio: 8 / 19,
-    alignSelf: 'center',
+  ctaContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
   },
   cta: {
-    marginTop: 48,
+    marginTop: 144,
     marginBottom: 32,
   },
 })
