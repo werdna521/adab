@@ -3,6 +3,7 @@ import { Role } from '../model/group'
 
 export type CreateGroupDTO = {
   groupName: string
+  label: string
   user: User
 }
 
