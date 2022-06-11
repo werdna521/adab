@@ -11,6 +11,7 @@ export type PublishNewContentDTO = {
 
 export type CreateRoomDTO = {
   groupID: string
+  timestamp: Date
   roomTitle: string
 }
 

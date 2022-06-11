@@ -1,5 +1,12 @@
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text } from 'react-native'
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 
 import { User } from '~/domain/model'
 import CreateRoomUseCase from '~/interactor/room/create-room-use-case'
@@ -20,8 +27,14 @@ const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
   createRoomUseCase,
 }) => {
   const { group } = route.params
-  const { globalError, isProcessing, handleCreateRoom, handleInputTextChange } =
-    useCreateRoomViewModel({ createRoomUseCase, groupID: group.uid })
+  const {
+    globalError,
+    isProcessing,
+    handleCreateRoom,
+    handleInputTextChange,
+    handleTimePickerOpen,
+    timestamp,
+  } = useCreateRoomViewModel({ createRoomUseCase, groupID: group.uid })
 
   const navigateToRoom = () => navigation.pop()
   const handleClick = async () => {
@@ -34,19 +47,38 @@ const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
-      <Image
-        style={styles.illustration}
-        source={require('~/assets/illustration/balloon.png')}
-      />
-      <Text style={styles.prompt}>What's your room name?</Text>
-      <InputGroup
-        style={styles.input}
-        onChangeText={handleInputTextChange('title')}
-        error={globalError}
-      />
-      <Button style={styles.cta} onPress={handleClick} disabled={isProcessing}>
-        Continue
-      </Button>
+      <Text style={styles.title}>Create Room</Text>
+      <Text style={styles.description}>
+        A Room is where the magic happens. Create a Room to start a session.
+        Note: Only owners and admins can talk and end a Room's session.
+      </Text>
+      <View style={styles.form}>
+        <InputGroup
+          style={styles.input}
+          label="Room Title"
+          onChangeText={handleInputTextChange('title')}
+          error={globalError}
+        />
+        <View style={styles.input}>
+          <Text style={styles.datePickerLabel}>Session Time</Text>
+          <TouchableOpacity
+            style={styles.datePicker}
+            onPress={handleTimePickerOpen}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.datePickerText}>{timestamp}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.ctaContainer}>
+        <Button
+          style={styles.cta}
+          onPress={handleClick}
+          disabled={isProcessing}
+        >
+          Continue
+        </Button>
+      </View>
     </ScrollView>
   )
 }
@@ -58,27 +90,46 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: getNotchSize() + 16,
     paddingHorizontal: 20,
+    minHeight: '100%',
   },
-  prompt: {
-    marginTop: 56,
+  title: {
     fontSize: 24,
     color: '#1d2d48',
     fontWeight: '600',
-    textAlign: 'center',
+  },
+  description: {
+    fontSize: 14,
+    color: '#a4a4a4',
+    marginTop: 4,
+  },
+  form: {
+    marginTop: 24,
   },
   input: {
-    marginTop: 8,
+    marginTop: 12,
   },
-  illustration: {
-    marginTop: 32,
-    width: 100,
-    height: undefined,
-    aspectRatio: 8 / 19,
-    alignSelf: 'center',
+  ctaContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
   },
   cta: {
-    marginTop: 48,
+    marginTop: 144,
     marginBottom: 32,
+  },
+  datePicker: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+    marginTop: 4,
+  },
+  datePickerText: {
+    color: '#1d2d48',
+  },
+  datePickerLabel: {
+    fontSize: 14,
+    color: '#b7b6bd',
+    fontWeight: '600',
   },
 })
 

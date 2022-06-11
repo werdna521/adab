@@ -6,6 +6,7 @@ type Room = {
   date: Timestamp
   isEnded: boolean
   content: string
+  timestamp: Timestamp
   createdAt: Timestamp
   endedAt?: Timestamp
 }

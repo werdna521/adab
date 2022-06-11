@@ -73,12 +73,13 @@ export default class FirebaseRoomDataSource implements RoomDataSource {
   }
 
   async createRoom(dto: CreateRoomDTO): Promise<void> {
-    const { groupID, roomTitle } = dto
+    const { groupID, timestamp, roomTitle } = dto
     const currentTimestamp = Timestamp.now()
 
     try {
       await addDoc(collection(this.firebase.db, 'group', groupID, 'room'), {
         content: '',
+        timestamp,
         title: roomTitle,
         isEnded: false,
         createdAt: currentTimestamp,

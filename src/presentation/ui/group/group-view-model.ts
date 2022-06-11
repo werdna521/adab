@@ -23,7 +23,9 @@ export const useGroupViewModel = (params: Params) => {
     getGroupDetailsUseCase,
     getGroupInviteLinkUseCase,
   } = params
-  const [roomList, setRoomList] = useState<Room[]>([])
+  const [roomList, setRoomList] = useState<{ title: string; data: Room[] }[]>(
+    [],
+  )
   const [group, setGroup] = useState<Group>()
   const { isProcessing: isRoomListLoading, setStatus: setRoomStatus } =
     useStatus()
@@ -42,8 +44,32 @@ export const useGroupViewModel = (params: Params) => {
         return
       }
 
-      setRoomList(data!)
       setRoomStatus(Status.SUCCESS)
+      const roomListSectionMap = data!.reduce(
+        (acc: Record<string, Room[]>, curr) => {
+          const timestamp = curr.timestamp?.toDate() || new Date()
+          const localizedTimestamp = `${timestamp
+            .getDate()
+            .toString()
+            .padStart(2, '0')}/${(timestamp.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}/${timestamp.getFullYear()}`
+          const previousSection = acc[localizedTimestamp] || []
+          return {
+            ...acc,
+            [localizedTimestamp]: [...previousSection, curr],
+          }
+        },
+        {},
+      )
+      setRoomList(
+        Object.entries(roomListSectionMap)
+          .map(([timestamp, room]) => ({
+            title: timestamp,
+            data: room,
+          }))
+          .sort((a, b) => a.title.localeCompare(b.title)),
+      )
     },
     [getRoomListUseCase, setRoomStatus],
   )
