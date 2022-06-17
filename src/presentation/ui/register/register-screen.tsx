@@ -50,7 +50,7 @@ const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
           secureTextEntry
         />
       </View>
-      <Button onPress={handleRegister} disabled={isProcessing}>
+      <Button onPress={handleRegister} disabled={isProcessing} primary>
         Sign Up
       </Button>
     </View>

@@ -2,17 +2,19 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import LogOutUseCase from '~/interactor/auth/logout-use-case'
-import { Screen, Screens } from '~/presentation/navigation'
+import { Screens, TabScreen } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
 
-import { Button } from '../common/components'
+import { TextButton } from '../common/components'
 import { useSettingsViewModel } from './settings-view-model'
 
 type Props = {
   logOutUseCase: LogOutUseCase
 }
 
-const SettingsScreen: Screen<Props, Screens.SETTINGS> = ({ logOutUseCase }) => {
+const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
+  logOutUseCase,
+}) => {
   const { isProcessing, handleLogOut } = useSettingsViewModel({
     logOutUseCase,
   })
@@ -20,13 +22,14 @@ const SettingsScreen: Screen<Props, Screens.SETTINGS> = ({ logOutUseCase }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Settings</Text>
-      <Button
+      <TextButton
         style={styles.logoutButton}
+        color="#F32013"
         onPress={handleLogOut}
         disabled={isProcessing}
       >
-        Logout
-      </Button>
+        Log Out
+      </TextButton>
     </View>
   )
 }
@@ -40,10 +43,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
   },
   logoutButton: {
+    alignSelf: 'center',
     marginBottom: 24,
   },
 })

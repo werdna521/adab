@@ -57,7 +57,7 @@ const LoginScreen: Screen<Props, Screens.LOGIN> = ({
         />
         {globalError ? <Text style={styles.error}>{globalError}</Text> : null}
       </View>
-      <Button onPress={handleLogin} disabled={isProcessing}>
+      <Button onPress={handleLogin} disabled={isProcessing} primary>
         Login
       </Button>
       <TextButton style={styles.signUpButton} onPress={navigateToSignUp}>

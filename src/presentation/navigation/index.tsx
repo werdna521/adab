@@ -115,12 +115,12 @@ type RootStackParamList = {
     group: Group
     room: Room
   }
-  [Screens.SETTINGS]: undefined
 }
 
 type BottomTabParamList = {
   [Screens.HOME]: undefined
   [Screens.GROUP_LIST]: undefined
+  [Screens.SETTINGS]: undefined
 }
 
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
@@ -202,6 +202,20 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                       />
                     )}
                   </Tab.Screen>
+                  <Tab.Screen
+                    name={Screens.SETTINGS}
+                    options={{
+                      tabBarIcon: 'cog',
+                    }}
+                  >
+                    {(props: any) => (
+                      <SettingsScreen
+                        logOutUseCase={useCases.logOut}
+                        user={user}
+                        {...props}
+                      />
+                    )}
+                  </Tab.Screen>
                 </Tab.Navigator>
               )}
             </Stack.Screen>
@@ -275,15 +289,6 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <EditTranscriptScreen
                   editTranscriptUseCase={useCases.editTranscript}
-                  user={user}
-                  {...props}
-                />
-              )}
-            </Stack.Screen>
-            <Stack.Screen name={Screens.SETTINGS}>
-              {(props: any) => (
-                <SettingsScreen
-                  logOutUseCase={useCases.logOut}
                   user={user}
                   {...props}
                 />

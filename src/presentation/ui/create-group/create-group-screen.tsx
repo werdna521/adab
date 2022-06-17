@@ -82,12 +82,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
   },
   description: {
     fontSize: 14,
-    color: '#a4a4a4',
+    fontFamily: 'Satoshi-Mediuml',
+    color: '#aaa',
     marginTop: 4,
   },
   form: {

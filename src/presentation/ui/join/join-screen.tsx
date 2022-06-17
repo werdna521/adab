@@ -100,9 +100,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: '#1d2d48',
-    fontWeight: '500',
-    textAlign: 'center',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
     maxWidth: 250,
   },
   buttonContainer: {
