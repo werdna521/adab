@@ -60,12 +60,13 @@ const styles = StyleSheet.create({
   },
   empty: {
     fontSize: 16,
-    color: '#1d2d48',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
   },
   title: {
     fontSize: 28,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
     marginBottom: 16,
   },
 })

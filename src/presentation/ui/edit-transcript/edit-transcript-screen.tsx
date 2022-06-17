@@ -39,7 +39,7 @@ const EditTranscriptScreen: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
         CommonActions.reset({
           routes: [
             {
-              name: Screens.HOME,
+              name: Screens.TAB,
             },
             {
               name: Screens.GROUP,
@@ -90,15 +90,14 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     paddingTop: getNotchSize() + 16,
-    backgroundColor: '#2c2c2c',
   },
   title: {
     fontSize: 18,
-    color: '#f3f2ed',
-    fontWeight: '700',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
     paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#3c3c3c',
+    borderBottomColor: '#dfdfdf',
     paddingBottom: 20,
   },
   scrollView: {
@@ -108,8 +107,8 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: 16,
-    color: 'white',
-    padding: 0,
+    fontFamily: 'Satoshi-Medium',
+    color: '#101010',
   },
   editButton: {
     marginBottom: 24,

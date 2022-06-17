@@ -32,6 +32,39 @@ export const useGroupViewModel = (params: Params) => {
   const { isProcessing: isGroupLoading, setStatus: setGroupStatus } =
     useStatus()
 
+  const getLocalizedDate = (date?: Date): string => {
+    if (!date) return 'Unscheduled'
+
+    const MONTHS = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ]
+    const dayOfMonth = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    const today = new Date()
+
+    if (
+      dayOfMonth === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear()
+    ) {
+      return 'Today'
+    }
+
+    return `${MONTHS[month]} ${dayOfMonth}, ${year}`
+  }
+
   const loadRoomList = useCallback(
     async (groupID: string) => {
       setRoomStatus(Status.PROCESSING)
@@ -47,13 +80,8 @@ export const useGroupViewModel = (params: Params) => {
       setRoomStatus(Status.SUCCESS)
       const roomListSectionMap = data!.reduce(
         (acc: Record<string, Room[]>, curr) => {
-          const timestamp = curr.timestamp?.toDate() || new Date()
-          const localizedTimestamp = `${timestamp
-            .getDate()
-            .toString()
-            .padStart(2, '0')}/${(timestamp.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}/${timestamp.getFullYear()}`
+          const timestamp = curr.timestamp?.toDate()
+          const localizedTimestamp = getLocalizedDate(timestamp)
           const previousSection = acc[localizedTimestamp] || []
           return {
             ...acc,
@@ -68,7 +96,11 @@ export const useGroupViewModel = (params: Params) => {
             title: timestamp,
             data: room,
           }))
-          .sort((a, b) => a.title.localeCompare(b.title)),
+          .sort((a, b) => {
+            if (a.title === 'Today') return -1
+            if (b.title === 'Today') return 1
+            return a.title.localeCompare(b.title)
+          }),
       )
     },
     [getRoomListUseCase, setRoomStatus],

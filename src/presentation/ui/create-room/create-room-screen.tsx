@@ -1,4 +1,3 @@
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 import React from 'react'
 import {
   ScrollView,
@@ -94,13 +93,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
   },
   description: {
     fontSize: 14,
-    color: '#a4a4a4',
+    color: '#aaa',
     marginTop: 4,
+    fontFamily: 'Satoshi-Medium',
   },
   form: {
     marginTop: 24,
@@ -117,19 +117,21 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   datePicker: {
-    backgroundColor: '#ffffff',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 14,
-    marginTop: 4,
+    marginTop: 2,
+    borderWidth: 1,
+    borderColor: '#dfdfdf',
   },
   datePickerText: {
-    color: '#1d2d48',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
   },
   datePickerLabel: {
     fontSize: 14,
-    color: '#b7b6bd',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
   },
 })
 

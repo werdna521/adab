@@ -36,7 +36,7 @@ const styles = ({ disabled = false, primary = false, minWidth }: Props) =>
       paddingVertical: 16,
       paddingHorizontal: 32,
       minWidth: minWidth !== undefined ? minWidth : 200,
-      backgroundColor: primary ? '#b3ddc6' : '#2d2d2d',
+      backgroundColor: primary ? '#3472df' : '#2d2d2d',
       opacity: disabled ? 0.5 : 1,
       alignItems: 'center',
       alignSelf: 'center',
@@ -44,7 +44,7 @@ const styles = ({ disabled = false, primary = false, minWidth }: Props) =>
     },
     text: {
       fontSize: 18,
-      color: primary ? '#2c2c2c' : 'white',
+      color: 'white',
       fontFamily: 'Satoshi-Medium',
     },
   })

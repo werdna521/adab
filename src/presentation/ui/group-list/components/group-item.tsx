@@ -57,7 +57,7 @@ const styles = ({ index }: Props) =>
       borderRadius: 24,
     },
     title: {
-      fontSize: 18,
+      fontSize: 16,
       color: '#fdfff1',
       fontFamily: 'Satoshi-Bold',
     },

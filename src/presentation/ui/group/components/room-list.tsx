@@ -84,14 +84,15 @@ const styles = StyleSheet.create({
   },
   empty: {
     fontSize: 16,
-    color: '#1d2d48',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
   },
   sectionSeparator: {
     marginTop: 24,
   },
   label: {
-    color: '#a4a4a4',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
     fontSize: 14,
     marginBottom: 8,
     marginLeft: 8,

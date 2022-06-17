@@ -16,24 +16,7 @@ type Props = {
   room: Room
 }
 
-const MONTHS = [
-  'JAN',
-  'FEB',
-  'MAR',
-  'APR',
-  'MAY',
-  'JUN',
-  'JUL',
-  'AUG',
-  'SEP',
-  'OCT',
-  'NOV',
-  'DEC',
-]
-
 const RoomItem: FC<Props> = ({ style, navigateToRoom, room }) => {
-  const createdTimestamp = room.createdAt.toDate()
-
   return (
     <TouchableOpacity
       style={[styles.container, style]}
@@ -42,12 +25,6 @@ const RoomItem: FC<Props> = ({ style, navigateToRoom, room }) => {
     >
       <View style={styles.topContainer}>
         <Text style={styles.title}>{room.title}</Text>
-        <View style={styles.spacer} />
-        <View>
-          <Text style={styles.date}>
-            {createdTimestamp.getDate()} {MONTHS[createdTimestamp.getMonth()]}
-          </Text>
-        </View>
       </View>
     </TouchableOpacity>
   )
@@ -55,7 +32,7 @@ const RoomItem: FC<Props> = ({ style, navigateToRoom, room }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fbf1a3',
+    backgroundColor: '#b08ee4',
     padding: 24,
     borderRadius: 24,
   },
@@ -63,17 +40,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    fontSize: 18,
-    color: '#1d2d48',
-    fontWeight: '600',
+    fontSize: 16,
+    color: '#fdfff1',
+    fontFamily: 'Satoshi-Bold',
     flexGrow: 1,
     flexShrink: 1,
-  },
-  date: {
-    fontSize: 12,
-    marginTop: 8,
-    color: '#979053',
-    fontWeight: '600',
   },
   time: {
     fontSize: 14,
@@ -81,9 +52,6 @@ const styles = StyleSheet.create({
     color: '#979053',
     fontWeight: '600',
     textAlign: 'right',
-  },
-  spacer: {
-    width: 8,
   },
 })
 

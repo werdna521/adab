@@ -60,14 +60,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   name: {
-    color: '#535250',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
     fontSize: 18,
   },
   role: {
     fontSize: 14,
-    color: '#a4a4a4',
-    fontWeight: '600',
+    color: '#aaa',
+    fontFamily: 'Satoshi-Medium',
   },
 })
 

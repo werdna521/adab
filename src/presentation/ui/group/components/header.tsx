@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
     maxWidth: '80%',
   },
   seeMembers: {
