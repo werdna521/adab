@@ -33,19 +33,19 @@ const Button: FC<Props> = (props) => {
 const styles = ({ disabled = false, primary = false, minWidth }: Props) =>
   StyleSheet.create({
     container: {
-      paddingVertical: 20,
+      paddingVertical: 16,
       paddingHorizontal: 32,
       minWidth: minWidth !== undefined ? minWidth : 200,
       backgroundColor: primary ? '#b3ddc6' : '#2d2d2d',
       opacity: disabled ? 0.5 : 1,
       alignItems: 'center',
       alignSelf: 'center',
-      borderRadius: 24,
+      borderRadius: 12,
     },
     text: {
       fontSize: 18,
-      fontWeight: '600',
       color: primary ? '#2c2c2c' : 'white',
+      fontFamily: 'Satoshi-Medium',
     },
   })
 

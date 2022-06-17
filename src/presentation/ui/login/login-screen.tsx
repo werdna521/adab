@@ -43,12 +43,14 @@ const LoginScreen: Screen<Props, Screens.LOGIN> = ({
         <InputGroup
           label="Email"
           style={styles.inputGroup}
+          placeholder="student@email.com"
           onChangeText={handleInputTextChange('email')}
           error={fieldError.email}
         />
         <InputGroup
           label="Password"
           style={styles.inputGroup}
+          placeholder="password"
           onChangeText={handleInputTextChange('password')}
           error={fieldError.password}
           secureTextEntry
@@ -75,9 +77,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
     marginBottom: 24,
+    fontFamily: 'Satoshi-Bold',
   },
   inputGroup: {
     marginTop: 12,

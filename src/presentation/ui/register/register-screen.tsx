@@ -30,17 +30,20 @@ const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
         <Text style={styles.title}>Register</Text>
         <InputGroup
           label="Full Name"
+          placeholder="John Doe"
           onChangeText={handleInputTextChange('displayName')}
           error={fieldError.displayName}
         />
         <InputGroup
           label="Email"
+          placeholder="student@email.com"
           style={styles.inputGroup}
           onChangeText={handleInputTextChange('email')}
           error={fieldError.email}
         />
         <InputGroup
           label="Password"
+          placeholder="password"
           style={styles.inputGroup}
           onChangeText={handleInputTextChange('password')}
           error={fieldError.password}
@@ -64,9 +67,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    color: '#1d2d48',
-    fontWeight: '600',
+    color: '#101010',
     marginBottom: 24,
+    fontFamily: 'Satoshi-Bold',
   },
   inputGroup: {
     marginTop: 12,

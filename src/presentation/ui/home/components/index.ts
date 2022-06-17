@@ -1,1 +1,2 @@
-export { default as GroupList } from './group-list'
+export { default as CreateGroupBlock } from './create-group-block'
+export { default as Greeting } from './greeting'

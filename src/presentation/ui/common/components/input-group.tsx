@@ -14,6 +14,7 @@ type Props = {
   secureTextEntry?: boolean
   onChangeText?: (text: string) => void
   error?: string
+  placeholder?: string
 }
 
 const InputGroup: FC<Props> = ({
@@ -22,6 +23,7 @@ const InputGroup: FC<Props> = ({
   secureTextEntry = false,
   onChangeText = () => {},
   error = '',
+  placeholder = '',
 }) => {
   return (
     <View style={style}>
@@ -31,6 +33,8 @@ const InputGroup: FC<Props> = ({
         style={styles.input}
         secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor="#a0a3ad"
       />
     </View>
   )
@@ -39,20 +43,25 @@ const InputGroup: FC<Props> = ({
 const styles = StyleSheet.create({
   label: {
     fontSize: 14,
-    color: '#b7b6bd',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
     fontWeight: '600',
   },
   error: {
     fontSize: 14,
     color: '#fe6b4d',
-    fontWeight: '500',
+    fontFamily: 'Satoshi-Medium',
   },
   input: {
     backgroundColor: '#ffffff',
-    color: '#1d2d48',
+    color: '#101010',
     borderRadius: 8,
     paddingHorizontal: 12,
-    marginTop: 4,
+    paddingVertical: 10,
+    marginTop: 2,
+    fontFamily: 'Satoshi-Medium',
+    borderWidth: 1,
+    borderColor: '#dfdfdf',
   },
 })
 

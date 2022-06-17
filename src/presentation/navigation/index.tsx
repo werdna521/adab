@@ -1,6 +1,11 @@
+import {
+  createMaterialBottomTabNavigator,
+  MaterialBottomTabNavigationProp,
+} from '@react-navigation/material-bottom-tabs'
 import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
+import { StyleSheet } from 'react-native'
 
 import { Group, Room, User } from '~/domain/model'
 import { Member } from '~/domain/model/group'
@@ -36,6 +41,7 @@ import { RoomScreen } from '~/presentation/ui/room'
 
 import { COLORS } from '../colors'
 import { EditTranscriptScreen } from '../ui/edit-transcript'
+import { GroupListScreen } from '../ui/group-list'
 import { JoinScreen } from '../ui/join'
 import { SettingsScreen } from '../ui/settings'
 import { useAuthSessionViewModel } from './auth-session-view-model'
@@ -55,6 +61,8 @@ export enum Screens {
   JOIN = 'Join',
   EDIT_TRANSCRIPT = 'Edit Transcript',
   SETTINGS = 'Settings',
+  TAB = 'Tab',
+  GROUP_LIST = 'GroupList',
 }
 
 export type UseCases = {
@@ -84,8 +92,8 @@ export type UseCases = {
 type RootStackParamList = {
   [Screens.LOGIN]: undefined
   [Screens.REGISTER]: undefined
-  [Screens.HOME]: undefined
   [Screens.CREATE_GROUP]: undefined
+  [Screens.TAB]: undefined
   [Screens.GROUP]: {
     groupID: string
   }
@@ -110,6 +118,11 @@ type RootStackParamList = {
   [Screens.SETTINGS]: undefined
 }
 
+type BottomTabParamList = {
+  [Screens.HOME]: undefined
+  [Screens.GROUP_LIST]: undefined
+}
+
 export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
   Props & {
     route: RouteProp<RootStackParamList, RouteName>
@@ -117,8 +130,16 @@ export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
     user?: User
   }
 >
+export type TabScreen<Props, RouteName extends keyof BottomTabParamList> = FC<
+  Props & {
+    route: RouteProp<BottomTabParamList, RouteName>
+    navigation: MaterialBottomTabNavigationProp<ParamListBase, RouteName>
+    user?: User
+  }
+>
 
 const Stack = createStackNavigator()
+const Tab = createMaterialBottomTabNavigator()
 const theme = createTheme((defaultTheme) => ({
   ...defaultTheme,
   colors: {
@@ -137,7 +158,6 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
       subscribeAuthStateUseCase: useCases.subscribeAuthStatus,
     })
 
-  // TODO: show a cheeky loader animation
   if (isAuthLoading) return null
 
   return (
@@ -150,13 +170,39 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
       >
         {isLoggedIn && (
           <>
-            <Stack.Screen name={Screens.HOME}>
-              {(props: any) => (
-                <HomeScreen
-                  getGroupListUseCase={useCases.getGroupList}
-                  user={user}
-                  {...props}
-                />
+            <Stack.Screen name={Screens.TAB}>
+              {() => (
+                <Tab.Navigator
+                  initialRouteName={Screens.HOME}
+                  barStyle={styles.tab}
+                  activeColor="#101010"
+                  inactiveColor="#dfdfdf"
+                  backBehavior="initialRoute"
+                  shifting
+                >
+                  <Tab.Screen
+                    name={Screens.HOME}
+                    options={{
+                      tabBarIcon: 'home',
+                    }}
+                  >
+                    {(props: any) => <HomeScreen user={user} {...props} />}
+                  </Tab.Screen>
+                  <Tab.Screen
+                    name={Screens.GROUP_LIST}
+                    options={{
+                      tabBarIcon: 'account-multiple',
+                    }}
+                  >
+                    {(props: any) => (
+                      <GroupListScreen
+                        getGroupListUseCase={useCases.getGroupList}
+                        user={user}
+                        {...props}
+                      />
+                    )}
+                  </Tab.Screen>
+                </Tab.Navigator>
               )}
             </Stack.Screen>
             <Stack.Screen name={Screens.CREATE_GROUP}>
@@ -273,5 +319,12 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
     </NavigationProvider>
   )
 }
+
+const styles = StyleSheet.create({
+  tab: {
+    color: '#101010',
+    backgroundColor: 'white',
+  },
+})
 
 export default AppNavigation

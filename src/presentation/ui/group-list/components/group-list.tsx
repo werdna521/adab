@@ -12,39 +12,38 @@ import {
 import { Group } from '~/domain/model'
 import { getNotchSize } from '~/presentation/notch'
 
-import Greeting from './greeting'
 import GroupItem from './group-item'
 
 type Props = {
   groupList: SectionListData<Group, DefaultSectionT>[]
-  displayName: string
   onRefresh: () => void
   navigateToGroup: (group: Group) => void
-  navigateToSettings: () => void
   isRefreshing: boolean
 }
 
 const GroupList: FC<Props> = ({
   groupList,
-  displayName,
   onRefresh,
   navigateToGroup,
-  navigateToSettings,
   isRefreshing,
 }) => {
-  const renderGroupItem: SectionListRenderItem<Group> = ({ item: group }) => {
+  const renderGroupItem: SectionListRenderItem<Group> = ({
+    item: group,
+    index,
+  }) => {
     const handleNavigateToGroup = () => navigateToGroup(group)
-    return <GroupItem navigateToGroup={handleNavigateToGroup} group={group} />
+    return (
+      <GroupItem
+        index={index}
+        navigateToGroup={handleNavigateToGroup}
+        group={group}
+      />
+    )
   }
   const renderGroupLabel = ({ section: { title } }: any) => {
     return <Text style={styles.label}>{title}</Text>
   }
-  const renderHeader = () => (
-    <Greeting
-      navigateToSettings={navigateToSettings}
-      displayName={displayName}
-    />
-  )
+  const renderHeader = () => <Text style={styles.title}>Your Groups</Text>
   const renderSeparator = () => <View style={styles.separator} />
   const renderSectionSeparator = () => <View style={styles.sectionSeparator} />
   const renderEmpty = () => <Text style={styles.empty}>No group yet.</Text>
@@ -80,16 +79,23 @@ const styles = StyleSheet.create({
   sectionSeparator: {
     marginTop: 24,
   },
+  title: {
+    fontSize: 24,
+    fontFamily: 'Satoshi-Bold',
+    color: '#101010',
+    marginBottom: 48,
+  },
   footer: {
-    height: 120,
+    height: 40,
   },
   empty: {
-    fontSize: 16,
-    color: '#1d2d48',
+    fontSize: 14,
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
   },
   label: {
-    color: '#a4a4a4',
-    fontWeight: '600',
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
     fontSize: 14,
     marginBottom: 8,
     marginLeft: 8,

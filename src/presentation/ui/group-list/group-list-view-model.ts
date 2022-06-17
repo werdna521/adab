@@ -11,14 +11,15 @@ type Params = {
   getGroupListUseCase: GetGroupListUseCase
 }
 
-export const useHomeViewModel = (params: Params) => {
+export const useGroupListViewModel = (params: Params) => {
+  const { setStatus, isProcessing } = useStatus()
+
   const { user, getGroupListUseCase } = params
 
   const [globalError, setGlobalError] = useState('')
   const [groupList, setGroupList] = useState<
     { title: string; data: Group[] }[]
   >([])
-  const { setStatus, isProcessing } = useStatus()
 
   const loadGroupList = useCallback(async () => {
     setStatus(Status.PROCESSING)

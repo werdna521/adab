@@ -37,6 +37,7 @@ const styles = ({ color = '#1d2d48' }: Props) =>
     },
     text: {
       color,
+      fontFamily: 'Satoshi-Medium',
     },
   })
 

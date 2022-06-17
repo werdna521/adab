@@ -1,56 +1,28 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { Group } from '~/domain/model'
-import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
-import { Screen, Screens } from '~/presentation/navigation'
+import { Screens, TabScreen } from '~/presentation/navigation'
+import { getNotchSize } from '~/presentation/notch'
 
-import { CreateFAB } from '../common/components'
-import { GroupList } from './components'
-import { useHomeViewModel } from './home-view-model'
+import { CreateGroupBlock, Greeting } from './components'
 
-type Props = {
-  getGroupListUseCase: GetGroupListUseCase
-}
+type Props = {}
 
-const HomeScreen: Screen<Props, Screens.HOME> = ({
-  user,
-  navigation,
-  getGroupListUseCase,
-}) => {
-  const { loadGroupList, groupList, isProcessing } = useHomeViewModel({
-    getGroupListUseCase,
-    user: user!,
-  })
-
-  useEffect(() => {
-    loadGroupList()
-  }, [loadGroupList])
-
+const HomeScreen: TabScreen<Props, Screens.HOME> = ({ navigation }) => {
   const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
-  const navigateToGroup = (group: Group) =>
-    navigation.navigate(Screens.GROUP, {
-      groupID: group.uid,
-    })
-  const navigateToSettings = () => navigation.navigate(Screens.SETTINGS)
 
   return (
     <View style={styles.container}>
-      <GroupList
-        groupList={groupList}
-        displayName={user?.displayName || 'User'}
-        onRefresh={loadGroupList}
-        navigateToGroup={navigateToGroup}
-        navigateToSettings={navigateToSettings}
-        isRefreshing={isProcessing}
-      />
-      <CreateFAB navigateToCreate={navigateToCreateGroup} />
+      <Greeting />
+      <CreateGroupBlock navigateToCreateGroup={navigateToCreateGroup} />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: getNotchSize() + 16,
+    paddingHorizontal: 20,
     height: '100%',
   },
 })

@@ -1,57 +1,48 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { StyleSheet, Text, View } from 'react-native'
 
-import { COLORS } from '~/presentation/colors'
+const Greeting: FC = () => {
+  const now = new Date()
 
-type Props = {
-  displayName: string
-  navigateToSettings: () => void
-}
-
-const Greeting: FC<Props> = ({ displayName, navigateToSettings }) => {
-  const [firstName] = displayName.split(' ')
+  const getPrompt = () => {
+    const hour = now.getHours()
+    if (hour <= 11) return 'Morning'
+    if (hour <= 18) return 'Afternoon'
+    if (hour <= 21) return 'Evening'
+    if (hour <= 24) return 'Night'
+  }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.top}>Hi,</Text>
-        <Text style={styles.bottom}>{firstName}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.settings}
-        onPress={navigateToSettings}
-        activeOpacity={0.6}
-      >
-        <Icon name="settings" color="#1d2d48" size={24} />
-      </TouchableOpacity>
+    <View>
+      <Text style={styles.top}>Good</Text>
+      <Text style={styles.bottom}>{getPrompt()}</Text>
+      <Text style={styles.pleasantries}>Have a great day!</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-  textContainer: {
-    flexGrow: 1,
-    backgroundColor: COLORS.BACKGROUND,
-    marginBottom: 48,
-  },
   top: {
-    fontSize: 28,
-    color: '#1d2d48',
-    fontWeight: '500',
+    fontSize: 32,
+    color: '#101010',
+    fontFamily: 'Satoshi-Medium',
   },
   bottom: {
-    fontSize: 28,
-    color: '#1d2d48',
-    fontWeight: '600',
+    fontSize: 36,
+    color: '#101010',
+    fontFamily: 'Satoshi-Bold',
+    marginTop: -12,
   },
   settings: {
     borderRadius: 16,
     width: 32,
     height: 32,
+  },
+  pleasantries: {
+    fontSize: 16,
+    fontFamily: 'Satoshi-Regular',
+    color: '#212121',
+    marginTop: 16,
   },
 })
 
