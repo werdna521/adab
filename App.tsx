@@ -20,7 +20,10 @@ import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import JoinGroupUseCase from '~/interactor/group/join-group-use-case'
 import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
-import { SubscribeToRoomStateUseCase } from '~/interactor/room'
+import {
+  SearchRoomUseCase,
+  SubscribeToRoomStateUseCase,
+} from '~/interactor/room'
 import CreateRoomUseCase from '~/interactor/room/create-room-use-case'
 import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
 import EndMeetingUseCase from '~/interactor/room/end-meeting-use-case'
@@ -58,6 +61,7 @@ const getGroupInviteLinkUseCase = new GetGroupInviteLinkUseCase()
 const subscribeToRoomStateUseCase = new SubscribeToRoomStateUseCase(
   roomRepository,
 )
+const searchRoomUseCase = new SearchRoomUseCase()
 const publishNewContentUseCase = new PublishNewContentUseCase(roomRepository)
 const getRoomListUseCase = new GetRoomListUseCase(roomRepository)
 const createRoomUseCase = new CreateRoomUseCase(roomRepository)
@@ -89,6 +93,7 @@ const useCases: UseCases = {
   getEndMeetingPermission: getEndMeetingPermissionUseCase,
   editTranscript: editTranscriptUseCase,
   logOut: logOutUseCase,
+  searchRoom: searchRoomUseCase,
 }
 
 const App: FC = () => {

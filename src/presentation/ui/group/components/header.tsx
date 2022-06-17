@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import React, { FC } from 'react'
+import React, { FC, memo } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,19 +10,24 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { Group } from '~/domain/model'
+import { getNotchSize } from '~/presentation/notch'
 
-import { TextButton } from '../../common/components'
+import { InputGroup, TextButton } from '../../common/components'
 
 type Props = {
   group: Group
+  query: string
   navigateToMember: () => void
   handleCopyInviteLink: () => Promise<string>
+  handleQueryChange: (value: string) => void
 }
 
 const GroupHeader: FC<Props> = ({
   group,
+  query,
   navigateToMember,
   handleCopyInviteLink,
+  handleQueryChange,
 }) => {
   const handleCopy = async () => {
     const inviteLink = await handleCopyInviteLink()
@@ -30,7 +35,7 @@ const GroupHeader: FC<Props> = ({
     Clipboard.setString(inviteLink)
   }
   return (
-    <>
+    <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.header}>{group.name}</Text>
         <TouchableOpacity
@@ -44,11 +49,21 @@ const GroupHeader: FC<Props> = ({
       <TextButton style={styles.seeMembers} onPress={navigateToMember}>
         See members{'  '}&gt;
       </TextButton>
-    </>
+      <InputGroup
+        style={styles.search}
+        placeholder="Search..."
+        onChangeText={handleQueryChange}
+        value={query}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: getNotchSize() + 16,
+    paddingHorizontal: 20,
+  },
   topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -68,8 +83,11 @@ const styles = StyleSheet.create({
   },
   seeMembers: {
     paddingLeft: 0,
+  },
+  search: {
+    marginTop: 8,
     marginBottom: 24,
   },
 })
 
-export default GroupHeader
+export default memo(GroupHeader)

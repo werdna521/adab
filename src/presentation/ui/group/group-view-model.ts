@@ -5,15 +5,17 @@ import { UnknownError } from '~/common/error'
 import { Group, Room, User } from '~/domain/model'
 import GetGroupDetailsUseCase from '~/interactor/group/get-group-details-use-case'
 import GetGroupInviteLinkUseCase from '~/interactor/group/get-group-invite-link-use-case'
+import { SearchRoomUseCase } from '~/interactor/room'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
 
-import { Status, useStatus } from '../common/hooks'
+import { Status, useInput, useStatus } from '../common/hooks'
 
 type Params = {
   user: User
   getRoomListUseCase: GetRoomListUseCase
   getGroupDetailsUseCase: GetGroupDetailsUseCase
   getGroupInviteLinkUseCase: GetGroupInviteLinkUseCase
+  searchRoomUseCase: SearchRoomUseCase
 }
 
 export const useGroupViewModel = (params: Params) => {
@@ -22,15 +24,25 @@ export const useGroupViewModel = (params: Params) => {
     getRoomListUseCase,
     getGroupDetailsUseCase,
     getGroupInviteLinkUseCase,
+    searchRoomUseCase,
   } = params
   const [roomList, setRoomList] = useState<{ title: string; data: Room[] }[]>(
     [],
   )
+  const [filteredRoomList, setFilteredRoomList] = useState<
+    { title: string; data: Room[] }[]
+  >([])
   const [group, setGroup] = useState<Group>()
   const { isProcessing: isRoomListLoading, setStatus: setRoomStatus } =
     useStatus()
   const { isProcessing: isGroupLoading, setStatus: setGroupStatus } =
     useStatus()
+  const {
+    inputData: { query },
+    handleInputTextChange,
+  } = useInput({
+    query: '',
+  })
 
   const getLocalizedDate = (date?: Date): string => {
     if (!date) return 'Unscheduled'
@@ -65,6 +77,28 @@ export const useGroupViewModel = (params: Params) => {
     return `${MONTHS[month]} ${dayOfMonth}, ${year}`
   }
 
+  const handleQueryChange = (value: string) => {
+    handleInputTextChange('query')(value)
+    if (value === '') {
+      setFilteredRoomList(roomList)
+      return
+    }
+
+    searchRoomUseCase
+      .invoke({
+        roomList,
+        query,
+      })
+      .then(({ data, error }) => {
+        if (error instanceof UnknownError) {
+          // fail silently
+          return
+        }
+
+        setFilteredRoomList(data!)
+      })
+  }
+
   const loadRoomList = useCallback(
     async (groupID: string) => {
       setRoomStatus(Status.PROCESSING)
@@ -90,18 +124,21 @@ export const useGroupViewModel = (params: Params) => {
         },
         {},
       )
-      setRoomList(
-        Object.entries(roomListSectionMap)
-          .map(([timestamp, room]) => ({
-            title: timestamp,
-            data: room,
-          }))
-          .sort((a, b) => {
-            if (a.title === 'Today') return -1
-            if (b.title === 'Today') return 1
-            return a.title.localeCompare(b.title)
-          }),
-      )
+      const newRoomList = Object.entries(roomListSectionMap)
+        .map(([timestamp, room]) => ({
+          title: timestamp,
+          data: room,
+        }))
+        .sort((a, b) => {
+          if (a.title === 'Today') return -1
+          if (b.title === 'Today') return 1
+          return a.title.localeCompare(b.title)
+        })
+      setRoomList(newRoomList)
+      setFilteredRoomList((prevState) => {
+        if (prevState.length === 0) return newRoomList
+        return prevState
+      })
     },
     [getRoomListUseCase, setRoomStatus],
   )
@@ -146,7 +183,10 @@ export const useGroupViewModel = (params: Params) => {
     loadRoomList,
     loadGroup,
     roomList,
+    filteredRoomList,
     group,
+    query,
     handleCopyInviteLink,
+    handleQueryChange,
   }
 }

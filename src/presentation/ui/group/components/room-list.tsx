@@ -17,32 +17,29 @@ import RoomItem from './room-item'
 
 type Props = {
   group: Group
+  query: string
   navigateToRoom: (room: Room) => void
   navigateToMember: () => void
   roomList: SectionListData<Room, DefaultSectionT>[]
   onRefresh: () => void
   isProcessing: boolean
   handleCopyInviteLink: () => Promise<string>
+  handleQueryChange: (value: string) => void
 }
 
 const RoomList: FC<Props> = ({
   group,
+  query,
   navigateToRoom,
   navigateToMember,
   roomList,
   onRefresh,
   isProcessing,
   handleCopyInviteLink,
+  handleQueryChange,
 }) => {
   const renderGroupItem: ListRenderItem<Room> = ({ item: room }) => (
     <RoomItem room={room} navigateToRoom={() => navigateToRoom(room)} />
-  )
-  const renderHeader = () => (
-    <GroupHeader
-      navigateToMember={navigateToMember}
-      group={group}
-      handleCopyInviteLink={handleCopyInviteLink}
-    />
   )
   const renderSeparator = () => <View style={styles.separator} />
   const renderRoomTimestamp = ({ section: { title } }: any) => {
@@ -52,28 +49,36 @@ const RoomList: FC<Props> = ({
   const renderEmpty = () => <Text style={styles.empty}>No room yet.</Text>
 
   return (
-    <SectionList
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-      sections={roomList}
-      renderItem={renderGroupItem}
-      renderSectionHeader={renderRoomTimestamp}
-      renderSectionFooter={renderSectionSeparator}
-      keyExtractor={(room) => `room-item-${room.uid}`}
-      ItemSeparatorComponent={renderSeparator}
-      ListHeaderComponent={renderHeader}
-      ListFooterComponent={View}
-      ListFooterComponentStyle={styles.footer}
-      ListEmptyComponent={renderEmpty}
-      onRefresh={onRefresh}
-      refreshing={isProcessing}
-    />
+    <>
+      <GroupHeader
+        navigateToMember={navigateToMember}
+        group={group}
+        query={query}
+        handleCopyInviteLink={handleCopyInviteLink}
+        handleQueryChange={handleQueryChange}
+      />
+      <SectionList
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+        sections={roomList}
+        renderItem={renderGroupItem}
+        renderSectionHeader={renderRoomTimestamp}
+        renderSectionFooter={renderSectionSeparator}
+        keyExtractor={(room) => `room-item-${room.uid}`}
+        ItemSeparatorComponent={renderSeparator}
+        ListFooterComponent={View}
+        ListFooterComponentStyle={styles.footer}
+        ListEmptyComponent={renderEmpty}
+        onRefresh={onRefresh}
+        refreshing={isProcessing}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: getNotchSize() + 16,
+    paddingTop: 16,
     paddingHorizontal: 20,
   },
   separator: {

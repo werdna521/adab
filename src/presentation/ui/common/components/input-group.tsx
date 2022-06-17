@@ -15,6 +15,7 @@ type Props = {
   onChangeText?: (text: string) => void
   error?: string
   placeholder?: string
+  value?: string
 }
 
 const InputGroup: FC<Props> = ({
@@ -24,6 +25,7 @@ const InputGroup: FC<Props> = ({
   onChangeText = () => {},
   error = '',
   placeholder = '',
+  value,
 }) => {
   return (
     <View style={style}>
@@ -35,6 +37,7 @@ const InputGroup: FC<Props> = ({
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor="#a0a3ad"
+        value={value}
       />
     </View>
   )

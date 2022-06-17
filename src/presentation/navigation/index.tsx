@@ -21,7 +21,10 @@ import GetGroupListUseCase from '~/interactor/group/get-group-list-use-case'
 import JoinGroupUseCase from '~/interactor/group/join-group-use-case'
 import RemoveMemberUseCase from '~/interactor/group/remove-member-use-case'
 import UpdateMemberRoleUseCase from '~/interactor/group/update-member-role-use-case'
-import { SubscribeToRoomStateUseCase } from '~/interactor/room'
+import {
+  SearchRoomUseCase,
+  SubscribeToRoomStateUseCase,
+} from '~/interactor/room'
 import CreateRoomUseCase from '~/interactor/room/create-room-use-case'
 import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
 import EndMeetingUseCase from '~/interactor/room/end-meeting-use-case'
@@ -87,6 +90,7 @@ export type UseCases = {
   getEndMeetingPermission: GetEndMeetingPermissionUseCase
   editTranscript: EditTranscriptUseCase
   logOut: LogOutUseCase
+  searchRoom: SearchRoomUseCase
 }
 
 type RootStackParamList = {
@@ -184,6 +188,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     name={Screens.HOME}
                     options={{
                       tabBarIcon: 'home',
+                      title: 'Home',
                     }}
                   >
                     {(props: any) => <HomeScreen user={user} {...props} />}
@@ -192,6 +197,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     name={Screens.GROUP_LIST}
                     options={{
                       tabBarIcon: 'account-multiple',
+                      title: 'Group',
                     }}
                   >
                     {(props: any) => (
@@ -206,6 +212,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     name={Screens.SETTINGS}
                     options={{
                       tabBarIcon: 'cog',
+                      title: 'Settings',
                     }}
                   >
                     {(props: any) => (
@@ -234,6 +241,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   getRoomListUseCase={useCases.getRoomList}
                   getGroupInviteLinkUseCase={useCases.getGroupInviteLink}
                   getGroupDetailsUseCase={useCases.getGroupDetails}
+                  searchRoomUseCase={useCases.searchRoom}
                   user={user}
                   {...props}
                 />
