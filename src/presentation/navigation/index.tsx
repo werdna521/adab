@@ -10,6 +10,7 @@ import { StyleSheet } from 'react-native'
 import { Group, Room, User } from '~/domain/model'
 import { Member } from '~/domain/model/group'
 import { RegisterUseCase } from '~/interactor/auth'
+import ChangeNameUseCase from '~/interactor/auth/change-name-use-case'
 import ChangePasswordUseCase from '~/interactor/auth/change-password-use-case'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import LogOutUseCase from '~/interactor/auth/logout-use-case'
@@ -44,6 +45,7 @@ import { RegisterScreen } from '~/presentation/ui/register'
 import { RoomScreen } from '~/presentation/ui/room'
 
 import { COLORS } from '../colors'
+import ChangeNameScreen from '../ui/change-name/change-name-screen'
 import { ChangePasswordScreen } from '../ui/change-password'
 import { EditTranscriptScreen } from '../ui/edit-transcript'
 import { GroupListScreen } from '../ui/group-list'
@@ -69,6 +71,7 @@ export enum Screens {
   TAB = 'Tab',
   GROUP_LIST = 'Group List',
   CHANGE_PASSWORD = 'Change Password',
+  CHANGE_NAME = 'Change Name',
 }
 
 export type UseCases = {
@@ -95,6 +98,7 @@ export type UseCases = {
   logOut: LogOutUseCase
   searchRoom: SearchRoomUseCase
   changePassword: ChangePasswordUseCase
+  changeName: ChangeNameUseCase
 }
 
 type RootStackParamList = {
@@ -124,6 +128,7 @@ type RootStackParamList = {
     room: Room
   }
   [Screens.CHANGE_PASSWORD]: undefined
+  [Screens.CHANGE_NAME]: undefined
 }
 
 type BottomTabParamList = {
@@ -311,6 +316,15 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <ChangePasswordScreen
                   changePasswordUseCase={useCases.changePassword}
+                  user={user}
+                  {...props}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.CHANGE_NAME}>
+              {(props: any) => (
+                <ChangeNameScreen
+                  changeNameUseCase={useCases.changeName}
                   user={user}
                   {...props}
                 />

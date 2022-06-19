@@ -89,7 +89,23 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
       )
       await updatePassword(userCredential.user, newPassword)
     } catch (error) {
-      console.log({ error })
+      throw new UnknownError(error)
+    }
+  }
+
+  public async changeName(newName: string): Promise<void> {
+    try {
+      const currentUser = this.firebase.auth.currentUser
+      if (!currentUser) throw new Error('Unauthenticated')
+      console.log({
+        ...currentUser,
+        displayName: newName,
+      })
+
+      await updateProfile(currentUser, {
+        displayName: newName,
+      })
+    } catch (error) {
       throw new UnknownError(error)
     }
   }

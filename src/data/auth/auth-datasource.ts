@@ -13,4 +13,5 @@ export default interface AuthDataSource {
   logout: () => Promise<void>
   subscribeToAuthState: (callback: AuthStateCallback) => Unsubscribe
   changePassword: (dto: ChangePasswordDTO) => Promise<void>
+  changeName: (newName: string) => Promise<void>
 }

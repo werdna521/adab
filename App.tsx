@@ -9,6 +9,7 @@ import { FirebaseGroupDataSource } from '~/infrastructure/datasource/group'
 import FirebaseRoomDataSource from '~/infrastructure/datasource/room/firebase-room-datasource'
 import Firebase from '~/infrastructure/firebase'
 import { RegisterUseCase } from '~/interactor/auth'
+import ChangeNameUseCase from '~/interactor/auth/change-name-use-case'
 import ChangePasswordUseCase from '~/interactor/auth/change-password-use-case'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import LogOutUseCase from '~/interactor/auth/logout-use-case'
@@ -53,6 +54,7 @@ const logOutUseCase = new LogOutUseCase(authRepository)
 const validateLoginDTOUseCase = new ValidateLoginDTOUseCase()
 const subscribeAuthStateUseCase = new SubscribeAuthStateUseCase(authRepository)
 const changePasswordUseCase = new ChangePasswordUseCase(authRepository)
+const changeNameUseCase = new ChangeNameUseCase(authRepository)
 const createGroupUseCase = new CreateGroupUseCase(groupRepository)
 const getGroupListUseCase = new GetGroupListUseCase(groupRepository)
 const updateMemberRoleUseCase = new UpdateMemberRoleUseCase(groupRepository)
@@ -97,6 +99,7 @@ const useCases: UseCases = {
   logOut: logOutUseCase,
   searchRoom: searchRoomUseCase,
   changePassword: changePasswordUseCase,
+  changeName: changeNameUseCase,
 }
 
 const App: FC = () => {

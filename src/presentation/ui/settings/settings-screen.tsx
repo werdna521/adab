@@ -23,6 +23,7 @@ const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
 
   const navigateToChangePassword = () =>
     navigation.navigate(Screens.CHANGE_PASSWORD)
+  const navigateToChangeName = () => navigation.navigate(Screens.CHANGE_NAME)
 
   return (
     <View style={styles.container}>
@@ -38,6 +39,7 @@ const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
           text="Change display name"
           variant="secondary"
           source={require('~/assets/illustrations/phone.png')}
+          onPress={navigateToChangeName}
         />
         <Block
           style={styles.margin}

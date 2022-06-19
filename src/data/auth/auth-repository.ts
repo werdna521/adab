@@ -29,6 +29,10 @@ export default class CoreAuthRepository implements AuthRepository {
     return await this.remoteDataSource.changePassword(dto)
   }
 
+  async changeName(newName: string): Promise<void> {
+    return await this.remoteDataSource.changeName(newName)
+  }
+
   subscribeToAuthState(callback: AuthStateCallback): Unsubscribe {
     return this.remoteDataSource.subscribeToAuthState(callback)
   }
