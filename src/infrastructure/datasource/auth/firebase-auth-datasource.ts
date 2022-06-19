@@ -5,7 +5,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  updatePassword,
+  reauthenticateWithCredential,
   UserCredential,
+  EmailAuthProvider,
 } from 'firebase/auth'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
 
@@ -20,6 +23,7 @@ import {
 import { User } from '~/domain/model'
 import {
   AuthStateCallback,
+  ChangePasswordDTO,
   LoginDTO,
   RegisterDTO,
   Unsubscribe,
@@ -65,6 +69,27 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
     try {
       await signOut(this.firebase.auth)
     } catch (error) {
+      throw new UnknownError(error)
+    }
+  }
+
+  public async changePassword(dto: ChangePasswordDTO): Promise<void> {
+    const { oldPassword, newPassword } = dto
+    try {
+      const user = this.firebase.auth.currentUser
+      if (!user) throw new Error('Unauthenticated')
+
+      const credential = EmailAuthProvider.credential(
+        this.firebase.auth.currentUser!.email!,
+        oldPassword,
+      )
+      const userCredential = await reauthenticateWithCredential(
+        user,
+        credential,
+      )
+      await updatePassword(userCredential.user, newPassword)
+    } catch (error) {
+      console.log({ error })
       throw new UnknownError(error)
     }
   }

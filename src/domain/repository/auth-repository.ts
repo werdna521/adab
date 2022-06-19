@@ -23,9 +23,15 @@ export type AuthState =
 export type AuthStateCallback = (authState: AuthState) => void
 export type Unsubscribe = () => void
 
+export type ChangePasswordDTO = {
+  oldPassword: string
+  newPassword: string
+}
+
 export default interface AuthRepository {
   login: (loginDTO: LoginDTO) => Promise<User>
   signUp: (registerDTO: RegisterDTO) => Promise<User>
   logout: () => Promise<void>
   subscribeToAuthState: (callback: AuthStateCallback) => Unsubscribe
+  changePassword: (dto: ChangePasswordDTO) => Promise<void>
 }

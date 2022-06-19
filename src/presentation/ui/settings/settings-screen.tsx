@@ -15,10 +15,14 @@ type Props = {
 
 const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
   logOutUseCase,
+  navigation,
 }) => {
   const { isProcessing, handleLogOut } = useSettingsViewModel({
     logOutUseCase,
   })
+
+  const navigateToChangePassword = () =>
+    navigation.navigate(Screens.CHANGE_PASSWORD)
 
   return (
     <View style={styles.container}>
@@ -28,6 +32,7 @@ const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
           text="Change password"
           variant="primary"
           source={require('~/assets/illustrations/fingerprint.png')}
+          onPress={navigateToChangePassword}
         />
         <Block
           text="Change display name"

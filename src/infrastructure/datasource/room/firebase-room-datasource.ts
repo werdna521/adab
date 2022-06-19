@@ -1,4 +1,3 @@
-import { CurrentRenderContext } from '@react-navigation/native'
 import {
   doc,
   onSnapshot,

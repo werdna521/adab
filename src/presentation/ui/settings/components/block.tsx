@@ -16,6 +16,7 @@ type Props = {
   text: string
   source: ImageSourcePropType
   style?: StyleProp<ViewStyle>
+  onPress?: () => void
 }
 
 const COLORS: Record<Variant, string> = {
@@ -26,12 +27,13 @@ const COLORS: Record<Variant, string> = {
 }
 
 const Block: FC<Props> = (props) => {
-  const { text, source, style } = props
+  const { text, source, style, onPress } = props
 
   return (
     <TouchableOpacity
       style={[styles(props).container, style]}
       activeOpacity={0.8}
+      onPress={onPress}
     >
       <Text style={styles(props).title}>{text}</Text>
       <Image style={styles(props).illustration} source={source} />

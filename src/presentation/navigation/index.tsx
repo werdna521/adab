@@ -10,6 +10,7 @@ import { StyleSheet } from 'react-native'
 import { Group, Room, User } from '~/domain/model'
 import { Member } from '~/domain/model/group'
 import { RegisterUseCase } from '~/interactor/auth'
+import ChangePasswordUseCase from '~/interactor/auth/change-password-use-case'
 import LoginUseCase from '~/interactor/auth/login-use-case'
 import LogOutUseCase from '~/interactor/auth/logout-use-case'
 import SubscribeAuthStateUseCase from '~/interactor/auth/subscribe-auth-state-use-case'
@@ -43,6 +44,7 @@ import { RegisterScreen } from '~/presentation/ui/register'
 import { RoomScreen } from '~/presentation/ui/room'
 
 import { COLORS } from '../colors'
+import { ChangePasswordScreen } from '../ui/change-password'
 import { EditTranscriptScreen } from '../ui/edit-transcript'
 import { GroupListScreen } from '../ui/group-list'
 import { JoinScreen } from '../ui/join'
@@ -65,7 +67,8 @@ export enum Screens {
   EDIT_TRANSCRIPT = 'Edit Transcript',
   SETTINGS = 'Settings',
   TAB = 'Tab',
-  GROUP_LIST = 'GroupList',
+  GROUP_LIST = 'Group List',
+  CHANGE_PASSWORD = 'Change Password',
 }
 
 export type UseCases = {
@@ -91,6 +94,7 @@ export type UseCases = {
   editTranscript: EditTranscriptUseCase
   logOut: LogOutUseCase
   searchRoom: SearchRoomUseCase
+  changePassword: ChangePasswordUseCase
 }
 
 type RootStackParamList = {
@@ -119,6 +123,7 @@ type RootStackParamList = {
     group: Group
     room: Room
   }
+  [Screens.CHANGE_PASSWORD]: undefined
 }
 
 type BottomTabParamList = {
@@ -297,6 +302,15 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {(props: any) => (
                 <EditTranscriptScreen
                   editTranscriptUseCase={useCases.editTranscript}
+                  user={user}
+                  {...props}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.CHANGE_PASSWORD}>
+              {(props: any) => (
+                <ChangePasswordScreen
+                  changePasswordUseCase={useCases.changePassword}
                   user={user}
                   {...props}
                 />

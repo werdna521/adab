@@ -1,6 +1,7 @@
 import { User } from '~/domain/model'
 import type {
   AuthStateCallback,
+  ChangePasswordDTO,
   LoginDTO,
   RegisterDTO,
   Unsubscribe,
@@ -11,4 +12,5 @@ export default interface AuthDataSource {
   signUp: (registerDTO: RegisterDTO) => Promise<User>
   logout: () => Promise<void>
   subscribeToAuthState: (callback: AuthStateCallback) => Unsubscribe
+  changePassword: (dto: ChangePasswordDTO) => Promise<void>
 }

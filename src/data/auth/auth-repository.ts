@@ -2,6 +2,7 @@ import { User } from '~/domain/model'
 import { AuthRepository } from '~/domain/repository'
 import type {
   AuthStateCallback,
+  ChangePasswordDTO,
   LoginDTO,
   RegisterDTO,
   Unsubscribe,
@@ -22,6 +23,10 @@ export default class CoreAuthRepository implements AuthRepository {
 
   async logout(): Promise<void> {
     return await this.remoteDataSource.logout()
+  }
+
+  async changePassword(dto: ChangePasswordDTO): Promise<void> {
+    return await this.remoteDataSource.changePassword(dto)
   }
 
   subscribeToAuthState(callback: AuthStateCallback): Unsubscribe {

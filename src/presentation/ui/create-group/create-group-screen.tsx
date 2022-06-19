@@ -27,7 +27,7 @@ const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
     user: user!,
   })
 
-  const navigateToGroup = () => navigation.navigate(Screens.HOME)
+  const navigateToGroup = () => navigation.navigate(Screens.GROUP_LIST)
   const handleClick = async () => {
     await handleCreateGroup()
     navigateToGroup()
