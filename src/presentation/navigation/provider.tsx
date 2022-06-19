@@ -8,9 +8,9 @@ type Props = {
 const linking = {
   prefixes: ['adab://', 'https://adab.bearcats.dev/'],
   config: {
-    initialRouteName: 'Home' as const,
+    initialRouteName: 'Tab' as const,
     screens: {
-      Home: {
+      Tab: {
         path: '',
       },
       Join: {

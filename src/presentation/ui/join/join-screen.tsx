@@ -37,7 +37,7 @@ const JoinScreen: Screen<Props, Screens.JOIN> = ({
         CommonActions.reset({
           routes: [
             {
-              name: Screens.HOME,
+              name: Screens.TAB,
             },
             {
               name: Screens.GROUP,
