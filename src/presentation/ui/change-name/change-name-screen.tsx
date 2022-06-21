@@ -1,6 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
+import { StyleSheet, Text, View } from 'react-native'
 
 import ChangeNameUseCase from '~/interactor/auth/change-name-use-case'
 import { Screen, Screens } from '~/presentation/navigation'

@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Image, StyleSheet, TouchableOpacity, Text } from 'react-native'
 
 type Props = {
   navigateToCreateGroup: () => void

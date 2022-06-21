@@ -1,11 +1,12 @@
 import {
-  createMaterialBottomTabNavigator,
-  MaterialBottomTabNavigationProp,
-} from '@react-navigation/material-bottom-tabs'
+  createBottomTabNavigator,
+  BottomTabNavigationProp,
+} from '@react-navigation/bottom-tabs'
 import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
 import { StyleSheet } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Group, Room, User } from '~/domain/model'
 import { Member } from '~/domain/model/group'
@@ -50,6 +51,7 @@ import { ChangePasswordScreen } from '../ui/change-password'
 import { EditTranscriptScreen } from '../ui/edit-transcript'
 import { GroupListScreen } from '../ui/group-list'
 import { JoinScreen } from '../ui/join'
+import { ScheduleScreen } from '../ui/schedule'
 import { SettingsScreen } from '../ui/settings'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
@@ -72,6 +74,7 @@ export enum Screens {
   GROUP_LIST = 'Group List',
   CHANGE_PASSWORD = 'Change Password',
   CHANGE_NAME = 'Change Name',
+  SCHEDULE = 'Schedule',
 }
 
 export type UseCases = {
@@ -133,6 +136,7 @@ type RootStackParamList = {
 
 type BottomTabParamList = {
   [Screens.HOME]: undefined
+  [Screens.SCHEDULE]: undefined
   [Screens.GROUP_LIST]: undefined
   [Screens.SETTINGS]: undefined
 }
@@ -147,13 +151,13 @@ export type Screen<Props, RouteName extends keyof RootStackParamList> = FC<
 export type TabScreen<Props, RouteName extends keyof BottomTabParamList> = FC<
   Props & {
     route: RouteProp<BottomTabParamList, RouteName>
-    navigation: MaterialBottomTabNavigationProp<ParamListBase, RouteName>
+    navigation: BottomTabNavigationProp<ParamListBase, RouteName>
     user?: User
   }
 >
 
 const Stack = createStackNavigator()
-const Tab = createMaterialBottomTabNavigator()
+const Tab = createBottomTabNavigator()
 const theme = createTheme((defaultTheme) => ({
   ...defaultTheme,
   colors: {
@@ -188,25 +192,45 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               {() => (
                 <Tab.Navigator
                   initialRouteName={Screens.HOME}
-                  barStyle={styles.tab}
-                  activeColor="#101010"
-                  inactiveColor="#dfdfdf"
                   backBehavior="initialRoute"
-                  shifting
+                  screenOptions={{
+                    tabBarActiveTintColor: '#9bb1fe',
+                    tabBarInactiveTintColor: '#dfdfdf',
+                    headerShown: false,
+                  }}
                 >
                   <Tab.Screen
                     name={Screens.HOME}
                     options={{
-                      tabBarIcon: 'home',
+                      tabBarIcon: ({ focused, color, size }) => (
+                        <Icon name="home" size={size} color={color} />
+                      ),
                       title: 'Home',
                     }}
                   >
                     {(props: any) => <HomeScreen user={user} {...props} />}
                   </Tab.Screen>
                   <Tab.Screen
+                    name={Screens.SCHEDULE}
+                    options={{
+                      tabBarIcon: ({ focused, color, size }) => (
+                        <Icon name="calendar" size={size} color={color} />
+                      ),
+                      title: 'Schedule',
+                    }}
+                  >
+                    {(props: any) => <ScheduleScreen user={user} {...props} />}
+                  </Tab.Screen>
+                  <Tab.Screen
                     name={Screens.GROUP_LIST}
                     options={{
-                      tabBarIcon: 'account-multiple',
+                      tabBarIcon: ({ focused, color, size }) => (
+                        <Icon
+                          name="account-multiple"
+                          size={size}
+                          color={color}
+                        />
+                      ),
                       title: 'Group',
                     }}
                   >
@@ -221,7 +245,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   <Tab.Screen
                     name={Screens.SETTINGS}
                     options={{
-                      tabBarIcon: 'cog',
+                      tabBarIcon: ({ focused, color, size }) => (
+                        <Icon name="cog" size={size} color={color} />
+                      ),
                       title: 'Settings',
                     }}
                   >
