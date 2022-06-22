@@ -97,10 +97,6 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
     try {
       const currentUser = this.firebase.auth.currentUser
       if (!currentUser) throw new Error('Unauthenticated')
-      console.log({
-        ...currentUser,
-        displayName: newName,
-      })
 
       await updateProfile(currentUser, {
         displayName: newName,

@@ -1,4 +1,6 @@
-import { Room } from '../model'
+import { Timestamp } from 'firebase/firestore'
+
+import { Group, Room } from '../model'
 
 export type RoomStateCallback = (room: Room) => void
 export type Unsubscribe = () => void
@@ -30,6 +32,12 @@ export type EditTranscriptDTO = {
   roomID: string
 }
 
+export type GetScheduledRoomListDTO = {
+  userID: string
+  startDate: Timestamp
+  endDate: Timestamp
+}
+
 export default interface RoomRepository {
   subscribeToRoom: (
     groupID: string,
@@ -41,4 +49,16 @@ export default interface RoomRepository {
   createRoom: (dto: CreateRoomDTO) => Promise<void>
   endMeeting: (dto: EndMeetingDTO) => Promise<void>
   editTranscript: (dto: EditTranscriptDTO) => Promise<void>
+  getScheduledRoomList: (dto: GetScheduledRoomListDTO) => Promise<
+    Record<
+      string,
+      {
+        timestamp: Timestamp
+        data: {
+          room: Room
+          group: Group
+        }[]
+      }
+    >
+  >
 }

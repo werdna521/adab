@@ -21,8 +21,8 @@ type Props = {
 const COLORS: Record<number, string> = {
   0: '#9bb1fe',
   1: '#b08ee4',
-  2: '##f39072',
-  4: '#3472df',
+  2: '#f39072',
+  3: '#3472df',
 }
 
 const GroupItem: FC<Props> = (props) => {

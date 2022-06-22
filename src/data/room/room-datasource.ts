@@ -1,9 +1,12 @@
-import { Room } from '~/domain/model'
+import { Timestamp } from 'firebase/firestore'
+
+import { Group, Room } from '~/domain/model'
 import {
   CreateRoomDTO,
   EditTranscriptDTO,
   EndMeetingDTO,
   GetRoomListDTO,
+  GetScheduledRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
   Unsubscribe,
@@ -20,4 +23,16 @@ export default interface RoomDataSource {
   createRoom: (dto: CreateRoomDTO) => Promise<void>
   endMeeting: (dto: EndMeetingDTO) => Promise<void>
   editTranscript: (dto: EditTranscriptDTO) => Promise<void>
+  getScheduledRoomList: (dto: GetScheduledRoomListDTO) => Promise<
+    Record<
+      string,
+      {
+        timestamp: Timestamp
+        data: {
+          room: Room
+          group: Group
+        }[]
+      }
+    >
+  >
 }

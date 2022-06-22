@@ -33,6 +33,7 @@ import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
 import EndMeetingUseCase from '~/interactor/room/end-meeting-use-case'
 import GetEndMeetingPermissionUseCase from '~/interactor/room/get-end-meeting-permission-use-case'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
+import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
@@ -102,6 +103,7 @@ export type UseCases = {
   searchRoom: SearchRoomUseCase
   changePassword: ChangePasswordUseCase
   changeName: ChangeNameUseCase
+  getScheduledRoomList: GetScheduledRoomUseCase
 }
 
 type RootStackParamList = {
@@ -202,7 +204,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   <Tab.Screen
                     name={Screens.HOME}
                     options={{
-                      tabBarIcon: ({ focused, color, size }) => (
+                      tabBarIcon: ({ color, size }) => (
                         <Icon name="home" size={size} color={color} />
                       ),
                       title: 'Home',
@@ -213,18 +215,24 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   <Tab.Screen
                     name={Screens.SCHEDULE}
                     options={{
-                      tabBarIcon: ({ focused, color, size }) => (
+                      tabBarIcon: ({ color, size }) => (
                         <Icon name="calendar" size={size} color={color} />
                       ),
                       title: 'Schedule',
                     }}
                   >
-                    {(props: any) => <ScheduleScreen user={user} {...props} />}
+                    {(props: any) => (
+                      <ScheduleScreen
+                        getScheduledRoomList={useCases.getScheduledRoomList}
+                        user={user}
+                        {...props}
+                      />
+                    )}
                   </Tab.Screen>
                   <Tab.Screen
                     name={Screens.GROUP_LIST}
                     options={{
-                      tabBarIcon: ({ focused, color, size }) => (
+                      tabBarIcon: ({ color, size }) => (
                         <Icon
                           name="account-multiple"
                           size={size}
@@ -245,7 +253,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   <Tab.Screen
                     name={Screens.SETTINGS}
                     options={{
-                      tabBarIcon: ({ focused, color, size }) => (
+                      tabBarIcon: ({ color, size }) => (
                         <Icon name="cog" size={size} color={color} />
                       ),
                       title: 'Settings',

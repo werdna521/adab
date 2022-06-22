@@ -1,18 +1,48 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
 import ReactNativeCalendarStrip from 'react-native-calendar-strip'
 
+import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-use-case'
 import { Screens, TabScreen } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
 
-type Props = {}
+import { ScheduleItem } from './components'
+import { useScheduleViewModel } from './schedule-view-model'
+
+type Props = {
+  getScheduledRoomList: GetScheduledRoomUseCase
+}
 
 const minDate = new Date()
-minDate.setMonth(minDate.getMonth() - 3)
+minDate.setMonth(minDate.getMonth() - 1)
 const maxDate = new Date()
-maxDate.setMonth(maxDate.getMonth() + 3)
+maxDate.setMonth(maxDate.getMonth() + 1)
 
-const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = () => {
+const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
+  getScheduledRoomList,
+  user,
+}) => {
+  const {
+    isProcessing,
+    loadScheduledRoomList,
+    handleDateSelect,
+    markedDates,
+    selectedDate,
+    selectedRoomList,
+  } = useScheduleViewModel({
+    getScheduledRoomList,
+    user: user!,
+  })
+
+  const memoizedLoadScheduledRoomList = useCallback(
+    () => loadScheduledRoomList(),
+    [loadScheduledRoomList],
+  )
+
+  useEffect(() => {
+    memoizedLoadScheduledRoomList()
+  }, [memoizedLoadScheduledRoomList])
+
   return (
     <View style={styles.container}>
       <ReactNativeCalendarStrip
@@ -27,17 +57,33 @@ const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = () => {
         calendarColor="white"
         dateNumberStyle={styles.dateNumber}
         dateNameStyle={styles.dateName}
-        iconContainer={{ flex: 0.1 }}
         highlightDateNameStyle={styles.highlightDateName}
         highlightDateNumberStyle={styles.highlightDateNumber}
         highlightDateContainerStyle={styles.hightlightDateContainer}
-        markedDates={[]}
-        selectedDate={undefined}
+        markedDates={markedDates}
+        selectedDate={selectedDate}
+        onDateSelected={handleDateSelect}
         minDate={minDate}
         maxDate={maxDate}
-        onDateSelected={console.log}
         useIsoWeekday={false}
         scrollable
+      />
+
+      <FlatList
+        style={styles.flatList}
+        data={selectedRoomList}
+        renderItem={({ item, index }) => {
+          return (
+            <ScheduleItem
+              room={item.room}
+              group={item.group}
+              index={index}
+              navigateToGroup={console.log}
+            />
+          )
+        }}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        keyExtractor={(item) => `schedule-${item.room.uid}`}
       />
     </View>
   )
@@ -68,6 +114,14 @@ const styles = StyleSheet.create({
   },
   hightlightDateContainer: {
     backgroundColor: '#9bb1fe',
+  },
+  flatList: {
+    paddingTop: 20,
+    paddingBottom: 16,
+    paddingHorizontal: 20,
+  },
+  separator: {
+    marginTop: 16,
   },
 })
 

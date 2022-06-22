@@ -6,16 +6,19 @@ import {
   getDocs,
   collection,
   addDoc,
+  where,
+  query,
 } from 'firebase/firestore'
 
 import { UnknownError } from '~/common/error'
 import { RoomDataSource } from '~/data/room'
-import { Room } from '~/domain/model'
+import { Group, Room } from '~/domain/model'
 import {
   CreateRoomDTO,
   EditTranscriptDTO,
   EndMeetingDTO,
   GetRoomListDTO,
+  GetScheduledRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
   Unsubscribe,
@@ -116,5 +119,108 @@ export default class FirebaseRoomDataSource implements RoomDataSource {
     } catch (error) {
       throw new UnknownError(error)
     }
+  }
+
+  async getScheduledRoomList(dto: GetScheduledRoomListDTO): Promise<
+    Record<
+      string,
+      {
+        timestamp: Timestamp
+        data: {
+          room: Room
+          group: Group
+        }[]
+      }
+    >
+  > {
+    const { userID, startDate, endDate } = dto
+
+    try {
+      const snapshot = await getDocs(
+        query(
+          collection(this.firebase.db, 'group'),
+          where(`members.${userID}`, '!=', null),
+        ),
+      )
+
+      const roomList = await Promise.all(
+        snapshot.docs.flatMap(
+          async (document) =>
+            await this.getRoomWithinTimeRange({
+              startDate,
+              endDate,
+              group: {
+                uid: document.id,
+                ...document.data(),
+              } as Group,
+            }),
+        ),
+      )
+
+      return roomList.flat().reduce(
+        (
+          acc: Record<
+            string,
+            {
+              timestamp: Timestamp
+              data: {
+                room: Room
+                group: Group
+              }[]
+            }
+          >,
+          curr,
+        ) => {
+          const date = curr.room.timestamp.toDate()
+          const key = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+          return {
+            ...acc,
+            [key]: {
+              ...(acc[key] || {}),
+              timestamp: curr.room.timestamp,
+              data: [...(acc[key]?.data || []), curr],
+            },
+          }
+        },
+        {},
+      )
+    } catch (error) {
+      console.log(error)
+      throw new UnknownError(error)
+    }
+  }
+
+  private async getRoomWithinTimeRange({
+    startDate,
+    endDate,
+    group,
+  }: {
+    startDate: Timestamp
+    endDate: Timestamp
+    group: Group
+  }): Promise<
+    {
+      room: Room
+      group: Group
+    }[]
+  > {
+    const snapshot = await getDocs(
+      query(
+        collection(this.firebase.db, 'group', group.uid, 'room'),
+        where('timestamp', '>=', startDate),
+        where('timestamp', '<=', endDate),
+      ),
+    )
+
+    return snapshot.docs.map((document) => ({
+      room: {
+        uid: document.id,
+        ...document.data(),
+      } as Room,
+      group,
+    })) as {
+      room: Room
+      group: Group
+    }[]
   }
 }

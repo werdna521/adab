@@ -1,10 +1,13 @@
-import { Room } from '~/domain/model'
+import { Timestamp } from 'firebase/firestore'
+
+import { Group, Room } from '~/domain/model'
 import { RoomRepository } from '~/domain/repository'
 import {
   CreateRoomDTO,
   EditTranscriptDTO,
   EndMeetingDTO,
   GetRoomListDTO,
+  GetScheduledRoomListDTO,
   PublishNewContentDTO,
   RoomStateCallback,
   Unsubscribe,
@@ -41,5 +44,20 @@ export default class CoreGroupRepository implements RoomRepository {
 
   async editTranscript(dto: EditTranscriptDTO): Promise<void> {
     return this.remoteDataSource.editTranscript(dto)
+  }
+
+  async getScheduledRoomList(dto: GetScheduledRoomListDTO): Promise<
+    Record<
+      string,
+      {
+        timestamp: Timestamp
+        data: {
+          room: Room
+          group: Group
+        }[]
+      }
+    >
+  > {
+    return this.remoteDataSource.getScheduledRoomList(dto)
   }
 }

@@ -31,6 +31,7 @@ import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
 import EndMeetingUseCase from '~/interactor/room/end-meeting-use-case'
 import GetEndMeetingPermissionUseCase from '~/interactor/room/get-end-meeting-permission-use-case'
 import GetRoomListUseCase from '~/interactor/room/get-room-list-use-case'
+import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
@@ -71,6 +72,7 @@ const getRoomListUseCase = new GetRoomListUseCase(roomRepository)
 const createRoomUseCase = new CreateRoomUseCase(roomRepository)
 const endMeetingUseCase = new EndMeetingUseCase(roomRepository)
 const editTranscriptUseCase = new EditTranscriptUseCase(roomRepository)
+const getScheduledRoomListUseCase = new GetScheduledRoomUseCase(roomRepository)
 const getEndMeetingPermissionUseCase = new GetEndMeetingPermissionUseCase()
 const formatMemberWithAccessPropertiesUseCase =
   new FormatMemberWithAccessPropertiesUseCase()
@@ -100,6 +102,7 @@ const useCases: UseCases = {
   searchRoom: searchRoomUseCase,
   changePassword: changePasswordUseCase,
   changeName: changeNameUseCase,
+  getScheduledRoomList: getScheduledRoomListUseCase,
 }
 
 const App: FC = () => {
