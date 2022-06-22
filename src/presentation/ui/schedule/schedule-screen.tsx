@@ -21,9 +21,9 @@ maxDate.setMonth(maxDate.getMonth() + 1)
 const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
   getScheduledRoomList,
   user,
+  navigation,
 }) => {
   const {
-    isProcessing,
     loadScheduledRoomList,
     handleDateSelect,
     markedDates,
@@ -73,12 +73,18 @@ const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
         style={styles.flatList}
         data={selectedRoomList}
         renderItem={({ item, index }) => {
+          const navigateToRoom = () =>
+            navigation.navigate(Screens.ROOM, {
+              room: item.room,
+              group: item.group,
+            })
+
           return (
             <ScheduleItem
               room={item.room}
               group={item.group}
               index={index}
-              navigateToGroup={console.log}
+              navigateToRoom={navigateToRoom}
             />
           )
         }}

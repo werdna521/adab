@@ -12,7 +12,7 @@ import { Group, Room } from '~/domain/model'
 type Props = {
   room: Room
   group: Group
-  navigateToGroup: () => void
+  navigateToRoom: () => void
   index: number
   style?: StyleProp<ViewStyle>
 }
@@ -25,13 +25,13 @@ const COLORS: Record<number, string> = {
 }
 
 const ScheduleItem: FC<Props> = (props) => {
-  const { room, group, navigateToGroup, style } = props
+  const { room, group, navigateToRoom, style } = props
 
   return (
     <TouchableOpacity
       style={[styles(props).container, style]}
       activeOpacity={0.5}
-      onPress={navigateToGroup}
+      onPress={navigateToRoom}
     >
       <Text style={styles(props).title}>{room.title}</Text>
       <Text style={styles(props).group}>#{group.name}</Text>
