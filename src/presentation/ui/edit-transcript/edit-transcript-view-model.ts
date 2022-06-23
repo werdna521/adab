@@ -1,3 +1,5 @@
+import { Alert } from 'react-native'
+
 import { UnknownError } from '~/common/error'
 import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
 
@@ -20,19 +22,33 @@ export const useEditTranscriptViewModel = (params: Params) => {
   })
 
   const handleEditTranscript = async () => {
-    setStatus(Status.PROCESSING)
+    Alert.alert(
+      'Alert',
+      'Saving will overwrite your transcript history. Do you want to proceed?',
+      [
+        {
+          text: 'No',
+        },
+        {
+          text: 'Yes',
+          onPress: async () => {
+            setStatus(Status.PROCESSING)
 
-    const { error } = await editTranscriptUseCase.invoke({
-      groupID,
-      roomID,
-      content: inputData.content,
-    })
-    if (error instanceof UnknownError) {
-      setStatus(Status.ERROR)
-      return
-    }
+            const { error } = await editTranscriptUseCase.invoke({
+              groupID,
+              roomID,
+              content: inputData.content,
+            })
+            if (error instanceof UnknownError) {
+              setStatus(Status.ERROR)
+              return
+            }
 
-    setStatus(Status.SUCCESS)
+            setStatus(Status.SUCCESS)
+          },
+        },
+      ],
+    )
   }
 
   return {
