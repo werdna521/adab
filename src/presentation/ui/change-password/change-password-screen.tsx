@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
 
 import ChangePasswordUseCase from '~/interactor/auth/change-password-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
@@ -28,7 +28,10 @@ const ChangePasswordScreen: Screen<Props, Screens.CHANGE_PASSWORD> = ({
 
   const navigateToSettings = () => navigation.pop()
   const handleChangePasswordPress = async () => {
-    if (await handleChangePassword()) navigateToSettings()
+    if (await handleChangePassword()) {
+      ToastAndroid.show('Group Created', ToastAndroid.SHORT)
+      navigateToSettings()
+    }
   }
 
   return (

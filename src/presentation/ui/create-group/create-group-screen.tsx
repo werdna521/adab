@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 
 import { CreateGroupUseCase } from '~/interactor/group'
 import { Screen, Screens } from '~/presentation/navigation'
@@ -31,6 +31,7 @@ const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
   const handleClick = async () => {
     await handleCreateGroup()
     navigateToGroup()
+    ToastAndroid.show('Group Created', ToastAndroid.SHORT)
   }
 
   return (

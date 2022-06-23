@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
 
 import ChangeNameUseCase from '~/interactor/auth/change-name-use-case'
 import { Screen, Screens } from '~/presentation/navigation'
@@ -28,7 +28,10 @@ const ChangeNameScreen: Screen<Props, Screens.CHANGE_NAME> = ({
 
   const navigateToSettings = () => navigation.pop()
   const handleChangeNamePress = async () => {
-    if (await handleChangeName()) navigateToSettings()
+    if (await handleChangeName()) {
+      ToastAndroid.show('Group Created', ToastAndroid.SHORT)
+      navigateToSettings()
+    }
   }
 
   return (

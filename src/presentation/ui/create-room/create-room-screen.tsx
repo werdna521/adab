@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -39,6 +40,7 @@ const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
   const handleClick = async () => {
     await handleCreateRoom()
     navigateToRoom()
+    ToastAndroid.show('Group Created', ToastAndroid.SHORT)
   }
 
   return (
