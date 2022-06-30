@@ -10,7 +10,9 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { Group } from '~/domain/model'
+import { getColor } from '~/presentation/colors'
 import { getNotchSize } from '~/presentation/notch'
+import { useTheme } from '~/presentation/theme'
 
 import { InputGroup, TextButton } from '../../common/components'
 
@@ -29,28 +31,37 @@ const GroupHeader: FC<Props> = ({
   handleCopyInviteLink,
   handleQueryChange,
 }) => {
+  const { isLowVisionMode } = useTheme()
+
   const handleCopy = async () => {
     const inviteLink = await handleCopyInviteLink()
     ToastAndroid.show(`Link copied to clipboard!`, ToastAndroid.SHORT)
     Clipboard.setString(inviteLink)
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <Text style={styles.header}>{group.name}</Text>
+    <View style={styles(isLowVisionMode).container}>
+      <View style={styles(isLowVisionMode).topContainer}>
+        <Text style={styles(isLowVisionMode).header}>{group.name}</Text>
         <TouchableOpacity
-          style={styles.copyButton}
+          style={styles(isLowVisionMode).copyButton}
           activeOpacity={0.7}
           onPress={handleCopy}
         >
-          <Icon name="content-copy" size={20} color="#1d2d48" />
+          <Icon
+            name="content-copy"
+            size={20}
+            color={getColor('#1d2d48', isLowVisionMode)}
+          />
         </TouchableOpacity>
       </View>
-      <TextButton style={styles.seeMembers} onPress={navigateToMember}>
+      <TextButton
+        style={styles(isLowVisionMode).seeMembers}
+        onPress={navigateToMember}
+      >
         See members{'  '}&gt;
       </TextButton>
       <InputGroup
-        style={styles.search}
+        style={styles(isLowVisionMode).search}
         placeholder="Search..."
         onChangeText={handleQueryChange}
         value={query}
@@ -59,35 +70,36 @@ const GroupHeader: FC<Props> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: getNotchSize() + 16,
-    paddingHorizontal: 20,
-  },
-  topContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  copyButton: {
-    marginTop: 4,
-    width: 24,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header: {
-    fontSize: 24,
-    color: '#101010',
-    fontFamily: 'Satoshi-Bold',
-    maxWidth: '80%',
-  },
-  seeMembers: {
-    paddingLeft: 0,
-  },
-  search: {
-    marginTop: 8,
-    marginBottom: 24,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      paddingTop: getNotchSize() + 16,
+      paddingHorizontal: 20,
+    },
+    topContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    copyButton: {
+      marginTop: 4,
+      width: 24,
+      height: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    header: {
+      fontSize: 24,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Bold',
+      maxWidth: '80%',
+    },
+    seeMembers: {
+      paddingLeft: 0,
+    },
+    search: {
+      marginTop: 8,
+      marginBottom: 24,
+    },
+  })
 
 export default memo(GroupHeader)

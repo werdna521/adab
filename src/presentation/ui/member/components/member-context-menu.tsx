@@ -8,6 +8,9 @@ import {
 } from 'react-native-popup-menu'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
+
 import ContextAction from './context-action'
 
 type Props = {
@@ -25,6 +28,7 @@ const MemberContextMenu: FC<Props> = ({
   handleMemberRoleUpdate,
   handleRemoveMember,
 }) => {
+  const { isLowVisionMode } = useTheme()
   if (isSelf) return null
   if (!canEditRole && !canRemoveMember) return null
 
@@ -32,7 +36,11 @@ const MemberContextMenu: FC<Props> = ({
     <Menu style={styles.container}>
       <MenuTrigger>
         <View style={styles.threeDots}>
-          <Icon name="more-vert" size={20} color="#535250" />
+          <Icon
+            name="more-vert"
+            size={20}
+            color={getColor('#535250', isLowVisionMode)}
+          />
         </View>
       </MenuTrigger>
       <MenuOptions

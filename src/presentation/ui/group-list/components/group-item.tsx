@@ -10,6 +10,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { Group } from '~/domain/model'
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
 
 type Props = {
   group: Group
@@ -29,18 +31,25 @@ const GroupItem: FC<Props> = (props) => {
   const { group, navigateToGroup, style } = props
   const memberCount = Object.keys(group.members).length
   const unit = memberCount > 1 ? 'members' : 'member'
+  const { isLowVisionMode } = useTheme()
 
   return (
     <TouchableOpacity
-      style={[styles(props).container, style]}
+      style={[styles({ ...props, isLowVisionMode }).container, style]}
       activeOpacity={0.5}
       onPress={navigateToGroup}
     >
-      <Text style={styles(props).title}>{group.name}</Text>
-      <View style={styles(props).metadataContainer}>
-        <View style={styles(props).rowContainer}>
-          <Icon name="person" color="#dfdfdf" size={20} />
-          <Text style={styles(props).member}>
+      <Text style={styles({ ...props, isLowVisionMode }).title}>
+        {group.name}
+      </Text>
+      <View style={styles({ ...props, isLowVisionMode }).metadataContainer}>
+        <View style={styles({ ...props, isLowVisionMode }).rowContainer}>
+          <Icon
+            name="person"
+            color={getColor('#dfdfdf', isLowVisionMode)}
+            size={20}
+          />
+          <Text style={styles({ ...props, isLowVisionMode }).member}>
             {memberCount} {unit}
           </Text>
         </View>
@@ -49,21 +58,27 @@ const GroupItem: FC<Props> = (props) => {
   )
 }
 
-const styles = ({ index }: Props) =>
+const styles = ({
+  index,
+  isLowVisionMode,
+}: Props & { isLowVisionMode: boolean }) =>
   StyleSheet.create({
     container: {
-      backgroundColor: COLORS[index % Object.values(COLORS).length],
+      backgroundColor: getColor(
+        COLORS[index % Object.values(COLORS).length],
+        isLowVisionMode,
+      ),
       padding: 24,
       borderRadius: 24,
     },
     title: {
       fontSize: 16,
-      color: '#fdfff1',
+      color: getColor('#fdfff1', isLowVisionMode),
       fontFamily: 'Satoshi-Bold',
     },
     member: {
       fontSize: 14,
-      color: '#dfdfdf',
+      color: getColor('#dfdfdf', isLowVisionMode),
       fontFamily: 'Satoshi-Medium',
       marginLeft: 6,
     },

@@ -3,8 +3,10 @@ import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 
 import EditTranscriptUseCase from '~/interactor/room/edit-transcript-use-case'
+import { getColor } from '~/presentation/colors'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
+import { useTheme } from '~/presentation/theme'
 
 import { Button } from '../common/components'
 import { useEditTranscriptViewModel } from './edit-transcript-view-model'
@@ -32,6 +34,7 @@ const EditTranscriptScreen: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
     initialContent: room.content,
     roomID: room.uid,
   })
+  const { isLowVisionMode } = useTheme()
 
   useEffect(() => {
     if (isSuccess) {
@@ -64,18 +67,21 @@ const EditTranscriptScreen: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
   }, [navigation, group, room, isSuccess, content])
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{room.title}</Text>
-      <ScrollView style={styles.scrollView} keyboardDismissMode="interactive">
+    <View style={styles(isLowVisionMode).container}>
+      <Text style={styles(isLowVisionMode).title}>{room.title}</Text>
+      <ScrollView
+        style={styles(isLowVisionMode).scrollView}
+        keyboardDismissMode="interactive"
+      >
         <TextInput
-          style={styles.content}
+          style={styles(isLowVisionMode).content}
           defaultValue={room.content}
           onChangeText={handleInputTextChange('content')}
           multiline
         />
       </ScrollView>
       <Button
-        style={styles.editButton}
+        style={styles(isLowVisionMode).editButton}
         onPress={handleEditTranscript}
         disabled={isProcessing}
         primary
@@ -86,33 +92,34 @@ const EditTranscriptScreen: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    paddingTop: getNotchSize() + 16,
-  },
-  title: {
-    fontSize: 18,
-    color: '#101010',
-    fontFamily: 'Satoshi-Bold',
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#dfdfdf',
-    paddingBottom: 20,
-  },
-  scrollView: {
-    paddingTop: 20,
-    marginBottom: 16,
-    paddingHorizontal: 20,
-  },
-  content: {
-    fontSize: 16,
-    fontFamily: 'Satoshi-Medium',
-    color: '#101010',
-  },
-  editButton: {
-    marginBottom: 24,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      height: '100%',
+      paddingTop: getNotchSize() + 16,
+    },
+    title: {
+      fontSize: 18,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Bold',
+      paddingHorizontal: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: getColor('#dfdfdf', isLowVisionMode),
+      paddingBottom: 20,
+    },
+    scrollView: {
+      paddingTop: 20,
+      marginBottom: 16,
+      paddingHorizontal: 20,
+    },
+    content: {
+      fontSize: 16,
+      fontFamily: 'Satoshi-Medium',
+      color: getColor('#101010', isLowVisionMode),
+    },
+    editButton: {
+      marginBottom: 24,
+    },
+  })
 
 export default EditTranscriptScreen

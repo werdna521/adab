@@ -8,6 +8,8 @@ import {
 } from 'react-native'
 
 import { Group, Room } from '~/domain/model'
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
 
 type Props = {
   room: Room
@@ -26,34 +28,45 @@ const COLORS: Record<number, string> = {
 
 const ScheduleItem: FC<Props> = (props) => {
   const { room, group, navigateToRoom, style } = props
+  const { isLowVisionMode } = useTheme()
 
   return (
     <TouchableOpacity
-      style={[styles(props).container, style]}
+      style={[styles({ ...props, isLowVisionMode }).container, style]}
       activeOpacity={0.5}
       onPress={navigateToRoom}
     >
-      <Text style={styles(props).title}>{room.title}</Text>
-      <Text style={styles(props).group}>#{group.name}</Text>
+      <Text style={styles({ ...props, isLowVisionMode }).title}>
+        {room.title}
+      </Text>
+      <Text style={styles({ ...props, isLowVisionMode }).group}>
+        #{group.name}
+      </Text>
     </TouchableOpacity>
   )
 }
 
-const styles = ({ index }: Props) =>
+const styles = ({
+  index,
+  isLowVisionMode,
+}: Props & { isLowVisionMode: boolean }) =>
   StyleSheet.create({
     container: {
-      backgroundColor: COLORS[index % Object.values(COLORS).length],
+      backgroundColor: getColor(
+        COLORS[index % Object.values(COLORS).length],
+        isLowVisionMode,
+      ),
       padding: 24,
       borderRadius: 24,
     },
     title: {
       fontSize: 16,
-      color: '#fdfff1',
+      color: getColor('#fdfff1', isLowVisionMode),
       fontFamily: 'Satoshi-Bold',
     },
     group: {
       fontSize: 14,
-      color: '#fdfff1',
+      color: getColor('#fdfff1', isLowVisionMode),
       fontFamily: 'Satoshi-Medium',
     },
   })

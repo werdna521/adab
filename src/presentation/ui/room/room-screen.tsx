@@ -5,8 +5,10 @@ import { SubscribeToRoomStateUseCase } from '~/interactor/room'
 import EndMeetingUseCase from '~/interactor/room/end-meeting-use-case'
 import GetEndMeetingPermissionUseCase from '~/interactor/room/get-end-meeting-permission-use-case'
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
+import { getColor } from '~/presentation/colors'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
+import { useTheme } from '~/presentation/theme'
 
 import { Button, TextButton } from '../common/components'
 import { MicOff, MicOn } from './components'
@@ -30,6 +32,7 @@ const RoomScreen: Screen<Props, Screens.ROOM> = ({
 }) => {
   const { group, room: roomState } = route.params
   const { uid: groupID } = group
+  const { isLowVisionMode } = useTheme()
 
   const scrollViewRef = useRef<ScrollView>(null)
   const {
@@ -56,18 +59,21 @@ const RoomScreen: Screen<Props, Screens.ROOM> = ({
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{roomTitle}</Text>
-      <ScrollView ref={scrollViewRef} style={styles.scrollView}>
-        <Text style={styles.content}>{content}</Text>
+    <View style={styles(isLowVisionMode).container}>
+      <Text style={styles(isLowVisionMode).title}>{roomTitle}</Text>
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles(isLowVisionMode).scrollView}
+      >
+        <Text style={styles(isLowVisionMode).content}>{content}</Text>
       </ScrollView>
       {!isEnded && (
-        <View style={styles.buttonContainer}>
+        <View style={styles(isLowVisionMode).buttonContainer}>
           {canEndMeeting && (
             <TextButton
               color="#F32013"
-              style={styles.endButton}
-              textStyle={styles.endButtonText}
+              style={styles(isLowVisionMode).endButton}
+              textStyle={styles(isLowVisionMode).endButtonText}
               onPress={handleEndMeeting}
             >
               End Meeting
@@ -80,7 +86,7 @@ const RoomScreen: Screen<Props, Screens.ROOM> = ({
       )}
       {isEnded && canEndMeeting && (
         <Button
-          style={styles.editButton}
+          style={styles(isLowVisionMode).editButton}
           onPress={navigateToEditTranscript}
           primary
         >
@@ -91,46 +97,47 @@ const RoomScreen: Screen<Props, Screens.ROOM> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    paddingTop: getNotchSize() + 16,
-  },
-  title: {
-    fontSize: 18,
-    color: '#101010',
-    fontFamily: 'Satoshi-Bold',
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#dfdfdf',
-    paddingBottom: 20,
-  },
-  scrollView: {
-    paddingTop: 20,
-    marginBottom: 16,
-    paddingHorizontal: 20,
-  },
-  content: {
-    fontSize: 16,
-    fontFamily: 'Satoshi-Medium',
-    color: '#101010',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 24,
-    paddingHorizontal: 20,
-  },
-  endButton: {
-    marginRight: 32,
-  },
-  endButtonText: {
-    fontSize: 16,
-  },
-  editButton: {
-    marginBottom: 24,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      height: '100%',
+      paddingTop: getNotchSize() + 16,
+    },
+    title: {
+      fontSize: 18,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Bold',
+      paddingHorizontal: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: getColor('#dfdfdf', isLowVisionMode),
+      paddingBottom: 20,
+    },
+    scrollView: {
+      paddingTop: 20,
+      marginBottom: 16,
+      paddingHorizontal: 20,
+    },
+    content: {
+      fontSize: 16,
+      fontFamily: 'Satoshi-Medium',
+      color: getColor('#101010', isLowVisionMode),
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 24,
+      paddingHorizontal: 20,
+    },
+    endButton: {
+      marginRight: 32,
+    },
+    endButtonText: {
+      fontSize: 16,
+    },
+    editButton: {
+      marginBottom: 24,
+    },
+  })
 
 export default RoomScreen

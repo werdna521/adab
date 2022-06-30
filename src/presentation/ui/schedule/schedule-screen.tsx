@@ -3,8 +3,10 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import ReactNativeCalendarStrip from 'react-native-calendar-strip'
 
 import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-use-case'
+import { getColor } from '~/presentation/colors'
 import { Screens, TabScreen } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
+import { useTheme } from '~/presentation/theme'
 
 import { ScheduleItem } from './components'
 import { useScheduleViewModel } from './schedule-view-model'
@@ -33,6 +35,7 @@ const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
     getScheduledRoomList,
     user: user!,
   })
+  const { isLowVisionMode } = useTheme()
 
   const memoizedLoadScheduledRoomList = useCallback(
     () => loadScheduledRoomList(),
@@ -44,22 +47,24 @@ const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
   }, [memoizedLoadScheduledRoomList])
 
   return (
-    <View style={styles.container}>
+    <View style={styles(isLowVisionMode).container}>
       <ReactNativeCalendarStrip
         calendarAnimation={{ type: 'sequence', duration: 30 }}
         daySelectionAnimation={{
           type: 'background',
           duration: 300,
-          highlightColor: '#9265DC',
+          highlightColor: getColor('#9265DC', isLowVisionMode),
         }}
-        style={styles.calendarStrip}
-        calendarHeaderStyle={styles.calendarHeader}
-        calendarColor="white"
-        dateNumberStyle={styles.dateNumber}
-        dateNameStyle={styles.dateName}
-        highlightDateNameStyle={styles.highlightDateName}
-        highlightDateNumberStyle={styles.highlightDateNumber}
-        highlightDateContainerStyle={styles.hightlightDateContainer}
+        style={styles(isLowVisionMode).calendarStrip}
+        calendarHeaderStyle={styles(isLowVisionMode).calendarHeader}
+        calendarColor={getColor('white', isLowVisionMode)}
+        dateNumberStyle={styles(isLowVisionMode).dateNumber}
+        dateNameStyle={styles(isLowVisionMode).dateName}
+        highlightDateNameStyle={styles(isLowVisionMode).highlightDateName}
+        highlightDateNumberStyle={styles(isLowVisionMode).highlightDateNumber}
+        highlightDateContainerStyle={
+          styles(isLowVisionMode).hightlightDateContainer
+        }
         markedDates={markedDates}
         selectedDate={selectedDate}
         onDateSelected={handleDateSelect}
@@ -70,7 +75,7 @@ const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
       />
 
       <FlatList
-        style={styles.flatList}
+        style={styles(isLowVisionMode).flatList}
         data={selectedRoomList}
         renderItem={({ item, index }) => {
           const navigateToRoom = () =>
@@ -88,47 +93,50 @@ const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
             />
           )
         }}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={() => (
+          <View style={styles(isLowVisionMode).separator} />
+        )}
         keyExtractor={(item) => `schedule-${item.room.uid}`}
       />
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    paddingTop: getNotchSize() + 16,
-  },
-  calendarStrip: {
-    height: 80,
-  },
-  calendarHeader: {
-    color: '#101010',
-  },
-  dateNumber: {
-    color: '#101010',
-  },
-  dateName: {
-    color: '#101010',
-  },
-  highlightDateName: {
-    color: 'white',
-  },
-  highlightDateNumber: {
-    color: 'white',
-  },
-  hightlightDateContainer: {
-    backgroundColor: '#9bb1fe',
-  },
-  flatList: {
-    paddingTop: 20,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
-  },
-  separator: {
-    marginTop: 16,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      height: '100%',
+      paddingTop: getNotchSize() + 16,
+    },
+    calendarStrip: {
+      height: 80,
+    },
+    calendarHeader: {
+      color: getColor('#101010', isLowVisionMode),
+    },
+    dateNumber: {
+      color: getColor('#101010', isLowVisionMode),
+    },
+    dateName: {
+      color: getColor('#101010', isLowVisionMode),
+    },
+    highlightDateName: {
+      color: getColor('white', isLowVisionMode),
+    },
+    highlightDateNumber: {
+      color: getColor('white', isLowVisionMode),
+    },
+    hightlightDateContainer: {
+      backgroundColor: getColor('#9bb1fe', isLowVisionMode),
+    },
+    flatList: {
+      paddingTop: 20,
+      paddingBottom: 16,
+      paddingHorizontal: 20,
+    },
+    separator: {
+      marginTop: 16,
+    },
+  })
 
 export default ScheduleScreen

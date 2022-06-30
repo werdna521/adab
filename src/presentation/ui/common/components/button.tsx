@@ -7,6 +7,9 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
+
 type Props = {
   onPress?: () => void
   disabled?: boolean
@@ -17,26 +20,35 @@ type Props = {
 
 const Button: FC<Props> = (props) => {
   const { onPress = () => {}, disabled = false, children } = props
+  const { isLowVisionMode } = useTheme()
 
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      style={[props.style, styles(props).container]}
+      style={[props.style, styles({ ...props, isLowVisionMode }).container]}
       onPress={onPress}
       disabled={disabled}
     >
-      <Text style={styles(props).text}>{children}</Text>
+      <Text style={styles({ ...props, isLowVisionMode }).text}>{children}</Text>
     </TouchableOpacity>
   )
 }
 
-const styles = ({ disabled = false, primary = false, minWidth }: Props) =>
+const styles = ({
+  disabled = false,
+  primary = false,
+  minWidth,
+  isLowVisionMode,
+}: Props & { isLowVisionMode: boolean }) =>
   StyleSheet.create({
     container: {
       paddingVertical: 16,
       paddingHorizontal: 32,
       minWidth: minWidth !== undefined ? minWidth : 200,
-      backgroundColor: primary ? '#3472df' : '#2d2d2d',
+      backgroundColor: getColor(
+        primary ? '#3472df' : '#2d2d2d',
+        isLowVisionMode,
+      ),
       opacity: disabled ? 0.5 : 1,
       alignItems: 'center',
       alignSelf: 'center',
@@ -44,7 +56,7 @@ const styles = ({ disabled = false, primary = false, minWidth }: Props) =>
     },
     text: {
       fontSize: 18,
-      color: 'white',
+      color: getColor('white', isLowVisionMode),
       fontFamily: 'Satoshi-Medium',
     },
   })

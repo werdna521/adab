@@ -10,7 +10,8 @@ import {
 } from 'react-native'
 
 import { Group, Room } from '~/domain/model'
-import { getNotchSize } from '~/presentation/notch'
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
 
 import GroupHeader from './header'
 import RoomItem from './room-item'
@@ -38,15 +39,22 @@ const RoomList: FC<Props> = ({
   handleCopyInviteLink,
   handleQueryChange,
 }) => {
+  const { isLowVisionMode } = useTheme()
   const renderGroupItem: ListRenderItem<Room> = ({ item: room }) => (
     <RoomItem room={room} navigateToRoom={() => navigateToRoom(room)} />
   )
-  const renderSeparator = () => <View style={styles.separator} />
+  const renderSeparator = () => (
+    <View style={styles(isLowVisionMode).separator} />
+  )
   const renderRoomTimestamp = ({ section: { title } }: any) => {
-    return <Text style={styles.label}>{title}</Text>
+    return <Text style={styles(isLowVisionMode).label}>{title}</Text>
   }
-  const renderSectionSeparator = () => <View style={styles.sectionSeparator} />
-  const renderEmpty = () => <Text style={styles.empty}>No room yet.</Text>
+  const renderSectionSeparator = () => (
+    <View style={styles(isLowVisionMode).sectionSeparator} />
+  )
+  const renderEmpty = () => (
+    <Text style={styles(isLowVisionMode).empty}>No room yet.</Text>
+  )
 
   return (
     <>
@@ -58,7 +66,7 @@ const RoomList: FC<Props> = ({
         handleQueryChange={handleQueryChange}
       />
       <SectionList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles(isLowVisionMode).container}
         showsVerticalScrollIndicator={false}
         sections={roomList}
         renderItem={renderGroupItem}
@@ -67,7 +75,7 @@ const RoomList: FC<Props> = ({
         keyExtractor={(room) => `room-item-${room.uid}`}
         ItemSeparatorComponent={renderSeparator}
         ListFooterComponent={View}
-        ListFooterComponentStyle={styles.footer}
+        ListFooterComponentStyle={styles(isLowVisionMode).footer}
         ListEmptyComponent={renderEmpty}
         onRefresh={onRefresh}
         refreshing={isProcessing}
@@ -76,32 +84,33 @@ const RoomList: FC<Props> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 16,
-    paddingHorizontal: 20,
-  },
-  separator: {
-    marginTop: 12,
-  },
-  footer: {
-    height: 120,
-  },
-  empty: {
-    fontSize: 16,
-    color: '#101010',
-    fontFamily: 'Satoshi-Medium',
-  },
-  sectionSeparator: {
-    marginTop: 24,
-  },
-  label: {
-    color: '#101010',
-    fontFamily: 'Satoshi-Medium',
-    fontSize: 14,
-    marginBottom: 8,
-    marginLeft: 8,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      paddingTop: 16,
+      paddingHorizontal: 20,
+    },
+    separator: {
+      marginTop: 12,
+    },
+    footer: {
+      height: 120,
+    },
+    empty: {
+      fontSize: 16,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Medium',
+    },
+    sectionSeparator: {
+      marginTop: 24,
+    },
+    label: {
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Medium',
+      fontSize: 14,
+      marginBottom: 8,
+      marginLeft: 8,
+    },
+  })
 
 export default RoomList

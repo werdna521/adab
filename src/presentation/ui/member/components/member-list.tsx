@@ -3,7 +3,9 @@ import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 import { MenuProvider } from 'react-native-popup-menu'
 
 import { MemberWithAccessProperties } from '~/domain/model/group'
+import { getColor } from '~/presentation/colors'
 import { getNotchSize } from '~/presentation/notch'
+import { useTheme } from '~/presentation/theme'
 
 import MemberItem from './member-item'
 
@@ -18,6 +20,7 @@ const MemberList: FC<Props> = ({
   handleMemberRoleUpdate,
   handleRemoveMember,
 }) => {
+  const { isLowVisionMode } = useTheme()
   const renderGroupItem: ListRenderItem<
     [string, MemberWithAccessProperties]
   > = ({ item: [id, member] }) => {
@@ -33,42 +36,45 @@ const MemberList: FC<Props> = ({
       />
     )
   }
-  const renderHeader = () => <Text style={styles.title}>Members</Text>
+  const renderHeader = () => (
+    <Text style={styles(isLowVisionMode).title}>Members</Text>
+  )
 
   return (
     <MenuProvider>
       <FlatList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles(isLowVisionMode).container}
         renderItem={renderGroupItem}
         data={Object.entries(membersWithAccessProperties)}
         keyExtractor={([id]) => `member-item-${id}`}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={View}
-        ListFooterComponentStyle={styles.footer}
+        ListFooterComponentStyle={styles(isLowVisionMode).footer}
       />
     </MenuProvider>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: getNotchSize() + 16,
-    paddingHorizontal: 20,
-  },
-  footer: {
-    height: 120,
-  },
-  empty: {
-    fontSize: 16,
-    color: '#101010',
-    fontFamily: 'Satoshi-Medium',
-  },
-  title: {
-    fontSize: 28,
-    color: '#101010',
-    fontFamily: 'Satoshi-Bold',
-    marginBottom: 16,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      paddingTop: getNotchSize() + 16,
+      paddingHorizontal: 20,
+    },
+    footer: {
+      height: 120,
+    },
+    empty: {
+      fontSize: 16,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Medium',
+    },
+    title: {
+      fontSize: 28,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Bold',
+      marginBottom: 16,
+    },
+  })
 
 export default MemberList

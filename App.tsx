@@ -35,8 +35,9 @@ import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-u
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
-import { COLORS } from '~/presentation/colors'
+import { COLORS, getColor } from '~/presentation/colors'
 import AppNavigation, { UseCases } from '~/presentation/navigation'
+import { ThemeProvider, useTheme } from '~/presentation/theme'
 
 const firebase = new Firebase()
 
@@ -105,17 +106,27 @@ const useCases: UseCases = {
   getScheduledRoomList: getScheduledRoomListUseCase,
 }
 
-const App: FC = () => {
+const AppContent: FC = () => {
+  const { isLowVisionMode } = useTheme()
+
   return (
     <>
       <StatusBar
-        backgroundColor={COLORS.BACKGROUND}
-        barStyle="dark-content"
+        backgroundColor={getColor(COLORS.BACKGROUND, isLowVisionMode)}
+        barStyle={isLowVisionMode ? 'light-content' : 'dark-content'}
         translucent
         animated
       />
       <AppNavigation useCases={useCases} />
     </>
+  )
+}
+
+const App: FC = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 

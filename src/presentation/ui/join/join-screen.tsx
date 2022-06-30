@@ -4,7 +4,9 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import GetGroupDetailsUseCase from '~/interactor/group/get-group-details-use-case'
 import JoinGroupUseCase from '~/interactor/group/join-group-use-case'
+import { getColor } from '~/presentation/colors'
 import { Screen, Screens } from '~/presentation/navigation'
+import { useTheme } from '~/presentation/theme'
 
 import { Button } from '../common/components'
 import { useJoinViewModel } from './join-view-model'
@@ -22,6 +24,7 @@ const JoinScreen: Screen<Props, Screens.JOIN> = ({
   getGroupDetailsUseCase,
 }) => {
   const { groupID } = route.params
+  const { isLowVisionMode } = useTheme()
 
   const { handleJoinGroup, isProcessing, isAlreadyMember, group } =
     useJoinViewModel({
@@ -64,11 +67,11 @@ const JoinScreen: Screen<Props, Screens.JOIN> = ({
   if (!group) return null
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
+    <View style={styles(isLowVisionMode).container}>
+      <Text style={styles(isLowVisionMode).title}>
         You're invited to join the group "{group.name}"
       </Text>
-      <View style={styles.buttonContainer}>
+      <View style={styles(isLowVisionMode).buttonContainer}>
         <Button
           minWidth={150}
           primary={false}
@@ -78,7 +81,7 @@ const JoinScreen: Screen<Props, Screens.JOIN> = ({
           Ignore
         </Button>
         <Button
-          style={styles.joinButton}
+          style={styles(isLowVisionMode).joinButton}
           minWidth={150}
           disabled={isProcessing}
           onPress={handleJoin}
@@ -91,27 +94,28 @@ const JoinScreen: Screen<Props, Screens.JOIN> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  title: {
-    fontSize: 16,
-    color: '#101010',
-    fontFamily: 'Satoshi-Medium',
-    maxWidth: 250,
-  },
-  buttonContainer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    marginTop: 24,
-  },
-  joinButton: {
-    marginLeft: 16,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+    },
+    title: {
+      fontSize: 16,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Medium',
+      maxWidth: 250,
+    },
+    buttonContainer: {
+      justifyContent: 'center',
+      flexDirection: 'row',
+      marginTop: 24,
+    },
+    joinButton: {
+      marginLeft: 16,
+    },
+  })
 
 export default JoinScreen

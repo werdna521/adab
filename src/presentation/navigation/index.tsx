@@ -2,10 +2,9 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs'
-import { ParamListBase, RouteProp } from '@react-navigation/native'
+import { ParamListBase, RouteProp, Theme } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { FC } from 'react'
-import { StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Group, Room, User } from '~/domain/model'
@@ -46,7 +45,8 @@ import { MemberScreen } from '~/presentation/ui/member'
 import { RegisterScreen } from '~/presentation/ui/register'
 import { RoomScreen } from '~/presentation/ui/room'
 
-import { COLORS } from '../colors'
+import { COLORS, getColor } from '../colors'
+import { useTheme } from '../theme'
 import ChangeNameScreen from '../ui/change-name/change-name-screen'
 import { ChangePasswordScreen } from '../ui/change-password'
 import { EditTranscriptScreen } from '../ui/edit-transcript'
@@ -177,11 +177,22 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
     useAuthSessionViewModel({
       subscribeAuthStateUseCase: useCases.subscribeAuthStatus,
     })
+  const { isLowVisionMode } = useTheme()
+  const filteredTheme: Theme = {
+    ...theme,
+    colors: Object.entries(theme.colors).reduce(
+      (acc, [key, color]) => ({
+        ...acc,
+        [key]: getColor(color, isLowVisionMode),
+      }),
+      {},
+    ),
+  } as Theme
 
   if (isAuthLoading) return null
 
   return (
-    <NavigationProvider theme={theme}>
+    <NavigationProvider theme={filteredTheme}>
       <Stack.Navigator
         initialRouteName={Screens.LOGIN}
         screenOptions={{
@@ -196,8 +207,11 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   initialRouteName={Screens.HOME}
                   backBehavior="initialRoute"
                   screenOptions={{
-                    tabBarActiveTintColor: '#9bb1fe',
-                    tabBarInactiveTintColor: '#dfdfdf',
+                    tabBarActiveTintColor: getColor('#9bb1fe', isLowVisionMode),
+                    tabBarInactiveTintColor: getColor(
+                      '#dfdfdf',
+                      isLowVisionMode,
+                    ),
                     headerShown: false,
                   }}
                 >
@@ -394,12 +408,5 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
     </NavigationProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  tab: {
-    color: '#101010',
-    backgroundColor: 'white',
-  },
-})
 
 export default AppNavigation

@@ -4,6 +4,8 @@ import { useCallback, useMemo, useState } from 'react'
 import { UnknownError } from '~/common/error'
 import { Group, Room, User } from '~/domain/model'
 import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-use-case'
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
 
 import { Status, useStatus } from '../common/hooks'
 
@@ -21,6 +23,7 @@ const COLORS: Record<number, string> = {
 
 export const useScheduleViewModel = (params: Params) => {
   const { getScheduledRoomList, user } = params
+  const { isLowVisionMode } = useTheme()
 
   const [scheduledRoomList, setScheduledRoomList] = useState<
     Record<
@@ -40,11 +43,14 @@ export const useScheduleViewModel = (params: Params) => {
     return Object.values(scheduledRoomList).map(({ timestamp, data }) => ({
       date: timestamp.toDate(),
       dots: data.map((_, index) => ({
-        color: COLORS[index % Object.values(COLORS).length],
+        color: getColor(
+          COLORS[index % Object.values(COLORS).length],
+          isLowVisionMode,
+        ),
         selectedColor: 'transparent',
       })),
     }))
-  }, [scheduledRoomList])
+  }, [scheduledRoomList, isLowVisionMode])
   const selectedRoomList = useMemo(() => {
     const key = `${selectedDate.getDate()}-${selectedDate.getMonth()}-${selectedDate.getFullYear()}`
     const selectedRecord = scheduledRoomList[key]

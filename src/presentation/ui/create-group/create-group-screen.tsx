@@ -2,8 +2,10 @@ import React from 'react'
 import { ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 
 import { CreateGroupUseCase } from '~/interactor/group'
+import { getColor } from '~/presentation/colors'
 import { Screen, Screens } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
+import { useTheme } from '~/presentation/theme'
 
 import { Button, InputGroup } from '../common/components'
 import { useCreateGroupViewModel } from './create-group-view-model'
@@ -26,6 +28,7 @@ const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
     createGroupUseCase,
     user: user!,
   })
+  const { isLowVisionMode } = useTheme()
 
   const navigateToGroup = () => navigation.navigate(Screens.GROUP_LIST)
   const handleClick = async () => {
@@ -36,34 +39,35 @@ const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
 
   return (
     <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
+      style={styles(isLowVisionMode).container}
+      contentContainerStyle={styles(isLowVisionMode).contentContainer}
     >
-      <Text style={styles.title}>Create Group</Text>
-      <Text style={styles.description}>
+      <Text style={styles(isLowVisionMode).title}>Create Group</Text>
+      <Text style={styles(isLowVisionMode).description}>
         A Group is like a folder where your rooms/sessions live. Only invited
         members will have access to the Group. You can also add an optional
         label to group multiple Groups together for easy access.
       </Text>
-      <View style={styles.form}>
+      <View style={styles(isLowVisionMode).form}>
         <InputGroup
-          style={styles.input}
+          style={styles(isLowVisionMode).input}
           label="Group Name"
           onChangeText={handleInputTextChange('groupName')}
           error={globalError}
         />
         <InputGroup
-          style={styles.input}
+          style={styles(isLowVisionMode).input}
           label="Label (optional)"
           onChangeText={handleInputTextChange('label')}
           error={globalError}
         />
       </View>
-      <View style={styles.ctaContainer}>
+      <View style={styles(isLowVisionMode).ctaContainer}>
         <Button
-          style={styles.cta}
+          style={styles(isLowVisionMode).cta}
           onPress={handleClick}
           disabled={isProcessing}
+          primary
         >
           Continue
         </Button>
@@ -72,40 +76,41 @@ const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-  },
-  contentContainer: {
-    paddingTop: getNotchSize() + 16,
-    paddingHorizontal: 20,
-    minHeight: '100%',
-  },
-  title: {
-    fontSize: 24,
-    color: '#101010',
-    fontFamily: 'Satoshi-Bold',
-  },
-  description: {
-    fontSize: 14,
-    fontFamily: 'Satoshi-Mediuml',
-    color: '#aaa',
-    marginTop: 4,
-  },
-  form: {
-    marginTop: 24,
-  },
-  input: {
-    marginTop: 12,
-  },
-  ctaContainer: {
-    flexGrow: 1,
-    justifyContent: 'flex-end',
-  },
-  cta: {
-    marginTop: 144,
-    marginBottom: 32,
-  },
-})
+const styles = (isLowVisionMode: boolean) =>
+  StyleSheet.create({
+    container: {
+      height: '100%',
+    },
+    contentContainer: {
+      paddingTop: getNotchSize() + 16,
+      paddingHorizontal: 20,
+      minHeight: '100%',
+    },
+    title: {
+      fontSize: 24,
+      color: getColor('#101010', isLowVisionMode),
+      fontFamily: 'Satoshi-Bold',
+    },
+    description: {
+      fontSize: 14,
+      fontFamily: 'Satoshi-Mediuml',
+      color: getColor('#aaa', isLowVisionMode),
+      marginTop: 4,
+    },
+    form: {
+      marginTop: 24,
+    },
+    input: {
+      marginTop: 12,
+    },
+    ctaContainer: {
+      flexGrow: 1,
+      justifyContent: 'flex-end',
+    },
+    cta: {
+      marginTop: 144,
+      marginBottom: 32,
+    },
+  })
 
 export default CreateGroupScreen

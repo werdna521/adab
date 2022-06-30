@@ -9,6 +9,9 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { getColor } from '~/presentation/colors'
+import { useTheme } from '~/presentation/theme'
+
 type Variant = 'primary' | 'secondary' | 'tertiary' | 'quarternary'
 
 type Props = {
@@ -28,30 +31,37 @@ const COLORS: Record<Variant, string> = {
 
 const Block: FC<Props> = (props) => {
   const { text, source, style, onPress } = props
+  const { isLowVisionMode } = useTheme()
 
   return (
     <TouchableOpacity
-      style={[styles(props).container, style]}
+      style={[styles({ ...props, isLowVisionMode }).container, style]}
       activeOpacity={0.8}
       onPress={onPress}
     >
-      <Text style={styles(props).title}>{text}</Text>
-      <Image style={styles(props).illustration} source={source} />
+      <Text style={styles({ ...props, isLowVisionMode }).title}>{text}</Text>
+      <Image
+        style={styles({ ...props, isLowVisionMode }).illustration}
+        source={source}
+      />
     </TouchableOpacity>
   )
 }
 
-const styles = ({ variant }: Props) =>
+const styles = ({
+  variant,
+  isLowVisionMode,
+}: Props & { isLowVisionMode: boolean }) =>
   StyleSheet.create({
     container: {
-      backgroundColor: COLORS[variant],
+      backgroundColor: getColor(COLORS[variant], isLowVisionMode),
       paddingHorizontal: 24,
       paddingVertical: 18,
       borderRadius: 12,
       width: '47.5%',
     },
     title: {
-      color: '#fdfff1',
+      color: getColor('#fdfff1', isLowVisionMode),
       fontFamily: 'Satoshi-Bold',
       fontSize: 14,
     },
