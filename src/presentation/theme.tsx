@@ -1,19 +1,35 @@
-import React, { FC, createContext, useState, useContext } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, {
+  FC,
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+} from 'react'
 
 type ThemeContextValues = {
   isLowVisionMode: boolean
-  toggleLowVisionMode: () => void
+  toggleLowVisionMode: () => boolean
 }
 const ThemeContext = createContext<ThemeContextValues>({
   isLowVisionMode: false,
-  toggleLowVisionMode: () => {},
+  toggleLowVisionMode: () => false,
 })
 
 export const ThemeProvider: FC = ({ children }) => {
-  const [isLowVisionMode, setIsLowVisionMode] = useState(true)
+  const [isLowVisionMode, setIsLowVisionMode] = useState(false)
 
-  const toggleLowVisionMode = () =>
-    setIsLowVisionMode((prevState) => !prevState)
+  useEffect(() => {
+    AsyncStorage.getItem('isLowVisionMode').then((value) =>
+      setIsLowVisionMode(value === 'true'),
+    )
+  }, [])
+
+  const toggleLowVisionMode = () => {
+    const newMode = !isLowVisionMode
+    setIsLowVisionMode(newMode)
+    return newMode
+  }
 
   return (
     <ThemeContext.Provider

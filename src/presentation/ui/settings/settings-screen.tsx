@@ -19,9 +19,10 @@ const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
   logOutUseCase,
   navigation,
 }) => {
-  const { isProcessing, handleLogOut } = useSettingsViewModel({
-    logOutUseCase,
-  })
+  const { isProcessing, handleLogOut, handleLowVisionModeToggle } =
+    useSettingsViewModel({
+      logOutUseCase,
+    })
   const { isLowVisionMode } = useTheme()
 
   const navigateToChangePassword = () =>
@@ -49,6 +50,7 @@ const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
           text="Toggle color scheme"
           variant="tertiary"
           source={require('~/assets/illustrations/ice-cream.png')}
+          onPress={handleLowVisionModeToggle}
         />
       </View>
       <TextButton

@@ -212,6 +212,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                       '#dfdfdf',
                       isLowVisionMode,
                     ),
+                    tabBarStyle: {
+                      backgroundColor: getColor('white', isLowVisionMode),
+                    },
                     headerShown: false,
                   }}
                 >

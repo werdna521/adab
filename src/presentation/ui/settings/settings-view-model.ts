@@ -1,7 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState } from 'react'
 
 import { UnknownError } from '~/common/error'
 import LogOutUseCase from '~/interactor/auth/logout-use-case'
+import { useTheme } from '~/presentation/theme'
 
 import { Status, useStatus } from '../common/hooks'
 
@@ -12,6 +14,7 @@ type Params = {
 export const useSettingsViewModel = (params: Params) => {
   const { logOutUseCase } = params
 
+  const { toggleLowVisionMode } = useTheme()
   const [globalError, setGlobalError] = useState('')
   const { setStatus, isProcessing } = useStatus()
 
@@ -28,9 +31,14 @@ export const useSettingsViewModel = (params: Params) => {
     setStatus(Status.SUCCESS)
   }
 
+  const handleLowVisionModeToggle = () => {
+    AsyncStorage.setItem('isLowVisionMode', `${toggleLowVisionMode()}`)
+  }
+
   return {
     globalError,
     isProcessing,
     handleLogOut,
+    handleLowVisionModeToggle,
   }
 }
