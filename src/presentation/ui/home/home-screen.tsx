@@ -4,17 +4,20 @@ import { StyleSheet, View } from 'react-native'
 import { Screens, TabScreen } from '~/presentation/navigation'
 import { getNotchSize } from '~/presentation/notch'
 
-import { CreateGroupBlock, Greeting } from './components'
+import { CreateGroupBlock, Greeting, TextToSpeechBlock } from './components'
 
 type Props = {}
 
 const HomeScreen: TabScreen<Props, Screens.HOME> = ({ navigation }) => {
   const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
+  const navigateToTextToSpeech = () =>
+    navigation.navigate(Screens.TEXT_TO_SPEECH)
 
   return (
     <View style={styles.container}>
       <Greeting />
       <CreateGroupBlock navigateToCreateGroup={navigateToCreateGroup} />
+      <TextToSpeechBlock navigateToTextToSpeech={navigateToTextToSpeech} />
     </View>
   )
 }

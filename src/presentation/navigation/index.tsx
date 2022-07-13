@@ -54,6 +54,7 @@ import { GroupListScreen } from '../ui/group-list'
 import { JoinScreen } from '../ui/join'
 import { ScheduleScreen } from '../ui/schedule'
 import { SettingsScreen } from '../ui/settings'
+import { TextToSpeechScreen } from '../ui/text-to-speech'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
@@ -76,6 +77,7 @@ export enum Screens {
   CHANGE_PASSWORD = 'Change Password',
   CHANGE_NAME = 'Change Name',
   SCHEDULE = 'Schedule',
+  TEXT_TO_SPEECH = 'Text To Speech',
 }
 
 export type UseCases = {
@@ -134,6 +136,7 @@ type RootStackParamList = {
   }
   [Screens.CHANGE_PASSWORD]: undefined
   [Screens.CHANGE_NAME]: undefined
+  [Screens.TEXT_TO_SPEECH]: undefined
 }
 
 type BottomTabParamList = {
@@ -380,6 +383,9 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                   {...props}
                 />
               )}
+            </Stack.Screen>
+            <Stack.Screen name={Screens.TEXT_TO_SPEECH}>
+              {(props: any) => <TextToSpeechScreen user={user} {...props} />}
             </Stack.Screen>
           </>
         )}
