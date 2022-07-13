@@ -32,7 +32,7 @@ const ChangeNameScreen: Screen<Props, Screens.CHANGE_NAME> = ({
   const navigateToSettings = () => navigation.pop()
   const handleChangeNamePress = async () => {
     if (await handleChangeName()) {
-      ToastAndroid.show('Group Created', ToastAndroid.SHORT)
+      ToastAndroid.show('Display Name Changed', ToastAndroid.SHORT)
       navigateToSettings()
     }
   }

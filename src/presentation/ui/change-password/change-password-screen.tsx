@@ -32,7 +32,7 @@ const ChangePasswordScreen: Screen<Props, Screens.CHANGE_PASSWORD> = ({
   const navigateToSettings = () => navigation.pop()
   const handleChangePasswordPress = async () => {
     if (await handleChangePassword()) {
-      ToastAndroid.show('Group Created', ToastAndroid.SHORT)
+      ToastAndroid.show('Password Changed', ToastAndroid.SHORT)
       navigateToSettings()
     }
   }
