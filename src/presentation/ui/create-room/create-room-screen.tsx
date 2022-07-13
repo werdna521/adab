@@ -43,7 +43,7 @@ const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
   const handleClick = async () => {
     await handleCreateRoom()
     navigateToRoom()
-    ToastAndroid.show('Group Created', ToastAndroid.SHORT)
+    ToastAndroid.show('Room Created', ToastAndroid.SHORT)
   }
 
   return (
