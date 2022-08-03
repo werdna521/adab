@@ -14,7 +14,8 @@ type Props = {}
 const TextToSpeechScreen: TabScreen<Props, Screens.HOME> = () => {
   const { isLowVisionMode } = useTheme()
 
-  const { handleInputTextChange } = useTextToSpeechViewModel()
+  const { handleInputTextChange, text, handleTextToSpeech, isProcessing } =
+    useTextToSpeechViewModel()
 
   return (
     <View style={styles(isLowVisionMode).container}>
@@ -28,10 +29,17 @@ const TextToSpeechScreen: TabScreen<Props, Screens.HOME> = () => {
           onChangeText={handleInputTextChange('text')}
           placeholder="Enter a text and press the button below to turn into voice"
           placeholderTextColor={getColor('#a0a3ad', isLowVisionMode)}
+          value={text}
+          editable={!isProcessing}
           multiline
         />
       </ScrollView>
-      <Button style={styles(isLowVisionMode).playButton} primary>
+      <Button
+        style={styles(isLowVisionMode).playButton}
+        onPress={handleTextToSpeech}
+        disabled={isProcessing}
+        primary
+      >
         Play
       </Button>
     </View>

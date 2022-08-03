@@ -113,10 +113,36 @@ export default class FirebaseGroupDataSource implements GroupDataSource {
   async getGroupDetails(groupID: string): Promise<Group> {
     try {
       const snapshot = await getDoc(doc(this.firebase.db, 'group', groupID))
-      return {
+      const group = {
         uid: snapshot.id,
         ...snapshot.data(),
       } as Group
+
+      const users = await Promise.all(
+        Object.keys(group.members).map(async (uid) => {
+          console.log({ uid })
+          const userSnapshot = await getDoc(doc(this.firebase.db, 'user', uid))
+          return userSnapshot.data() as User
+        }),
+      )
+
+      const cibai = {
+        ...group,
+        members: Object.entries(group.members).reduce((acc, [uid, member]) => {
+          const user = users.find(({ uid: userUID }) => userUID === uid)
+
+          return {
+            ...acc,
+            [uid]: {
+              name: user?.displayName,
+              role: member.role,
+            },
+          }
+        }, {}),
+      }
+      console.log(cibai)
+
+      return cibai
     } catch (error) {
       throw new UnknownError(error)
     }
