@@ -9,6 +9,7 @@ import {
   reauthenticateWithCredential,
   UserCredential,
   EmailAuthProvider,
+  User as FirebaseUser,
 } from 'firebase/auth'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
 
@@ -62,7 +63,7 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
 
   public async signUp(registerDTO: RegisterDTO): Promise<User> {
     const userCredential = await this.createUser(registerDTO)
-    return await this.storeUser(userCredential)
+    return await this.storeUser(userCredential.user)
   }
 
   public async logout(): Promise<void> {
@@ -109,6 +110,7 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
   public subscribeToAuthState(callback: AuthStateCallback): Unsubscribe {
     const unsubscribe = onAuthStateChanged(this.firebase.auth, (user) => {
       if (user) {
+        this.storeUser(user)
         callback({
           user: {
             uid: user.uid,
@@ -154,8 +156,8 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
     }
   }
 
-  private async storeUser(userCredential: UserCredential): Promise<User> {
-    const currentUser = userCredential.user
+  private async storeUser(firebaseUser: FirebaseUser): Promise<User> {
+    const currentUser = firebaseUser
     const currentTimestamp = Timestamp.now()
     const user = {
       uid: currentUser.uid,
