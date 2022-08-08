@@ -11,7 +11,7 @@ import {
   EmailAuthProvider,
   User as FirebaseUser,
 } from 'firebase/auth'
-import { doc, setDoc, Timestamp } from 'firebase/firestore'
+import { doc, setDoc, Timestamp, updateDoc } from 'firebase/firestore'
 
 import { UnknownError } from '~/common/error'
 import { AuthDataSource } from '~/data/auth'
@@ -99,9 +99,14 @@ export default class FirebaseAuthDataSource implements AuthDataSource {
       const currentUser = this.firebase.auth.currentUser
       if (!currentUser) throw new Error('Unauthenticated')
 
-      await updateProfile(currentUser, {
-        displayName: newName,
-      })
+      await Promise.all([
+        updateProfile(currentUser, {
+          displayName: newName,
+        }),
+        updateDoc(doc(this.firebase.db, 'user', currentUser.uid), {
+          displayName: newName,
+        }),
+      ])
     } catch (error) {
       throw new UnknownError(error)
     }
