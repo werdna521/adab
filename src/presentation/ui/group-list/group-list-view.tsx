@@ -12,7 +12,7 @@ type Props = {
   getGroupListUseCase: GetGroupListUseCase
 }
 
-const GroupListScreen: TabScreen<Props, Screens.GROUP_LIST> = ({
+const GroupListView: TabScreen<Props, Screens.GROUP_LIST> = ({
   navigation,
   user,
   getGroupListUseCase,
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default GroupListScreen
+export default GroupListView

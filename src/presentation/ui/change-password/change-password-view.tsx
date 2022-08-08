@@ -14,7 +14,7 @@ type Props = {
   changePasswordUseCase: ChangePasswordUseCase
 }
 
-const ChangePasswordScreen: Screen<Props, Screens.CHANGE_PASSWORD> = ({
+const ChangePasswordView: Screen<Props, Screens.CHANGE_PASSWORD> = ({
   navigation,
   changePasswordUseCase,
 }) => {
@@ -108,4 +108,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default ChangePasswordScreen
+export default ChangePasswordView

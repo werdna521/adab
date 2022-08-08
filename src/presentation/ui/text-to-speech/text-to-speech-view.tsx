@@ -11,7 +11,7 @@ import { useTextToSpeechViewModel } from './text-to-speech-view-model'
 
 type Props = {}
 
-const TextToSpeechScreen: TabScreen<Props, Screens.HOME> = () => {
+const TextToSpeechView: TabScreen<Props, Screens.HOME> = () => {
   const { isLowVisionMode } = useTheme()
 
   const { handleInputTextChange, text, handleTextToSpeech, isProcessing } =
@@ -67,4 +67,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default TextToSpeechScreen
+export default TextToSpeechView

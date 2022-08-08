@@ -20,7 +20,7 @@ type Props = {
   searchRoomUseCase: SearchRoomUseCase
 }
 
-const GroupScreen: Screen<Props, Screens.GROUP> = ({
+const GroupView: Screen<Props, Screens.GROUP> = ({
   getRoomListUseCase,
   getGroupDetailsUseCase,
   getGroupInviteLinkUseCase,
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default GroupScreen
+export default GroupView

@@ -21,7 +21,7 @@ type Props = {
   getEndMeetingPermissionUseCase: GetEndMeetingPermissionUseCase
 }
 
-const RoomScreen: Screen<Props, Screens.ROOM> = ({
+const RoomView: Screen<Props, Screens.ROOM> = ({
   subscribeToRoomStateUseCase,
   publishNewContentUseCase,
   endMeetingUseCase,
@@ -140,4 +140,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default RoomScreen
+export default RoomView

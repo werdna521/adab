@@ -14,7 +14,7 @@ type Props = {
   createGroupUseCase: CreateGroupUseCase
 }
 
-const CreateGroupScreen: Screen<Props, Screens.CREATE_GROUP> = ({
+const CreateGroupView: Screen<Props, Screens.CREATE_GROUP> = ({
   createGroupUseCase,
   navigation,
   user,
@@ -113,4 +113,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default CreateGroupScreen
+export default CreateGroupView

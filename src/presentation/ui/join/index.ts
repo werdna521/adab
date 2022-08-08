@@ -1,1 +1,1 @@
-export { default as JoinScreen } from './join-screen'
+export { default as JoinView } from './join-view'

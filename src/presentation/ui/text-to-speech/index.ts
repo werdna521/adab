@@ -1,1 +1,1 @@
-export { default as TextToSpeechScreen } from './text-to-speech-screen'
+export { default as TextToSpeechView } from './text-to-speech-view'

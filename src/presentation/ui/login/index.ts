@@ -1,1 +1,1 @@
-export { default as LoginScreen } from './login-screen'
+export { default as LoginView } from './login-view'

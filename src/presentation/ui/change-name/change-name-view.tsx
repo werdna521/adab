@@ -14,7 +14,7 @@ type Props = {
   changeNameUseCase: ChangeNameUseCase
 }
 
-const ChangeNameScreen: Screen<Props, Screens.CHANGE_NAME> = ({
+const ChangeNameView: Screen<Props, Screens.CHANGE_NAME> = ({
   navigation,
   changeNameUseCase,
 }) => {
@@ -87,4 +87,4 @@ const styles = (isLowVision: boolean) =>
     },
   })
 
-export default ChangeNameScreen
+export default ChangeNameView

@@ -1,1 +1,1 @@
-export { default as MemberScreen } from './member-screen'
+export { default as MemberView } from './member-view'

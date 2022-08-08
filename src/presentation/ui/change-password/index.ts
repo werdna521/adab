@@ -1,1 +1,1 @@
-export { default as ChangePasswordScreen } from './change-password-screen'
+export { default as ChangePasswordView } from './change-password-view'

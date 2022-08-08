@@ -1,1 +1,1 @@
-export { default as ScheduleScreen } from './schedule-screen'
+export { default as ScheduleView } from './schedule-view'

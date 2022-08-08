@@ -20,7 +20,7 @@ minDate.setMonth(minDate.getMonth() - 1)
 const maxDate = new Date()
 maxDate.setMonth(maxDate.getMonth() + 1)
 
-const ScheduleScreen: TabScreen<Props, Screens.SCHEDULE> = ({
+const ScheduleView: TabScreen<Props, Screens.SCHEDULE> = ({
   getScheduledRoomList,
   user,
   navigation,
@@ -139,4 +139,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default ScheduleScreen
+export default ScheduleView

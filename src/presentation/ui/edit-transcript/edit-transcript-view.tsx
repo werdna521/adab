@@ -15,7 +15,7 @@ type Props = {
   editTranscriptUseCase: EditTranscriptUseCase
 }
 
-const EditTranscriptScreen: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
+const EditTranscriptView: Screen<Props, Screens.EDIT_TRANSCRIPT> = ({
   editTranscriptUseCase,
   route,
   navigation,
@@ -122,4 +122,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default EditTranscriptScreen
+export default EditTranscriptView

@@ -36,25 +36,25 @@ import GetScheduledRoomUseCase from '~/interactor/room/get-scheduled-room-list-u
 import PublishNewContentUseCase from '~/interactor/room/publish-new-content'
 import { ValidateRegisterDTOUseCase } from '~/interactor/validation'
 import ValidateLoginDTOUseCase from '~/interactor/validation/validate-login-dto-use-case'
-import { CreateGroupScreen } from '~/presentation/ui/create-group'
-import { CreateRoomScreen } from '~/presentation/ui/create-room'
-import { GroupScreen } from '~/presentation/ui/group'
-import { HomeScreen } from '~/presentation/ui/home'
-import { LoginScreen } from '~/presentation/ui/login'
-import { MemberScreen } from '~/presentation/ui/member'
-import { RegisterScreen } from '~/presentation/ui/register'
-import { RoomScreen } from '~/presentation/ui/room'
+import { ChangeNameView } from '~/presentation/ui/change-name'
+import { ChangePasswordView } from '~/presentation/ui/change-password'
+import { CreateGroupView } from '~/presentation/ui/create-group'
+import { CreateRoomView } from '~/presentation/ui/create-room'
+import { EditTranscriptView } from '~/presentation/ui/edit-transcript'
+import { GroupView } from '~/presentation/ui/group'
+import { GroupListView } from '~/presentation/ui/group-list'
+import { HomeView } from '~/presentation/ui/home'
+import { JoinView } from '~/presentation/ui/join'
+import { LoginView } from '~/presentation/ui/login'
+import { MemberView } from '~/presentation/ui/member'
+import { RegisterView } from '~/presentation/ui/register'
+import { RoomView } from '~/presentation/ui/room'
+import { ScheduleView } from '~/presentation/ui/schedule'
+import { SettingsView } from '~/presentation/ui/settings'
+import { TextToSpeechView } from '~/presentation/ui/text-to-speech'
 
 import { COLORS, getColor } from '../colors'
 import { useTheme } from '../theme'
-import ChangeNameScreen from '../ui/change-name/change-name-screen'
-import { ChangePasswordScreen } from '../ui/change-password'
-import { EditTranscriptScreen } from '../ui/edit-transcript'
-import { GroupListScreen } from '../ui/group-list'
-import { JoinScreen } from '../ui/join'
-import { ScheduleScreen } from '../ui/schedule'
-import { SettingsScreen } from '../ui/settings'
-import { TextToSpeechScreen } from '../ui/text-to-speech'
 import { useAuthSessionViewModel } from './auth-session-view-model'
 import NavigationProvider from './provider'
 import { createStackNavigator } from './stack'
@@ -230,7 +230,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                       title: 'Home',
                     }}
                   >
-                    {(props: any) => <HomeScreen user={user} {...props} />}
+                    {(props: any) => <HomeView user={user} {...props} />}
                   </Tab.Screen>
                   <Tab.Screen
                     name={Screens.SCHEDULE}
@@ -242,7 +242,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     }}
                   >
                     {(props: any) => (
-                      <ScheduleScreen
+                      <ScheduleView
                         getScheduledRoomList={useCases.getScheduledRoomList}
                         user={user}
                         {...props}
@@ -263,7 +263,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     }}
                   >
                     {(props: any) => (
-                      <GroupListScreen
+                      <GroupListView
                         getGroupListUseCase={useCases.getGroupList}
                         user={user}
                         {...props}
@@ -280,7 +280,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
                     }}
                   >
                     {(props: any) => (
-                      <SettingsScreen
+                      <SettingsView
                         logOutUseCase={useCases.logOut}
                         user={user}
                         {...props}
@@ -292,7 +292,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.CREATE_GROUP}>
               {(props: any) => (
-                <CreateGroupScreen
+                <CreateGroupView
                   createGroupUseCase={useCases.createGroup}
                   user={user}
                   {...props}
@@ -301,7 +301,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.GROUP}>
               {(props: any) => (
-                <GroupScreen
+                <GroupView
                   getRoomListUseCase={useCases.getRoomList}
                   getGroupInviteLinkUseCase={useCases.getGroupInviteLink}
                   getGroupDetailsUseCase={useCases.getGroupDetails}
@@ -313,7 +313,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.ROOM}>
               {(props: any) => (
-                <RoomScreen
+                <RoomView
                   subscribeToRoomStateUseCase={useCases.subscribeToRoomState}
                   publishNewContentUseCase={useCases.publishNewContent}
                   endMeetingUseCase={useCases.endMeeting}
@@ -327,7 +327,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.MEMBER}>
               {(props: any) => (
-                <MemberScreen
+                <MemberView
                   formatMemberWithAccessPropertiesUseCase={
                     useCases.formatMemberWithAccessProperties
                   }
@@ -340,7 +340,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.CREATE_ROOM}>
               {(props: any) => (
-                <CreateRoomScreen
+                <CreateRoomView
                   createRoomUseCase={useCases.createRoom}
                   user={user}
                   {...props}
@@ -349,7 +349,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.JOIN}>
               {(props: any) => (
-                <JoinScreen
+                <JoinView
                   joinGroupUseCase={useCases.joinGroup}
                   getGroupDetailsUseCase={useCases.getGroupDetails}
                   user={user}
@@ -359,7 +359,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.EDIT_TRANSCRIPT}>
               {(props: any) => (
-                <EditTranscriptScreen
+                <EditTranscriptView
                   editTranscriptUseCase={useCases.editTranscript}
                   user={user}
                   {...props}
@@ -368,7 +368,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.CHANGE_PASSWORD}>
               {(props: any) => (
-                <ChangePasswordScreen
+                <ChangePasswordView
                   changePasswordUseCase={useCases.changePassword}
                   user={user}
                   {...props}
@@ -377,7 +377,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.CHANGE_NAME}>
               {(props: any) => (
-                <ChangeNameScreen
+                <ChangeNameView
                   changeNameUseCase={useCases.changeName}
                   user={user}
                   {...props}
@@ -385,7 +385,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
               )}
             </Stack.Screen>
             <Stack.Screen name={Screens.TEXT_TO_SPEECH}>
-              {(props: any) => <TextToSpeechScreen user={user} {...props} />}
+              {(props: any) => <TextToSpeechView user={user} {...props} />}
             </Stack.Screen>
           </>
         )}
@@ -393,7 +393,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
           <>
             <Stack.Screen name={Screens.LOGIN}>
               {(props: any) => (
-                <LoginScreen
+                <LoginView
                   loginUseCase={useCases.login}
                   validateLoginDTOUseCase={useCases.validateLoginDTO}
                   user={user}
@@ -403,7 +403,7 @@ const AppNavigation: FC<Props> = ({ useCases }) => {
             </Stack.Screen>
             <Stack.Screen name={Screens.REGISTER}>
               {(props: any) => (
-                <RegisterScreen
+                <RegisterView
                   registerUseCase={useCases.register}
                   validateRegisterDTOUseCase={useCases.validateRegisterDTO}
                   user={user}

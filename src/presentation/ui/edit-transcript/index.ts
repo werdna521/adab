@@ -1,1 +1,1 @@
-export { default as EditTranscriptScreen } from './edit-transcript-screen'
+export { default as EditTranscriptView } from './edit-transcript-view'

@@ -1,1 +1,1 @@
-export { default as CreateGroupScreen } from './create-group-screen'
+export { default as CreateGroupView } from './create-group-view'

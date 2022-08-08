@@ -1,1 +1,1 @@
-export { default as SettingsScreen } from './settings-screen'
+export { default as SettingsView } from './settings-view'

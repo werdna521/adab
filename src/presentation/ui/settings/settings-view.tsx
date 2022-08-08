@@ -15,7 +15,7 @@ type Props = {
   logOutUseCase: LogOutUseCase
 }
 
-const SettingsScreen: TabScreen<Props, Screens.SETTINGS> = ({
+const SettingsView: TabScreen<Props, Screens.SETTINGS> = ({
   logOutUseCase,
   navigation,
 }) => {
@@ -94,4 +94,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default SettingsScreen
+export default SettingsView

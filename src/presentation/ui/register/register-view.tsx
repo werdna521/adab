@@ -16,7 +16,7 @@ type Props = {
   validateRegisterDTOUseCase: ValidateRegisterDTOUseCase
 }
 
-const RegisterScreen: Screen<Props, Screens.REGISTER> = ({
+const RegisterView: Screen<Props, Screens.REGISTER> = ({
   registerUseCase,
   validateRegisterDTOUseCase,
 }) => {
@@ -80,4 +80,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default RegisterScreen
+export default RegisterView

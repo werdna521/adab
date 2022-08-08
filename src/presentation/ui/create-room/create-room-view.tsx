@@ -23,7 +23,7 @@ type Props = {
   createRoomUseCase: CreateRoomUseCase
 }
 
-const CreateRoomScreen: Screen<Props, Screens.CREATE_ROOM> = ({
+const CreateRoomView: Screen<Props, Screens.CREATE_ROOM> = ({
   route,
   navigation,
   createRoomUseCase,
@@ -146,4 +146,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default CreateRoomScreen
+export default CreateRoomView

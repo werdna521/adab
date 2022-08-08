@@ -8,7 +8,7 @@ import { CreateGroupBlock, Greeting, TextToSpeechBlock } from './components'
 
 type Props = {}
 
-const HomeScreen: TabScreen<Props, Screens.HOME> = ({ navigation }) => {
+const HomeView: TabScreen<Props, Screens.HOME> = ({ navigation }) => {
   const navigateToCreateGroup = () => navigation.navigate(Screens.CREATE_GROUP)
   const navigateToTextToSpeech = () =>
     navigation.navigate(Screens.TEXT_TO_SPEECH)
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeScreen
+export default HomeView

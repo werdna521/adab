@@ -16,7 +16,7 @@ type Props = {
   getGroupDetailsUseCase: GetGroupDetailsUseCase
 }
 
-const JoinScreen: Screen<Props, Screens.JOIN> = ({
+const JoinView: Screen<Props, Screens.JOIN> = ({
   navigation,
   user,
   route,
@@ -118,4 +118,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default JoinScreen
+export default JoinView

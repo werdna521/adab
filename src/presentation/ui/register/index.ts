@@ -1,1 +1,1 @@
-export { default as RegisterScreen } from './register-screen'
+export { default as RegisterView } from './register-view'

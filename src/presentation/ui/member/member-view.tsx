@@ -15,7 +15,7 @@ type Props = {
   removeMemberUseCase: RemoveMemberUseCase
 }
 
-const MemberScreen: Screen<Props, Screens.MEMBER> = ({
+const MemberView: Screen<Props, Screens.MEMBER> = ({
   formatMemberWithAccessPropertiesUseCase,
   updateMemberRoleUseCase,
   removeMemberUseCase,
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default MemberScreen
+export default MemberView

@@ -1,1 +1,1 @@
-export { default as CreateRoomScreen } from './create-room-screen'
+export { default as CreateRoomView } from './create-room-view'

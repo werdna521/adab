@@ -20,7 +20,7 @@ type Props = {
   validateLoginDTOUseCase: ValidateLoginDTOUseCase
 }
 
-const LoginScreen: Screen<Props, Screens.LOGIN> = ({
+const LoginView: Screen<Props, Screens.LOGIN> = ({
   loginUseCase,
   validateLoginDTOUseCase,
   navigation,
@@ -105,4 +105,4 @@ const styles = (isLowVisionMode: boolean) =>
     },
   })
 
-export default LoginScreen
+export default LoginView
