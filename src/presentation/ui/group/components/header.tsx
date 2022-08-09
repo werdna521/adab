@@ -21,7 +21,7 @@ type Props = {
   query: string
   navigateToMember: () => void
   handleCopyInviteLink: () => Promise<string>
-  handleQueryChange: (value: string) => void
+  handleSearch: (value: string) => void
 }
 
 const GroupHeader: FC<Props> = ({
@@ -29,7 +29,7 @@ const GroupHeader: FC<Props> = ({
   query,
   navigateToMember,
   handleCopyInviteLink,
-  handleQueryChange,
+  handleSearch,
 }) => {
   const { isLowVisionMode } = useTheme()
 
@@ -63,7 +63,7 @@ const GroupHeader: FC<Props> = ({
       <InputGroup
         style={styles(isLowVisionMode).search}
         placeholder="Search..."
-        onChangeText={handleQueryChange}
+        onChangeText={handleSearch}
         value={query}
       />
     </View>

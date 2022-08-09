@@ -77,7 +77,7 @@ export const useGroupViewModel = (params: Params) => {
     return `${MONTHS[month]} ${dayOfMonth}, ${year}`
   }
 
-  const handleQueryChange = (value: string) => {
+  const handleSearch = (value: string) => {
     handleInputTextChange('query')(value)
     if (value === '') {
       setFilteredRoomList(roomList)
@@ -187,6 +187,6 @@ export const useGroupViewModel = (params: Params) => {
     group,
     query,
     handleCopyInviteLink,
-    handleQueryChange,
+    handleSearch,
   }
 }

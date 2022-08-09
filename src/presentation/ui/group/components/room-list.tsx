@@ -25,7 +25,7 @@ type Props = {
   onRefresh: () => void
   isProcessing: boolean
   handleCopyInviteLink: () => Promise<string>
-  handleQueryChange: (value: string) => void
+  handleSearch: (value: string) => void
 }
 
 const RoomList: FC<Props> = ({
@@ -37,7 +37,7 @@ const RoomList: FC<Props> = ({
   onRefresh,
   isProcessing,
   handleCopyInviteLink,
-  handleQueryChange,
+  handleSearch,
 }) => {
   const { isLowVisionMode } = useTheme()
   const renderGroupItem: ListRenderItem<Room> = ({ item: room }) => (
@@ -63,7 +63,7 @@ const RoomList: FC<Props> = ({
         group={group}
         query={query}
         handleCopyInviteLink={handleCopyInviteLink}
-        handleQueryChange={handleQueryChange}
+        handleSearch={handleSearch}
       />
       <SectionList
         contentContainerStyle={styles(isLowVisionMode).container}

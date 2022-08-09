@@ -79,9 +79,11 @@ const RoomView: Screen<Props, Screens.ROOM> = ({
               End Meeting
             </TextButton>
           )}
-          <Button onPress={handleMicToggle} minWidth={50} primary>
-            {isRecording ? <MicOn /> : <MicOff />}
-          </Button>
+          {canEndMeeting && (
+            <Button onPress={handleMicToggle} minWidth={50} primary>
+              {isRecording ? <MicOn /> : <MicOff />}
+            </Button>
+          )}
         </View>
       )}
       {isEnded && canEndMeeting && (

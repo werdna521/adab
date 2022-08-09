@@ -38,7 +38,7 @@ const GroupView: Screen<Props, Screens.GROUP> = ({
     loadRoomList,
     loadGroup,
     handleCopyInviteLink,
-    handleQueryChange,
+    handleSearch,
   } = useGroupViewModel({
     getRoomListUseCase,
     getGroupDetailsUseCase,
@@ -80,7 +80,7 @@ const GroupView: Screen<Props, Screens.GROUP> = ({
         navigateToMember={navigateToMember}
         isProcessing={isRoomListLoading}
         handleCopyInviteLink={handleCopyInviteLink}
-        handleQueryChange={handleQueryChange}
+        handleSearch={handleSearch}
       />
       <CreateFAB navigateToCreate={navigateToCreateRoom} />
     </View>
